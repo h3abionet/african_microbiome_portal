@@ -1,0 +1,47 @@
+{% extends "front_page.html" %}
+{% load static %}
+{% block title %}
+  Welcome to the database
+{% endblock %}
+
+{% block js %}
+	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+{% endblock %}
+
+{% block css%}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+<table>
+	<tr><th>Country</th><th>Collection date</th><th>Instrument</th></tr>
+	{% for result in results%}
+	<tr><td>{{result.country}}<td><td>{{result.collection_date}}</td><td>{{result.instrument}}</td></tr>
+	{% endfor %}
+</table>
+{% if results.has_other_pages %}
+<ul class="pagination">
+	{% if results.has_previous %}
+      <li><a href="?page={{ results.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in results.paginator.page_range %}
+      {% if results.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if results.has_next %}
+      <li><a href="?page={{ results.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+</ul>
+{% endif %}
+{% endblock %}
