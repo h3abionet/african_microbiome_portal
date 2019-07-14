@@ -19,13 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# TODO: Generate a new secrete key for deployment
 SECRET_KEY = 'anmolyouareanidiot'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.115']
+ALLOWED_HOSTS = []
 
 
 # For neo4J database connections
@@ -44,11 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
     #  'django_neomodel',
-    'MicroBiome'
+    'MicroBiome',
+    'leaflet',
+    'djgeojson',
+    'django_nvd3',
+    'bootstrap4',
+    'crispy_forms',
     #  'djide',
     #  'rooms',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +66,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# For cached sesson management [Anmol]
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -71,7 +82,7 @@ ROOT_URLCONF = 'Database.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['html'],  # added by Anmol #os.path.abspath("../html")
+        'DIRS': [],  # 'html', added by Anmol #os.path.abspath("../html")
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,6 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 # os.path.abspath("static")  # added by Anmol
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 # print(BASE_DIR)

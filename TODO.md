@@ -1,5 +1,7 @@
 # TODOs
 
+
+- [ ] 404 page not found
 - [ ] Try to make static divs based on user's sugegstion
 - [ ] Add bqplot feature
 - [ ] Login for admin to make changes
