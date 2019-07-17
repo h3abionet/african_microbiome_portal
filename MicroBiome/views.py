@@ -11,6 +11,7 @@ import pandas as pd
 
 # For pagination
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Count
 from django.shortcuts import render
 
 #  import django_tables2 as tables
@@ -151,7 +152,10 @@ def results2(request):
 def summary(request):
     all_records=Project.objects.all()
     site_pie_dict = [{'name': item['body_site'],
-                        'y': item['type_count'] } for item in all_records.values('body_site').annotate(type_count=Count('body_site')) ]
+                        'y': item['type_count']} for item in \
+                                all_records.values('body_site')\
+                                .annotate(type_count=Count('body_site')) ]
+    #  print(site_pie_dict)
 
     platform_pie_dict = [{'name': item['platform'], 'y': item['type_count'] } for item in all_records.values('platform').annotate(type_count=Count('sample_type')) ]
 
@@ -169,7 +173,8 @@ def summary(request):
             'ydata_disease': ydata_disease,
             'platform_pie_dict': platform_pie_dict,
             'site_pie_dict': site_pie_dict,
-            'all_records': all_records};
+            'all_records': all_records.values()};
+    print(all_records.values())
 
     return render(request, 'dashboard.html', context=context)
 

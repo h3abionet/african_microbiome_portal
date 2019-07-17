@@ -1,0 +1,17 @@
+.bg-mibio{ background-color: #B83F0D; }
+#logo {
+		position: absolute;
+		/* display:flex; */
+    top: 20px;
+}
+#logotext {
+		/* position: absolute; */
+		/* display:flex; */
+    margin-left: 50px;
+}
+
+
+/* body { */
+/*     padding-top: 200px; /* Whatever the height of your navbar is; the */
+/*                              default is 50px */ */
+/* } */

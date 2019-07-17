@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- title>H3ABioNet Catalog</title -->
+    <title>H3ABioNet Microbiome</title>
+{% comment %} https://www.w3schools.com/howto/howto_js_sticky_header.asp # Fixed header {% endcomment %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/fontawesome.min.css" type="text/css" media="all" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.css" rel="stylesheet" type="text/css" media="all" />
+
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/mycss.css" %}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/perfect-scrollbar.css" %}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/responsive-tabs.css" %}" />
+		<link rel="stylesheet" type="text/css" media="all" href="{% static "css/tabstyle.css" %}" />
+		{% comment %} <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> {% endcomment %}
+		{%block css%}
+		{%endblock%}
+
+
+		{%block js%}
+		{%endblock%}
+</head>
+<body>
+
+<main>
+    <div class="custom-nav">
+        <div class="row customized-nav">
+            <div class="col s6 m5">
+                <a class="h3aLogo" href="#" title="H3Africa Home">
+                    <img src="{% static "img/bionetlogo.png" %}" alt="Human Heridity and Health in Africa"/>
+                </a>
+                <div class="textLogo">
+                    <span style="color:white">African Microbiome Portal</span> <br/>
+                    <span  class="grey-text text-accent-4">
+                    </span>
+                </div>
+            </div>
+
+        {% comment %} <div class="row navbar-fixed"> {% endcomment %}
+            <nav class="h3africa">
+                <div class="nav-wrapper">
+                    {% comment %} <div class="col s12"> {% endcomment %}
+
+                        {% comment %} <a class="brand-logo" href="{/}"> {% endcomment %}
+                        {% comment %}     <i class="material-icons">home</i> {% endcomment %}
+                        {% comment %}     <span style="font-size: 1rem;">Home</span> {% endcomment %}
+                        {% comment %} </a> {% endcomment %}
+                        <ul class="right hide-on-med-and-down" style="line-height: 64px;">
+                            <li>
+                                <a href="/microbiome/about/">About</a>
+                            </li>
+                            <li>
+                                <a href="/microbiome/search/">Search</a>
+														</li>
+														<li>
+                                <a href="/microbiome/summary/">Data Summary</a>
+														</li>
+
+
+														<li>
+                                <a href="/microbiome/contributors/">Contributor</a>
+                            </li>
+														<li>
+                                <a href="/microbiome/publications/">Publications</a>
+                            </li>
+														<li>
+                                <a href="/microbiome/resources/">Resources</a>
+                            </li>
+														<li>
+                                <a href="/microbiome/outreach/">Outreach</a>
+                            </li>
+                        </ul>
+										{% comment %} </div> {% endcomment %}
+                </div>
+            </nav>
+        </div>
+    </div>
+    <section layout:fragment="content" style="margin: 8rem auto 0">
+			{% block content %}
+
+			{% endblock %}
+
+       {% comment %} <p>Page content goes here</p> {% endcomment %}
+    </section>
+</main>
+
+
+
+{% comment %} <footer class="page-footer" if="${#authorization.expression('isAnonymous()')} or  ${#httpServletRequest.requestURI=='/updatePassword.html'} or ${#httpServletRequest.requestURI=='/changePassword.html'}"> {% endcomment %}
+{% comment %}     <div class="container"> {% endcomment %}
+{% comment %}         <div class="row"> {% endcomment %}
+{% comment %}             <div class="col m6 s12"> {% endcomment %}
+{% comment %}                 <h4 style="font-weight: bold;" class="blue-grey-text"> {% endcomment %}
+{% comment %}                     <a href="http://www.h3abionet.org"> {% endcomment %}
+{% comment %}                         <img src="{% static "img/bionetlogo.png" %}" alt="" class="valign" style="height: 9vh"/> {% endcomment %}
+{% comment %}                     </a> {% endcomment %}
+{% comment %}                     H3ABioNet {% endcomment %}
+{% comment %}                 </h4> {% endcomment %}
+{% comment %}                 <h6 style="margin-top: -5vh; margin-left: 4.8vw; font-weight: bold;" class="grey-text text-accent-4"> {% endcomment %}
+{% comment %}                     Pan African Bioinformatics Network for H3Africa {% endcomment %}
+{% comment %}                 </h6> {% endcomment %}
+{% comment %}             </div> {% endcomment %}
+{% comment %}             <div class="col m2 offset-m2 s6"> {% endcomment %}
+{% comment %}                 <h6>About</h6> {% endcomment %}
+{% comment %}                 <ul> {% endcomment %}
+{% comment %}                     <li><a href="http://h3africa-catalogue.readthedocs.io/en/latest/" {% endcomment %}
+{% comment %}                            class="blue-text text-darken-1">Help</a></li> {% endcomment %}
+{% comment %}                     <li><a href="/contact/" class="blue-text text-darken-1">Contact</a></li> {% endcomment %}
+{% comment %}                 </ul> {% endcomment %}
+{% comment %}             </div> {% endcomment %}
+{% comment %}             <div class="col m2 s6"> {% endcomment %}
+{% comment %}                 <h6>Developer</h6> {% endcomment %}
+{% comment %}                 <ul> {% endcomment %}
+{% comment %}                     <li> {% endcomment %}
+{% comment %}                         <a href="https://github.com/h3abionet/h3acatalog.git" class="blue-text text-darken-1"> {% endcomment %}
+{% comment %}                         Source</a> {% endcomment %}
+{% comment %}                     </li> {% endcomment %}
+{% comment %}                     <li> {% endcomment %}
+{% comment %}                         <a href="https://github.com/h3abionet/h3acatalog/issues" class="blue-text text-darken-1"> {% endcomment %}
+{% comment %}                             Contribute</a> {% endcomment %}
+{% comment %}                     </li> {% endcomment %}
+{% comment %}                 </ul> {% endcomment %}
+{% comment %}             </div> {% endcomment %}
+{% comment %}         </div> {% endcomment %}
+{% comment %}     </div> {% endcomment %}
+{% comment %}     <div class="footer-copyright"> {% endcomment %}
+{% comment %}         <div class="container">Made by <a href="http://www.sanbi.ac.za/" class="white-text" style="font-weight: bold">SANBI-CBIO Team</a></div> {% endcomment %}
+{% comment %}     </div> {% endcomment %}
+{% comment %} </footer> {% endcomment %}
+{% comment %}  {% endcomment %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
+<script src="{% static "js/perfect-scrollbar.min.js" %}"></script>
+<script src="{% static "js/plugins.js" %}"></script>
+<script src="{% static "js/myjs.js" %}"></script>
+<script src="{% static "js/parsecsv.js" %}"></script>
+<script src="{% static "js/jquery.responsiveTabs.min.js" %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>

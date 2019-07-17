@@ -1,0 +1,105 @@
+{% extends "mainLayout.html" %}
+{% load static %}
+{% block title %}
+  Welcome to the database
+{% endblock %}
+
+{% block js %}
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	{% comment %} <script src="{% static 'js/infinite.min.js' %}" type="text/JavaScript"></script> {% endcomment %}
+	{% comment %} <script src="{% static 'js/jquery.waypoints.min.js' %}" type="text/JavaScript"></script> {% endcomment %}
+	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+{% endblock %}
+
+{% block css%}
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/pages.css' %}" />
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}" /> {% endcomment %}
+
+{% endblock %}
+
+
+{% block content %}
+	Number of results : {{res_count}}
+<table data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable">
+	<thead><tr><th data-priority="1">Country</th><th data-priority="2">Collection date</th><th data-priority="3">Instrument</th></tr></thead>
+	{% comment %} <div class="infinite-container"> {% endcomment %}
+		<tbody>
+	{% for result in results%}
+	<tr><td>{{result.country}}</td><td>{{result.collection_date}}</td><td>{{result.instrument}}</td></tr>
+{% endfor %}
+		</tbody>
+	{% comment %} </div> {% endcomment %}
+</table>
+	</div>
+
+{% comment %} {% if results.has_other_pages %} {% endcomment %}
+{% comment %} <ul class="pages"> {% endcomment %}
+{% comment %}   {% if results.has_previous %} {% endcomment %}
+{% comment %}       <li><a href="?{{query}}page={{ results.previous_page_number }}">&laquo;</a></li> {% endcomment %}
+{% comment %}     {% else %} {% endcomment %}
+{% comment %}       <li class="disabled"><span>&laquo;</span></li> {% endcomment %}
+{% comment %}     {% endif %} {% endcomment %}
+{% comment %}     {% for i in results.paginator.page_range %} {% endcomment %}
+{% comment %}       {% if results.number == i %} {% endcomment %}
+{% comment %}         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li> {% endcomment %}
+{% comment %}       {% else %} {% endcomment %}
+{% comment %}         <li><a href="?{{query}}page={{ i }}">{{ i }}</a></li> {% endcomment %}
+{% comment %}       {% endif %} {% endcomment %}
+{% comment %}     {% endfor %} {% endcomment %}
+{% comment %}     {% if results.has_next %} {% endcomment %}
+{% comment %}       <li><a href="?{{query}}page={{ results.next_page_number }}">&raquo;</a></li> {% endcomment %}
+{% comment %}     {% else %} {% endcomment %}
+{% comment %}       <li class="disabled"><span>&raquo;</span></li> {% endcomment %}
+{% comment %}     {% endif %} {% endcomment %}
+{% comment %} </ul> {% endcomment %}
+{% comment %} {% endif %} {% endcomment %}
+{% comment %}  {% endcomment %}
+
+
+
+{% if results.has_other_pages %}
+<ul class="pages">
+	{% if results.has_previous %}
+      <li><a href="?{{query}}page={{ results.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in results.paginator.page_range %}
+      {% if results.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?{{query}}page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if results.has_next %}
+			<li><a href="?{{query}}page={{ results.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+<!-- {% if results.has_next %}
+	<a class="infinite-more-link" href="?{{query}}page={{ results.next_page_number }}">More</a>
+  {% endif %}
+	<div class="loading" style="display: none;">
+    Loading...
+  </div> -->
+{% comment %} <script> {% endcomment %}
+{% comment %}     var infinite = new Waypoint.Infinite({ {% endcomment %}
+{% comment %}       element: $('.infinite-container')[0], {% endcomment %}
+{% comment %}       onBeforePageLoad: function () { {% endcomment %}
+{% comment %}         $('.loading').show(); {% endcomment %}
+{% comment %}       }, {% endcomment %}
+{% comment %}       onAfterPageLoad: function ($items) { {% endcomment %}
+{% comment %}         $('.loading').hide(); {% endcomment %}
+{% comment %}       } {% endcomment %}
+{% comment %}     }); {% endcomment %}
+{% comment %}   </script> {% endcomment %}
+{% comment %}  {% endcomment %}
+{% endblock %}

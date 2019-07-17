@@ -1,0 +1,59 @@
+{% extends "mainLayout.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load static %}
+{% comment %} {% block title %} {% endcomment %}
+{% comment %}   Welcome to the database {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+{% comment %}  {% endcomment %}
+{% block js %}
+	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+{% endblock %}
+
+{% block css%}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
+{% endblock %}
+{% comment %} https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html {% endcomment %}
+{% block content %}
+
+
+  <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
+		{% comment %} NOTE: If file is undefined, you will get error So be careful {% endcomment %}
+		<div class="row">
+			<div class="col-6">
+				{{ form.country|as_crispy_field}}
+			</div>
+			<div class="col-6">
+				{{ form.platform|as_crispy_field}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				{{ form.disease|as_crispy_field}}
+			</div>
+			<div class="col-6">
+				{{ form.study_design|as_crispy_field}}
+			</div>
+		</div>
+
+
+    {% comment %} </div> {% endcomment %}
+    {% comment %} {{ form.job_title|as_crispy_field }} {% endcomment %}
+    {% comment %} {{ form.bio|as_crispy_field }} {% endcomment %}
+    <button type="submit" class="btn btn-success col">Search</button>
+	</form>
+	{% comment %}          [> https://getbootstrap.com/docs/4.1/components/forms/ <] {% endcomment %}
+	{% comment %}          <table> {% endcomment %}
+	{% comment %}            <tr><td>Country</td><td>Source</td></tr> {% endcomment %}
+	{% comment %}            <tr><td>{{form.country}}</td><td>{{form.isolation_source}}</td></tr> {% endcomment %}
+	{% comment %}          </table> {% endcomment %}
+	{% comment %}      [> {{form.as_p}} <] {% endcomment %}
+	{% comment %}      [> {{form.as_p}} <] {% endcomment %}
+	{% comment %}      [> {{form.as_ul}} <] {% endcomment %}
+  {% comment %}      <!--TODO: Learn to make form auto arrange based on the number of inputs--> {% endcomment %}
+  {% comment %}     <button type="Submit" name="Submit">Submit</button> {% endcomment %}
+  {% comment %}    </form> {% endcomment %}
+  {% comment %}  {% endcomment %}
+{% endblock %}

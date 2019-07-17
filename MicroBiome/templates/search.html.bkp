@@ -1,0 +1,31 @@
+{% extends "mainLayout.html" %}
+{% load static %}
+{% block title %}
+  Welcome to the database
+{% endblock %}
+
+{% block js %}
+	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+{% endblock %}
+
+{% block css%}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
+{% endblock %}
+
+{% block content %}
+         <form action='/microbiome/results/' method='GET'>{% csrf_token %}
+					 {% comment %} https://getbootstrap.com/docs/4.1/components/forms/ {% endcomment %}
+					 <table>
+						 <tr><td>Country</td><td>Source</td></tr>
+						 <tr><td>{{form.country}}</td><td>{{form.isolation_source}}</td></tr>
+					 </table>
+			 {% comment %} {{form.as_p}} {% endcomment %}
+			 {% comment %} {{form.as_p}} {% endcomment %}
+			 {% comment %} {{form.as_ul}} {% endcomment %}
+       <!--TODO: Learn to make form auto arrange based on the number of inputs-->
+      <button type="Submit" name="Submit">Submit</button>
+     </form>
+
+{% endblock %}

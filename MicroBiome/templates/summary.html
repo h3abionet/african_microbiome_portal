@@ -1,0 +1,103 @@
+{% extends "mainLayout.html" %}
+{% load leaflet_tags %}
+{% block js%}
+	{% leaflet_js %}
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/d3_renderers.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/c3_renderers.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/export_renderers.min.js"></script>
+
+{% endblock %}
+
+{%block css%}
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.css">
+	{% leaflet_css %}
+	<style>
+		.leaflet-container {  /* all maps */
+				width:  400px;
+				height: 400px;
+		}
+		/* Resize the "display_raw" textbox */
+		.django-leaflet-raw-textarea {
+				width: 100%;
+		}
+	</style>
+	<style>
+		{% comment %} body {font-family: Verdana;} {% endcomment %}
+		{% comment %} .node { {% endcomment %}
+		{% comment %}   border: solid 1px white; {% endcomment %}
+		{% comment %}   font: 10px sans-serif; {% endcomment %}
+		{% comment %}   line-height: 12px; {% endcomment %}
+		{% comment %}   overflow: hidden; {% endcomment %}
+		{% comment %}   position: absolute; {% endcomment %}
+		{% comment %}   text-indent: 2px; {% endcomment %}
+		{% comment %} } {% endcomment %}
+		.c3-line, .c3-focused {stroke-width: 3px !important;}
+		.c3-bar {stroke: white !important; stroke-width: 1;}
+		.c3 text { font-size: 12px; color: grey;}
+		.tick line {stroke: white;}
+		.c3-axis path {stroke: grey;}
+		.c3-circle { opacity: 1 !important; }
+		.c3-xgrid-focus {visibility: hidden !important;}
+	</style>
+
+{% endblock %}
+
+{% comment %} {% block content %} {% endcomment %}
+{% comment %} [>   <div> <] {% endcomment %}
+{% comment %} [> [> <h2>Overview of spatial distribution of microbiome studies across Africa</h2> <] <] {% endcomment %}
+{% comment %} <div class="col-3"> {% endcomment %}
+{% comment %}   {% leaflet_map "mapd" callback="map_init" %}</div> {% endcomment %}
+{% comment %} <script type="text/javascript"> {% endcomment %}
+{% comment %}     function map_init(map, options){ {% endcomment %}
+{% comment %}         {% for spot in records.itertuples %} {% endcomment %}
+{% comment %}             var lon = "{{ spot.LAT }}"; {% endcomment %}
+{% comment %}             var lat = "{{ spot.LON }}"; {% endcomment %}
+{% comment %}             // zoom to point & add it to map {% endcomment %}
+{% comment %}             var marker = L.marker([lat, lon]); {% endcomment %}
+{% comment %}             // var marker = L.marker([lat, lon]).addTo(map); {% endcomment %}
+{% comment %}       var list = "<Strong>Condition: </Strong>" + "<a href='https://www.google.com'>{{ spot.DISEASE }}</a>" + "<br />" {% endcomment %}
+{% comment %}                      + "<Strong>Platform: </Strong>" + "{{ spot.PLATFORM }}" + "<br />" {% endcomment %}
+{% comment %}                      + "<Strong>Sample type: </Strong>" + "{{ spot.SAMPLE_TYPE }}" + "<br />" {% endcomment %}
+{% comment %}                      + "<Strong>Sample count: </Strong>" + "{{ spot.SAMPLE_COUNT }}" + "<br />" {% endcomment %}
+{% comment %}         + "<Strong>Country: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?country={{spot.COUNTRY }}'>{{ spot.COUNTRY }}</a>" + "<br />" {% endcomment %}
+{% comment %}             //marker.setContent(list).openPopup(); {% endcomment %}
+{% comment %}       marker.bindPopup(list).addTo(map); {% endcomment %}
+{% comment %}         // .openPopup(); {% endcomment %}
+{% comment %}         {% endfor %} {% endcomment %}
+{% comment %}         map.setView([-0.6605788, 14.8965794], 3); //1.3733, 32.2903 {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}     } {% endcomment %}
+{% comment %} </script> {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}  {% endcomment %}
+ {% block content2 %}
+          <script type="text/javascript">
+              $(function(){
+                  if(window.location != window.parent.location)
+                      $("<a>", {target:"_blank", href:""})
+                          .text("[pop out]").prependTo($("#output"));
+
+                  $("#output").pivotUI(
+                      $.csv.toArrays($("#output").text()),
+                      $.extend({
+                          renderers: $.extend(
+                              $.pivotUtilities.renderers,
+                              $.pivotUtilities.c3_renderers,
+                              $.pivotUtilities.d3_renderers,
+                              $.pivotUtilities.export_renderers
+                              ),
+                          hiddenAttributes: [""]
+                      }, {})
+                  ).show();
+               });
+          </script>
+          <div id="output" style="display: none;">{{data}}</div>
+	{% endblock %}

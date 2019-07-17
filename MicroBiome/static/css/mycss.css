@@ -1,0 +1,583 @@
+body {
+    background-color: #e1e8f0;
+    color: #333333;
+    /*font-size: 14px;*/
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.h3africa {
+    background-color: #B83F0D !important;
+}
+
+/* -------------NAV Bar------------ */
+
+.custom-nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index:2;
+}
+
+.custom-nav .customized-nav{
+    background-color: #f9f9f9;
+    margin-bottom: 0;
+    padding-bottom: 10px;
+}
+
+.custom-nav .navbar-fixed {
+    margin-bottom: 0;
+}
+
+.h3aLogo {
+    padding: 10px 23px 0 10px;
+    width: 100%;
+    max-width: 85px;
+    display: inline-block;
+    line-height: 0;
+}
+
+.h3aLogo img {
+    height: 75px;
+}
+
+.textLogo {
+    /* position: relative; */
+    top: 13px;
+    font-weight: bold;
+    display: inline-block
+}
+
+.textLogo span:first-child {
+    font-family: monospace;
+    font-size: 15px;
+    /* font-size: 24px; */
+    font-weight: bold;
+    color: #FFFFF;
+    /* color: #B83F0D; */
+}
+
+.navTitle {
+    margin-top: 25px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.navActions {
+    margin-top: 17px;
+}
+/* ------------Menu Items-------------- */
+
+.menuItems {
+    border-left: 6px solid red;
+    background-color: lightgrey;
+}
+
+.searchTerms {
+    background-color: white !important;
+    height: 2rem !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.cta-blue {
+    margin-top: 1rem;
+    background: #337ab7;
+    height: 2rem;
+    width:100%;
+    vertical-align: top;
+    color: #fff;
+    border: 1px solid #164a7c;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.3);
+    padding: .1em 1em; transition: background .2s linear;
+}
+.cta-blue:hover, .cta-blue:focus {
+    background: #164a7c;
+    transition: background .2s linear;
+    color: #fff;
+    text-decoration: none;
+}
+
+.advancedForm {
+    background-color: #B83F0D;
+    border-radius: 2px;
+}
+
+/* ------------------MAIN------------------- */
+.studyAttr {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.10em;
+}
+
+.studyTitle {
+    font-weight: 300;
+}
+
+.selected_studies_container {
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0.3rem 0.8rem;
+}
+
+#select_studies_header {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.selected_study_box {
+    background: #e6e6e6;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px 2px 3px 3px;
+    margin-top: 1px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.cart_opts {
+    display: none;
+    margin: 0 0 1rem 0.8rem;
+    border-top: 1px dashed lightgrey;
+    width: 40%;
+}
+
+/* ------------------------------------ */
+
+
+.page-footer{
+    background-color: #FCFCFC;
+    border-top: 1px solid;
+    border-top-color: #B83F0D;
+}
+
+.footer-copyright {
+    background-color: #B83F0D !important;
+}
+
+.grey-text.text-lighten-4 {
+    color: #000000 !important;
+}
+
+
+/*===============================
+
+@media only screen and (min-width: 1300px) and (max-width: 1600px) {
+    main, .page-footer{
+        zoom: 90%;
+        -moz-transform: scale(1, 0.8);
+        -moz-transform-origin: left top;
+    }
+}
+
+===============================*/
+
+div.show-search-form{
+    top: 90px;
+    right: 5px;
+}
+
+#search-form {
+    display: none;
+}
+
+a.item-menu {
+    height: 70px;
+}
+
+nav i.material-icons {
+    font-size: 32px;
+}
+
+/* tabs color text*/
+.tabs {
+    background-color: #ececec;
+}
+.tabs .tab a{
+    color:#B83F0D;
+}
+.tabs .tab a:hover,.tabs .tab a.active {
+    background-color:transparent;
+    color:#B83F0D;
+}
+.tabs .tab.disabled a,.tabs .tab.disabled a:hover {
+    color:rgba(102,147,153,0.7);
+}
+.tabs .indicator {
+    background-color:#B83F0D;
+}
+
+#result-parse {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+
+/* ADMIN PAGE UPLODING */
+div.alert-card button {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    position: absolute;
+    right: 10px;
+    top: 23px;
+    border: medium none;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+div.alert-card p {
+    font-size: 16px;
+}
+
+div.alert-card span {
+    margin-left: 10px;
+}
+
+
+/* ADMIN PAGE TRACK */
+button.secondary-content {
+    position: relative;
+    line-height: 1.5rem;
+    margin-top: -25px;
+    color: white;
+    font-weight: bold;
+}
+
+/*task-card*/
+
+ul.task-card label {
+    display: block;
+    color: rgba(0, 0, 0, 0.87);
+    height: auto;
+}
+ul.task-card .task-card-title {
+    margin: 0;
+    color: #fff;
+    font-weight: 300;
+}
+ul.task-card .task-card-date {
+    font-size: 1.0rem;
+    margin: 0;
+    color: #fff;
+}
+ul.task-card .collection-header {
+    padding: 20px;
+}
+ul.task-card .task-cat {
+    padding: 2px 4px;
+    color: #fff;
+    margin-left: 37px;
+    font-weight: 300;
+    font-size: 0.8rem;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.task-cat {
+    padding: 2px 4px;
+    color: #fff;
+    font-weight: 300;
+    font-size: 0.8rem;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.collection .collection-item.avatar i.circle {
+    font-size: 28px;
+}
+
+/*  Home */
+/*table.dataTable thead tr th{
+	background-color: #B83F0D;
+    border: 1px solid #ddd;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+table.dataTable tbody tr td {
+	border: 1px solid #ddd;
+    font-size: 16px;
+    padding: 13px 10px;
+}*/
+
+.mdl-button--raised.mdl-button--colored {
+    background: #B83F0D none repeat scroll 0 0;
+    color: #fff;
+}
+
+span.show-more {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+span.title-card {
+    font-weight: 300;
+    line-height: 20px;
+    font-size: 15px;
+    letter-spacing: .03em;
+}
+
+span.summary-study {
+    font-size: 16px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+
+/* Requests : Inline materialize icon with text */
+.inline-icon {
+    vertical-align: bottom;
+    font-size: 24px !important;
+}
+
+.inline-icon-sm {
+    vertical-align: bottom;
+    font-size: 12px !important;
+}
+
+.request-header {
+    font-size: 17px;
+    font-weight: bold;
+    color: #3e2723;
+}
+
+
+/*===================================*/
+/*    Custom Nav hide login button   */
+/*===================================*/
+
+.shopping-cart {
+    margin-top: 3px;
+}
+
+.cart-amount {
+    background-color: #729d38;
+    border-radius: 9px;
+    color: white;
+    display: inline-block;
+    line-height: 1;
+    font-weight: bold;
+    margin-left: 4px;
+    min-width: 24px;
+    opacity: 1;
+    padding-bottom: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 4px;
+    text-align: center;
+    -webkit-transition: background-color 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+    transition: background-color 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+    vertical-align: middle;
+}
+
+#slide-out {
+    top: 160px;
+}
+
+.plans-container .card .card-image {
+    position: relative;
+    width: 100%;
+}
+
+/*---------------------------------------
+          Project Cards
+  ---------------------------------------*/
+.plans-container .card .card-image .card-title {
+    position: relative;
+    font-size: 1.28rem;
+    line-height: 1.6em;
+    text-align: center;
+    width: 100%;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.plans-container .card .card-image .price {
+    position: relative;
+    font-size: 3rem;
+    line-height: 1.6em;
+    color: #fff;
+    font-weight: 300;
+    text-align: center;
+}
+
+.plans-container .card .card-image .price sup {
+    font-weight: 100;
+    font-size: 1.42rem;
+    line-height: 1.6em;
+    top: -35px;
+}
+
+.plans-container .card .card-image .price-desc {
+    text-align: center;
+    color: #fff;
+    padding-bottom: 10px;
+}
+
+/*=====================================*/
+/*      Filter vuejs                   */
+/*=====================================*/
+
+div.filter-columns {
+    background-color: #FFFFFF;
+    width: 100%;
+    margin-left: -0.2rem;
+}
+div.text-info-filter {
+    text-shadow: none;
+    text-align: left;
+}
+
+div.text-info-filter p i {
+    margin-left: 0.5rem;
+}
+
+.project-selected {
+    color: #000 !important;
+    font-size: 16px;
+    margin-left: 1rem;
+}
+
+.selected-columns {
+    font-weight: bold !important;
+    font-size: 0.9rem !important;
+}
+
+.selected-column {
+    font-size: 0.9rem;
+}
+
+#request-modal, #query-modal { width: 40% !important ; height: 40% !important ; transform: translateY(80%) !important;}
+
+/*-------------------------------------
+    breadcrumbs
+ --------------------------------------*/
+
+.breadcrumbs-title {
+    font-size: 1.5rem;
+    line-height: 1.804rem;
+    margin: 18px 0 0;
+}
+
+.breadcrumbs {
+    padding: 0;
+    margin: 15px 0;
+    list-style: none;
+}
+
+.breadcrumbs > li {
+    display: inline-block;
+}
+
+.breadcrumbs > li + li::before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+}
+
+#work-collections p.collections-title {
+    font-size: 1.0rem;
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+}
+
+#work-collections p.collections-content {
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+}
+
+
+#card-alert button {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.task-cat-emp {
+    padding: 0.2rem 0.6rem !important;
+    font-size: 14px !important;
+}
+
+
+/* Sign Up*/
+
+.sec-padded-1x {
+    padding: 90px 0;
+}
+
+#forgot-password form, #update-password form, #change-password form {
+    position: relative;
+    margin: 0 auto;
+    max-width: 550px;
+    width: 100%;
+    z-index: 2;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+#forgot-password, #update-password, #change-password {
+    padding-top: 180px;
+}
+
+#forgot-password button, #update-password button, #change-password button {
+    margin-top: .5rem;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+}
+
+#user-registration .alert, #success-registration .alert, #forgot-password .alert,
+#update-password .alert, #change-password .alert, #sign-out .alert {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 2px;
+    background-color: #FFCDD2;
+    color: #E53935;
+}
+
+/* ------------------------------------------- */
+#acronym-select input, #design-select input, #disease-select input,
+#sex-select input, #ethnicity-select input, #specType-select input,
+#country-select input, #operators-bmi input, #operators-age input {
+    height: 2rem;
+    display: block !important;
+}
+
+#operators-bmi button.clear, #operators-age button.clear {
+    display: none;
+}
+
+/*-----------Odd even row colors--------------*/
+/* tr:nth-child(even) {background: hsl(11, 66%, 76%)} */
+/* tr:nth-child(odd) {background: #FFF} */
+/* th{ */
+/*     background-color: #B83F0D; */
+/*     color:white; */
+/*   } */
+/*  */
+/*---------------Map-----------*/
+
+div#mapd{
+	height: 600px;
+  /* width: 900px; */
+  background-color: powderblue;
+}

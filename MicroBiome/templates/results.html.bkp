@@ -1,0 +1,76 @@
+{% extends "mainLayout.html" %}
+{% load static %}
+{% block title %}
+  Welcome to the database
+{% endblock %}
+
+{% block js %}
+	{% comment %} <script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script> {% endcomment %}
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script>
+		$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+	</script>
+{% endblock %}
+
+{% block css%}
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="https//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/pages.css' %}" />
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}" /> {% endcomment %}
+
+{% endblock %}
+
+
+{% block content %}
+	Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a>
+<table  data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable">
+	<thead><tr><th>Project</th><th data-priority="5">Title</th><th data-priority="4">Sample Count</th><th data-priority="1">Country</th><th data-priority="2">Sample Type</th><th data-priority="3">Platform</th></tr></thead>
+        {% comment %} <div class="infinite-container"> {% endcomment %}
+                <tbody>
+        {% for result in results%}
+					<tr>
+						<td><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></td>
+						<td>{{result.study_title|slice:":30"}}</td><td>{{result.sample_count}}</td><td>{{result.country}}</td><td>{{result.sample_type}}</td><td>{{result.platform}}</td></tr>
+{% endfor %}
+                </tbody>
+
+	{% comment %} <tr><th data-priority="1">Country</th><th data-priority="2">Collection date</th><th data-priority="3">Instrument</th></tr> {% endcomment %}
+	{% comment %} {% for result in results%} {% endcomment %}
+	{% comment %} <tr><td>{{result.country}}</td><td>{{result.collection_date}}</td><td>{{result.instrument}}</td></tr> {% endcomment %}
+	{% comment %} {% endfor %} {% endcomment %}
+</table>
+{% if results.has_other_pages %}
+<ul class="pages">
+	{% if results.has_previous %}
+      <li><a href="?{{query}}&page={{ results.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+		{% for l in  results.paginator.page_range %}
+    {% if l <= results.number|add:5 and l >= results.number|add:-5 %}
+			<li><a href="?{{query }}&page={{forloop.counter}}">{{forloop.counter}}</a></li>
+    {% endif %}
+	{% endfor %}
+
+    {% comment %} {% for i in results.paginator.page_range %} {% endcomment %}
+    {% comment %}   {% if results.number == i %} {% endcomment %}
+    {% comment %}     <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li> {% endcomment %}
+    {% comment %}   {% else %} {% endcomment %}
+    {% comment %}     <li><a href="?{{query}}page={{ i }}">{{ i }}</a></li> {% endcomment %}
+    {% comment %}   {% endif %} {% endcomment %}
+    {% comment %} {% endfor %} {% endcomment %}
+    {% if results.has_next %}
+			<li><a href="?{{query}}&page={{ results.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+</ul>
+{% endif %}
+{% endblock %}

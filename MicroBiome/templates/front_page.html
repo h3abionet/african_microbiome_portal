@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>About</title>
+	{%block js%}
+	{%endblock%}
+	{%block css%}
+	{%endblock%}
+
+
+	<style>
+		#pages{
+			color:red;
+			float: right;
+		}
+		/*Drop down menu*/
+		.dropdown-content{
+			display: none;
+			position: absolute;
+			background-color: #F1F1F1;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0 , 0.2);
+			z-index: 1;
+
+		}
+		.dropdown{
+			position: relative;
+			display: inline-block;
+		}
+		.dropbtn{
+			background-color: #4CAF50;
+			color: #FFFFFF;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+		}
+		.dropdown-content a{
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+		.dropdown-content a:hover{
+			background-color: #DDD;
+		}
+		.dropdown:hover .dropdown-content{
+			display: block;
+		}
+		.dropdown:hover .dropbtn{
+			background-color: #3E8E41;
+		}
+
+		/*Footer*/
+		#footer{
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background-color: #4CAF50;
+			color: white;
+			text-align:center;
+		}
+	div.frm {
+  width: 500px;
+  margin: auto;
+  border: 3px solid #73AD21;
+}
+	</style>
+</head>
+<body>
+	<div><!--Control Full page-->
+		<div id='pages'> <!--header Area-->
+				<!--div align="right">					<table>
+						<tr>
+							<td>Sign Id</td>
+							<td>Login</td>
+						</tr>
+					</table>
+				</div -->
+				<div>
+					<table>
+						<tr>
+							<td>
+								<div class="dropdown">
+								<button class='dropbtn'>Home</button>
+								<div class="dropdown-content">
+									<a href="">About</a>
+									<a href="">Contributors</a>
+									<a href="">Publications</a>
+								</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="dropdown">
+								<button class='dropbtn'>Data Summary</button>
+								<!--I would suggegst to have overall dashboard-->
+								<div class="dropdown-content">
+									<a href="">Sequences</a>
+									<a href="">Samples</a>
+									<a href="">Studies</a>
+									<a href="">Countries</a>
+									<a href="">Overall</a>
+								</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="dropdown">
+								<button class='dropbtn'>Resources</button>
+								<!--I would suggegst to have overall dashboard-->
+								<!-- <div class="dropdown-content"> -->
+								<!--     <a href="">Sequences</a> -->
+								<!--     <a href="">Samples</a> -->
+								<!--     <a href="">Studies</a> -->
+								<!--     <a href="">Countries</a> -->
+								<!--     <a href="">Overall</a> -->
+								<!-- </div> -->
+								</div>
+							</td>
+
+							<td>
+								<div class="dropdown">
+								<button class='dropbtn'>Tools and Pipeline</button>
+								<!--I would suggegst to have overall dashboard-->
+								<div class="dropdown-content">
+									<a href="">Scripts</a>
+									<a href="">Pipelines</a>
+									<a href="">Guide</a>
+								</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="dropdown">
+								<button class='dropbtn'>Outreach</button>
+								<!--I would suggegst to have overall dashboard-->
+								<div class="dropdown-content">
+									<a href="">Event & Workshop</a>
+									<a href="">Courses</a>
+									<a href="">Feedback</a>
+								</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+		</div>
+		<div> <!--Content Area-->
+		<div><!--additional Title-->
+		<H4> Home > About </H4>
+		</div>
+		<div class="frm"> <!--text area-->
+			{%block content%}
+			{%endblock%}
+		</div>
+		<div> <!--Image Area-->
+			<div>
+			</div>
+			<div>
+			</div>
+			<div></div>
+			<div></div>
+		</div>
+		<div> <!--Search and result-->
+			<div> <!--select columns-->
+			</div>
+			<div> <!--Results make horizontally scrolling-->
+			</div>
+			<div><!--Add search options-->
+			</div>
+		</div>
+	</div>
+
+	</div>
+	</body>
+<div id="footer">
+	All the ligal notices as addition links must go here.
+</div>
+</html>

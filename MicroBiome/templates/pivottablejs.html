@@ -1,0 +1,161 @@
+{% extends "mainLayout.html" %}
+{% load leaflet_tags %}
+{% block js %}
+        <!-- external libs from cdnjs -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+				<script src="https://code.highcharts.com/highcharts.js"></script>
+				<script src="https://code.highcharts.com/modules/exporting.js"></script>
+				<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/d3_renderers.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/c3_renderers.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/export_renderers.min.js"></script>
+				{% leaflet_js %}
+				{% endblock %}
+				{% block css%}
+				<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.css">
+				<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
+        <style>
+            .c3-line, .c3-focused {stroke-width: 3px !important;}
+            .c3-bar {stroke: white !important; stroke-width: 1;}
+            .c3 text { font-size: 12px; color: grey;}
+            .tick line {stroke: white;}
+            .c3-axis path {stroke: grey;}
+            .c3-circle { opacity: 1 !important; }
+            .c3-xgrid-focus {visibility: hidden !important;}
+        </style>
+				{% leaflet_css %}
+				 <style>
+      .leaflet-container {  /* all maps */
+          width:  400px;
+          height: 400px;
+      }
+      /* Resize the "display_raw" textbox */
+      .django-leaflet-raw-textarea {
+          width: 100%;
+      }
+    </style>
+<style>
+/* For charting */
+.container {
+  display: grid;
+  grid-column-gap: 10px;
+  grid-row-gap:0px;
+  grid-template-columns: 400px 400px 600px;
+  grid-template-areas: "chart1 chart2 chart3"
+                       "chart1 chart2 chart3"
+                       "map_div map_div chart4"
+                       "table1 table1 table1";
+}
+.item {
+  color: white;
+  padding: 0.5em 0;
+  font-size: 2em;
+}
+.chart1 {
+  background: #0d9;
+}
+.chart2 {
+  background: #0d9;
+}
+.chart3 {
+  background: #0d9;
+}
+.map_div {
+  background: #0d9;
+}
+.chart4 {
+  background: #0d9;
+}
+.chart5 {
+  background: #0d9;
+}
+.table1 {
+  background: #0d9;
+}
+.chart1 {
+  grid-area: chart1;
+}
+.chart2 {
+  grid-area: chart2;
+}
+.chart3 {
+  grid-area: chart3;
+  height: 400px
+}
+.map_div {
+  grid-area: map_div;
+}
+.chart4 {
+  grid-area: chart4;
+  height: 900px;
+}
+.table1 {
+  grid-area: table1;
+  height: 400px;
+}
+.age_chart {
+  grid-area: age_chart;
+}
+</style>
+
+				{% endblock %}
+				 {% block content %}
+	<div>
+	<h2>Overview of spatial distribution of microbiome studies across Africa</h2>
+	<div class="col-3">
+		{% leaflet_map "mapd" callback="map_init" %}</div>
+	<script type="text/javascript">
+			function map_init(map, options){
+					{% for spot in records.itertuples %}
+							var lon = "{{ spot.LAT }}";
+							var lat = "{{ spot.LON }}";
+							// zoom to point & add it to map
+							var marker = L.marker([lat, lon]);
+							// var marker = L.marker([lat, lon]).addTo(map);
+				var list = "<Strong>Condition: </Strong>" + "<a href='https://www.google.com'>{{ spot.DISEASE }}</a>" + "  <br />"
+											 + "<Strong>Platform: </Strong>" + "{{ spot.PLATFORM }}" + "<br />"
+											 + "<Strong>Sample type: </Strong>" + "{{ spot.SAMPLE_TYPE }}" + "<br />"
+											 + "<Strong>Sample count: </Strong>" + "{{ spot.SAMPLE_COUNT }}" + "<br />"
+					+ "<Strong>Country: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?country={{spot.COUNTRY }}'>{{ spot.COUNTRY }}</a>" + "<br />"
+							//marker.setContent(list).openPopup();
+				marker.bindPopup(list).addTo(map);
+					// .openPopup();
+					{% endfor %}
+					map.setView([-0.6605788, 14.8965794], 3); //1.3733, 32.2903
+
+			}
+	</script>
+
+	{% endblock %}
+
+
+				{% block content2 %}
+        <script type="text/javascript">
+            $(function(){
+                if(window.location != window.parent.location)
+                    $("<a>", {target:"_blank", href:""})
+                        .text("[pop out]").prependTo($("#output"));
+
+                $("#output").pivotUI(
+                    $.csv.toArrays($("#output").text()),
+                    $.extend({
+                        renderers: $.extend(
+                            $.pivotUtilities.renderers,
+                            $.pivotUtilities.c3_renderers,
+                            $.pivotUtilities.d3_renderers,
+                            $.pivotUtilities.export_renderers
+                            ),
+                        hiddenAttributes: [""]
+                    }, {})
+                ).show();
+             });
+        </script>
+				<div id="output" style="display: none;" class="col-3">{{data}}</div>
+				{% endblock %}

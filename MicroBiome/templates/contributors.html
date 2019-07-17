@@ -1,0 +1,63 @@
+{% extends "mainLayout.html" %}
+{% load staticfiles %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />
+{% endblock %}
+
+
+
+{% block content %}
+
+ <div class="row">
+  <div class="column">
+    <div class="card">
+			<img src="{%static "img/akiran.jpg" %}" alt="Anmol" style="width:100%">
+      <div class="container">
+        <h2>Anmol Kiran</h2>
+        <p class="title">PostDoc Bioinformatician</p>
+        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+        <p>example@example.com</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+			<img src="{%static "img/mhannachi.jpg" %}" alt="Mariem" style="width:100%">
+      <div class="container">
+        <h2>Mariem Hannachi</h2>
+        <p class="title">PhD Student</p>
+        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+        <p>example@example.com</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+			<img src="{%static "img/assekagiri.png" %}" alt="Alfred" style="width:100%">
+      <div class="container">
+        <h2>Alfred Ssekagiri</h2>
+        <p class="title">PhD Student</p>
+        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+        <p>example@example.com</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="column">
+    <div class="card">
+			<img src="{%static "img/assekagiri.png" %}" alt="Alfred" style="width:100%">
+      <div class="container">
+        <h2>Alfred Ssekagiri</h2>
+        <p class="title">PhD Student</p>
+        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+        <p>example@example.com</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

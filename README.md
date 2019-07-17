@@ -1,6 +1,6 @@
 # Virtual Enviroment
 
-- conda create -n database python==3.7
+- conda env create -f database-spec.yml
 - To activate: source activate database
 - To deactivate: source deactivate
 
