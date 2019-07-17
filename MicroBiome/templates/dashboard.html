@@ -45,42 +45,55 @@
 {% block content %}
 
 {% comment %} <h1>African Microbiome Portal Dashboard</h1> {% endcomment %}
+{% comment %} https://medium.com/wdstack/bootstrap-4-chart-js-39006427f08f {% endcomment %}
+{% comment %} TODO: Need to change it to mobile friendly {% endcomment %}
 {% comment %} <div class="container"> {% endcomment %}
 
-	<div class="row">
-		<div class="column">
-			<div class="card" id='body_site'></div>
-		</div>
-		<div class="column">
-			<div class="card" id='assay_type'></div>
-		</div>
-<div class="column">
-			<div class="card" id='platform'></div>
-		</div>
-<div class="column">
-			<div class="card" id='disease'></div>
-		</div>
+	<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div id="body_site"></div>
+                </div>
+            </div>
+        </div>
+				<div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div id="assay_type"></div>
+                </div>
+            </div>
+        </div>
+     </div>
 
-<div class="column">
-	<div class="card">{% leaflet_map "mapd" callback="map_init" %}</div>
-		</div>
-
+		<div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div id="disease"></div>
+                </div>
+            </div>
+        </div>
+				<div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div id="platform"></div>
+                </div>
+            </div>
+        </div>
+     </div>
 
 
 
 	</div>
-
-  {% comment %} <div class="col-4 item chart3" id='platform'></div> {% endcomment %}
-  {% comment %} <div class="item map_div">{% leaflet_map "main" callback="map_init" %}</div> {% endcomment %}
-  {% comment %} <div class="item age_chart" id='age'>Age distribution</div> {% endcomment %}
-  {% comment %} <div class="item table1" id=''></div> {% endcomment %}
-{% comment %} </div> {% endcomment %}
 
 
 {% comment %} BODY SITE {% endcomment %}
 
 <script>
 		site_pie_dict = {{site_pie_dict|safe}};
+		{% comment %} TODO: Need to integrate link from server side. as https://stackoverflow.com/questions/16176390/highcharts-provide-urls-for-series-data-to-open-clickable-link {% endcomment %}
 		Highcharts.chart('body_site', {
 				chart: {
 				plotBackgroundColor: null,
@@ -115,7 +128,10 @@
 		series: [{
 						name: 'Body site',
 						data: site_pie_dict
-		}]
+		}],
+		credits: {
+						enabled: false
+		},
 		});
 </script>
 
@@ -150,10 +166,15 @@
 		}
 	},
 	series: [{
+					showInLegend: false,
 					name: 'Assay type',
 					data: ydata_assay
 
-	}]
+	}],
+	credits: {
+					enabled: false
+	},
+
 	});
 	</script>
 
@@ -189,10 +210,14 @@
 			}
 		},
 		series: [{
+						showInLegend: false,
 						name: 'Disease/Condition',
 						data: ydata_disease
 
-		}]
+		}],
+		credits: {
+						enabled: false
+		},
 		});
 		</script>
 
@@ -238,7 +263,10 @@
 		series: [{
 						name: 'Platform',
 						data: platform_pie_dict
-		}]
+		}],
+		credits: {
+						enabled: false
+		},
 		});
 </script>
 
