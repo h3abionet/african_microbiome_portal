@@ -13,8 +13,8 @@ import pandas as pd
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
 from django.shortcuts import render
+from django_tables2 import RequestConfig
 
-#  import django_tables2 as tables
 #  from django_tables2.config import RequestConfig
 from .djmodel import get_model_repr
 # Create your views here.
@@ -25,15 +25,7 @@ from .models import Project
 #  from django.template import Context, loader
 
 
-# Tables # Might need to be moved to new File
 
-
-#  class ProjectTable(tables.Table):
-#      class Meta:
-#          model = Project
-#
-
-##
 
 
 def front_main(request):
@@ -102,13 +94,9 @@ def results(request):
         if form.is_valid():
             print("Kiran", form.cleaned_data)
         country = form.cleaned_data["country"]
-        #  page = request.GET.get('page', 1)
         res = Project.objects.filter(country__icontains=country)
-        #  df = pd.DataFrame(list(res.values()))
-        #  print(df.head().to_csv())
 
         res_count = len(res)
-        #  paginator = Paginator(res, 10)
         query = ""
         for k, v in form.cleaned_data.items():
             query += "%s=%s&" % (k, v)
@@ -118,34 +106,6 @@ def results(request):
         return render(request, "search.html", {"form": form})
 
 
-def results2(request):
-    # Try https://github.com/jamespacileo/django-pure-pagination
-    if request.method == "GET":
-        #  print("anmol")
-        form = PostForm(request.GET)
-        if form.is_valid():
-            print("Kiran", form.cleaned_data)
-        country = form.cleaned_data["country"]
-        page = request.GET.get('page', 1)
-        resfull = Project.objects.filter(country__icontains=country)
-        #  print(len(res))
-        paginator = Paginator(resfull, 10)
-        query = ""
-        for k, v in form.cleaned_data.items():
-            query += "%s=%s&" % (k, v)
-        try:
-            res = paginator.page(page)
-        except PageNotAnInteger:
-            res = paginator.page(1)
-        except EmptyPage:
-            res = paginator.page(paginator.num_pages)
-        # https://django-endless-pagination.readthedocs.io/en/latest/twitter_pagination.html
-        # https://samulinatri.com/blog/django-pagination-tutorial/
-        # Toggle columns: https://www.w3schools.com/jquerymobile/tryit.asp?filename=tryjqmob_tables_columntoggle
-        return render(request, "results_infinit.html", {'results': res, 'res_count': len(resfull), 'query': query})
-    else:
-        form = PostForm()
-        return render(request, "search.html", {"form": form})
 
 
 

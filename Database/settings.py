@@ -36,8 +36,13 @@ ALLOWED_HOSTS = []
 #  NEOMODEL_MAX_POOL_SIZE = 50
 # Application definition
 
+# For future test purpose https://grappelliproject.com/
+
 INSTALLED_APPS = [
-    'bootstrap_admin', # always before django.contrib.admin
+    'dal',
+    'dal_select2',
+    'grappelli',
+    #  'bootstrap_admin', # always before django.contrib.admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +58,7 @@ INSTALLED_APPS = [
     'django_nvd3',
     'bootstrap4',
     'crispy_forms',
+    'django_tables2',
     #  'djide',
     #  'rooms',
 ]
@@ -143,6 +149,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+# GRAPPELLI_ADMIN_TITLE
+GRAPPELLI_ADMIN_TITLE = "MicroBiome Admin Site"
+GRAPPELLI_SWITCH_USER = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
