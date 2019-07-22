@@ -23,6 +23,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('MicroBiome.urls')),  # information From each app
+    path('^grappelli/', include('grappelli.urls')),
     #  path('', include('frontpage.urls')),
     #  path('flu/', include('flu.urls')),
     #  path('exp/', include('experimental.urls')),
