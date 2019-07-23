@@ -65,9 +65,12 @@ def test_update():
 #      return render(request, "mainLayout.html", {})
 #
 def search_form(request):
-    form = PostForm()
+    form = PostForm(initial={'country':'',
+                            'platform':'',
+                            'disease':'',
+                            'study_design':''})
     #  test_update()
-    print(form.as_p, "Anmol")
+    #  print(form.as_p, "Anmol")
     return render(request, "search.html", {"form": form})
 
 
@@ -78,8 +81,19 @@ def results_download(request):
         if form.is_valid():
             print("Kiran")
         country = form.cleaned_data["country"]
+        platform = form.cleaned_data["platform"]
+        disease = form.cleaned_data["disease"]
+        study_design = form.cleaned_data["study_design"]
         #  page = request.GET.get('page', 1)
-        res = Project.objects.filter(country__icontains=country)
+        res = Project.objects.all()
+        if country:
+            res = res.filter(country__icontains=country)
+        if platform:
+            res = res.filter(platform__icontains=country)
+        if disease:
+            res = res.filter(disease__icontains=country)
+        if study_design:
+            res = res.filter(study_design__icontains=country)
         csv = pd.DataFrame(list(res.values()))
         print(csv)
         csv = csv.to_csv(index=False)
@@ -91,14 +105,30 @@ def results(request):
     # Try https://github.com/jamespacileo/django-pure-pagination
     if request.method == "GET":
         form = PostForm(request.GET)
-        if form.is_valid():
-            print("Kiran", form.cleaned_data)
-        country = form.cleaned_data["country"]
-        res = Project.objects.filter(country__icontains=country)
+        #  print(form.cleaned_data)
+        #  if form.is_valid():
+        #      print("Kiran", form.cleaned_data)
+        print(form.data['country'])
+
+        country = form.data["country"]
+        platform = form.data["platform"]
+        disease = form.data["disease"]
+        study_design = form.data["study_design"]
+        #  page = request.GET.get('page', 1)
+        res = Project.objects.all()
+        if country:
+            res = res.filter(country__icontains=country)
+        if platform:
+            res = res.filter(platform__icontains=platform)
+        if disease:
+            res = res.filter(disease__icontains=disease)
+        if study_design:
+            res = res.filter(study_design__icontains=study_design)
+
 
         res_count = len(res)
         query = ""
-        for k, v in form.cleaned_data.items():
+        for k, v in form.data.items():
             query += "%s=%s&" % (k, v)
         return render(request, "results.html", {'results': res, 'res_count': res_count,  'query': query[:-1]})
     else:
