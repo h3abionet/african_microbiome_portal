@@ -9,7 +9,7 @@ urlpatterns = [
     path('search/', views.search_form, name="search"),
     path('results/', views.results, name="results"),
     path('summary/', views.summary, name="summary"),
-    path('download/', views.results_download, name="download"),
+    #  path('download/', views.results_download, name="download"),
 
     # Mostly statics pages
     path('about/', TemplateView.as_view(template_name="about.html")),

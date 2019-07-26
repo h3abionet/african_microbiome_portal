@@ -13,6 +13,7 @@ import pandas as pd
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count
 from django.shortcuts import render
+from django_pandas.io import read_frame
 from django_tables2 import RequestConfig
 
 #  from django_tables2.config import RequestConfig
@@ -74,32 +75,32 @@ def search_form(request):
     return render(request, "search.html", {"form": form})
 
 
-def results_download(request):
-    if request.method == "GET":
-        form = PostForm(request.GET)
-        print("Anmol", form)
-        if form.is_valid():
-            print("Kiran")
-        country = form.cleaned_data["country"]
-        platform = form.cleaned_data["platform"]
-        disease = form.cleaned_data["disease"]
-        study_design = form.cleaned_data["study_design"]
-        #  page = request.GET.get('page', 1)
-        res = Project.objects.all()
-        if country:
-            res = res.filter(country__icontains=country)
-        if platform:
-            res = res.filter(platform__icontains=country)
-        if disease:
-            res = res.filter(disease__icontains=country)
-        if study_design:
-            res = res.filter(study_design__icontains=country)
-        csv = pd.DataFrame(list(res.values()))
-        print(csv)
-        csv = csv.to_csv(index=False)
-        print(csv)
-        return render(request, "csv.html", {'csv': csv})
-
+#  def results_download(request):
+#      if request.method == "GET":
+#          form = PostForm(request.GET)
+#          print("Anmol", form)
+#          if form.is_valid():
+#              print("Kiran")
+#          country = form.cleaned_data["country"]
+#          platform = form.cleaned_data["platform"]
+#          disease = form.cleaned_data["disease"]
+#          study_design = form.cleaned_data["study_design"]
+#          #  page = request.GET.get('page', 1)
+#          res = Project.objects.all()
+#          if country:
+#              res = res.filter(country__icontains=country)
+#          if platform:
+#              res = res.filter(platform__icontains=country)
+#          if disease:
+#              res = res.filter(disease__icontains=country)
+#          if study_design:
+#              res = res.filter(study_design__icontains=country)
+#          csv = pd.DataFrame(list(res.values()))
+#          print(csv)
+#          csv = csv.to_csv(index=False)
+#          print(csv)
+#          return render(request, "csv.html", {'csv': csv})
+#
 
 def results(request):
     # Try https://github.com/jamespacileo/django-pure-pagination
@@ -108,12 +109,23 @@ def results(request):
         #  print(form.cleaned_data)
         #  if form.is_valid():
         #      print("Kiran", form.cleaned_data)
-        print(form.data['country'])
-
-        country = form.data["country"]
-        platform = form.data["platform"]
-        disease = form.data["disease"]
-        study_design = form.data["study_design"]
+        #  print(form.data['country'])
+        try:
+            country = form.data["country"]
+        except KeyError:
+            country = None
+        try:
+            platform = form.data["platform"]
+        except KeyError:
+            platform = None
+        try:
+            disease = form.data["disease"]
+        except KeyError:
+            disease = None
+        try:
+            study_design = form.data["study_design"]
+        except KeyError:
+            study_design = None
         #  page = request.GET.get('page', 1)
         res = Project.objects.all()
         if country:
@@ -141,6 +153,10 @@ def results(request):
 
 def summary(request):
     all_records=Project.objects.all()
+    df = read_frame(all_records)
+    df = df.loc[~(pd.isnull(df.lat) | pd.isnull(df.lon)),
+            ['lon', 'lat', 'sample_type', 'disease','platform',
+                'country','sample_count']]
     site_pie_dict = [{'name': item['body_site'],
                         'y': item['type_count']} for item in \
                                 all_records.values('body_site')\
@@ -163,8 +179,8 @@ def summary(request):
             'ydata_disease': ydata_disease,
             'platform_pie_dict': platform_pie_dict,
             'site_pie_dict': site_pie_dict,
-            'all_records': all_records.values()};
-    print(all_records.values())
+            'records': df};
+    #  print(all_records.values())
 
     return render(request, 'dashboard.html', context=context)
 

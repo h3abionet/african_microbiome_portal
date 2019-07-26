@@ -22,18 +22,18 @@
   <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
 		{% comment %} NOTE: If file is undefined, you will get error So be careful {% endcomment %}
 		<div class="row">
-			<div class="col-6">
+			<div class="col-sm-6">
 				{{ form.country|as_crispy_field}}
 			</div>
-			<div class="col-6">
+			<div class="col-sm-6">
 				{{ form.platform|as_crispy_field}}
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-sm-6">
 				{{ form.disease|as_crispy_field}}
 			</div>
-			<div class="col-6">
+			<div class="col-sm-6">
 				{{ form.study_design|as_crispy_field}}
 			</div>
 		</div>
