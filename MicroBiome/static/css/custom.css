@@ -10,6 +10,29 @@
     margin-left: 50px;
 }
 
+.c1 {
+	width: 750px;
+	float: left;
+}
+.c2 {
+	width: 355px;
+	float: left;
+}
+.c3 {
+	width: 235px;
+	float: left;
+}
+
+.btn {
+  border-radius: 0 !important;
+}
+
+ul {
+  list-style: none;
+}
+
+
+
 
 /* body { */
 /*     padding-top: 200px; /* Whatever the height of your navbar is; the */

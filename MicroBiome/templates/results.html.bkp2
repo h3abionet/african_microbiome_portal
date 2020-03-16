@@ -1,0 +1,83 @@
+{% extends "mainLayout.html" %}
+{% load static %}
+{% comment %} {% block title %} {% endcomment %}
+{% comment %}   Welcome to the database {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+{% comment %}  {% endcomment %}
+{% block js %}
+
+ <script src="{% static "js/tableToCards.js" %}"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+ <script src="{% static "js/list_local.js" %}"></script>
+{% comment %} https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/ {% endcomment %}
+{% endblock %}
+
+{% block css%}
+	{% comment %} <link src="{% static "css/list.css" %}"> {% endcomment %}
+	{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> {% endcomment %}
+	{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> {% endcomment %}
+	{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"> {% endcomment %}
+	{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"> {% endcomment %}
+	<style>
+.hideme {
+height: 1px; border: none }
+.noborder{border: none}
+.offscreen {
+height: 1px; width: 1px; position: absolute; overflow: hidden; top: -10px; }
+	</style>
+{% endblock %}
+
+
+{% block content %}
+	<div class="c1">
+          {% comment %} <h2>Results based on Queries</h2> {% endcomment %}
+          <div id="lovely-things-list">
+						<input class="search" placeholder="Refine Search" />
+            {% comment %} <ul class="sort-by"> {% endcomment %}
+            {% comment %}   <li class="sort btn" data-sort="name">Sort by name</li> {% endcomment %}
+            {% comment %}   <li class="sort btn" data-sort="category">Sort by category</li> {% endcomment %}
+            {% comment %} </ul> {% endcomment %}
+            {% comment %} <ul class="filter"> {% endcomment %}
+            {% comment %}   <li class="btn" id="filter-none">Show all</li> {% endcomment %}
+            {% comment %}   <li class="btn" id="filter-games">Only show games</li> {% endcomment %}
+            {% comment %}   <li class="btn" id="filter-beverages">Only show beverages</li> {% endcomment %}
+            {% comment %} </ul> {% endcomment %}
+            <ul class="list">
+							{% for result in results%}
+              <li>
+								<h4>
+									<button type="button" class="btn btn-info"><span class="name"><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></span></button>
+									<button type="button" class="btn btn-warning"><span class="category"><a href="http://localhost:8000/microbiome/results/?tags={{result.platform}}">{{result.platform}}</a></span></button>
+									<button type="button" class="btn btn-danger"><span class="category"><a href="http://localhost:8000/microbiome/results/?tags={{result.sample_type}}">{{result.sample_type}}</a></span></button>
+									<button type="button" class="btn btn-success"><span class="category"><a href="http://localhost:8000/microbiome/results/?tags={{result.country}}">{{result.country}}</a></span></button>
+								<button type="button" class="btn btn-primary"><span class="category">Count:{{result.sample_count}}</span></button>
+								</h4>
+								<p class="description">{{result.study_title}}</p>
+            </li>
+					{% endfor %}
+
+      </ul>
+      <ul class="pagination"></ul>
+    </div>
+  </div>
+
+
+	{% comment %} Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a> {% endcomment %}
+{% comment %} <table cellspacing="0" id="example" class="table table-striped table-bordered table-sm display" width="100%"> {% endcomment %}
+{% comment %}   [> <input class="form-control" id="myInput" type="text" placeholder="Search.."> <] {% endcomment %}
+{% comment %}   <thead><tr class="hideme"><th class="th-sm" data-card-title>Project</th><th class="th-sm">Title</th><th class="th-sm">Sample Count</th><th class="th-sm">Country</th><th class="th-sm">Sample Type</th><th class="th-sm">Platform</th></tr></thead> {% endcomment %}
+{% comment %}                 <tbody> {% endcomment %}
+{% comment %}         {% for result in results%} {% endcomment %}
+{% comment %}           <tr> {% endcomment %}
+{% comment %}             <td><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></td> {% endcomment %}
+{% comment %}             <td>{{result.study_title|slice:":30"}}</td><td>{{result.sample_count}}</td><td>{{result.country}}</td><td>{{result.sample_type}}</td><td>{{result.platform}}</td></tr> {% endcomment %}
+{% comment %} {% endfor %} {% endcomment %}
+{% comment %}                 </tbody> {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %} </table> {% endcomment %}
+{% endblock %}

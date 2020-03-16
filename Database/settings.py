@@ -53,16 +53,22 @@ INSTALLED_APPS = [
 
     #  'django_neomodel',
     'MicroBiome',
+    'Uploads',
     'leaflet',
     'djgeojson',
     'django_nvd3',
     'bootstrap4',
     'crispy_forms',
+    'tags_input',
     'django_tables2',
+    "taggit",
     #  'djide',
     #  'rooms',
 ]
 
+TAGGIT_CASE_INSENSITIVE = True
+
+FILE_UPLOAD_TEMP_DIR = '/tmp'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

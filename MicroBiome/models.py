@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 # https://stackoverflow.com/questions/2459979/how-to-import-csv-data-into-django-models
 
@@ -29,3 +30,6 @@ class Project(models.Model):
     repo = models.CharField(max_length=10, null=True)  # max length was 7
     sample_type = models.CharField(
         max_length=30, null=True)  # max length was 22
+    tags = TaggableManager( help_text=None )
+    def __str__(self):
+        return self.study_title

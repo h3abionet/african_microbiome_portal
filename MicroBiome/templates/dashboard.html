@@ -1,4 +1,4 @@
-{% extends "mainLayout.html" %}
+{% comment %} {% extends "mainLayout.html" %} {% endcomment %}
 {% load leaflet_tags %}
 {% comment %}  {% endcomment %}
 {% load static %}
@@ -90,7 +90,7 @@
                 <div class="card-body">
 									<h4 align="center">Sample collection locations</h4>
 									 {% leaflet_map "mapd" callback="map_init" %}
-                    <div id="disease"></div>
+                    {% comment %} <div id="disease"></div> {% endcomment %}
                 </div>
             </div>
 				</div>
@@ -298,7 +298,7 @@
                        + "<Strong>Platform: </Strong>" + "{{ spot.platform }}" + "<br />"
                        + "<Strong>Sample type: </Strong>" + "{{ spot.sample_type }}" + "<br />"
                        + "<Strong>Sample count: </Strong>" + "{{ spot.sample_count }}" + "<br />"
-          + "<Strong>Country: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?country  ={{spot.country }}'>{{ spot.country }}</a>" + "<br />"
+          + "<Strong>Country: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?country={{spot.country }}'>{{ spot.country }}</a>" + "<br />"
               //marker.setContent(list).openPopup();
         marker.bindPopup(list).addTo(map);
           // .openPopup();

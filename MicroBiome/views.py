@@ -11,7 +11,7 @@ import pandas as pd
 
 # For pagination
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render
 from django_pandas.io import read_frame
 from django_tables2 import RequestConfig
@@ -72,7 +72,40 @@ def search_form(request):
                             'study_design':''})
     #  test_update()
     #  print(form.as_p, "Anmol")
-    return render(request, "search.html", {"form": form})
+    all_records=Project.objects.all()
+    df = read_frame(all_records)
+    df = df.loc[~(pd.isnull(df.lat) | pd.isnull(df.lon)),
+            ['lon', 'lat', 'sample_type', 'disease','platform',
+                'country','sample_count']]
+    site_pie_dict = [{'name': item['body_site'],
+                        'y': item['type_count']} for item in \
+                                all_records.values('body_site')\
+                                .annotate(type_count=Count('body_site')) ]
+    #  print(site_pie_dict)
+
+    platform_pie_dict = [{'name': item['platform'], 'y': item['type_count'] } for item in all_records.values('platform').annotate(type_count=Count('sample_type')) ]
+
+    assay_type=pd.DataFrame(list(all_records.values('assay_type').annotate(type_count=Count('sample_type'))))
+    xdata_assay=list(assay_type['assay_type'])
+    ydata_assay=list(assay_type['type_count'])
+
+    disease=pd.DataFrame(list(all_records.values('disease').annotate(type_count=Count('disease'))))
+    xdata_disease=list(disease['disease'])
+    ydata_disease=list(disease['type_count'])
+    print("anmol")
+
+    context={'form':form,
+            'xdata_assay': xdata_assay,
+            'ydata_assay': ydata_assay,
+            'xdata_disease': xdata_disease,
+            'ydata_disease': ydata_disease,
+            'platform_pie_dict': platform_pie_dict,
+            'site_pie_dict': site_pie_dict,
+            'records': df};
+    #  print(all_records.values())
+    return render(request, "search.html", context)
+
+    #  return render(request, "search.html", {"form": form})
 
 
 #  def results_download(request):
@@ -106,37 +139,28 @@ def results(request):
     # Try https://github.com/jamespacileo/django-pure-pagination
     if request.method == "GET":
         form = PostForm(request.GET)
-        #  print(form.cleaned_data)
-        #  if form.is_valid():
-        #      print("Kiran", form.cleaned_data)
-        #  print(form.data['country'])
-        try:
-            country = form.data["country"]
-        except KeyError:
-            country = None
-        try:
-            platform = form.data["platform"]
-        except KeyError:
-            platform = None
-        try:
-            disease = form.data["disease"]
-        except KeyError:
-            disease = None
-        try:
-            study_design = form.data["study_design"]
-        except KeyError:
-            study_design = None
-        #  page = request.GET.get('page', 1)
-        res = Project.objects.all()
-        if country:
-            res = res.filter(country__icontains=country)
-        if platform:
-            res = res.filter(platform__icontains=platform)
-        if disease:
-            res = res.filter(disease__icontains=disease)
-        if study_design:
-            res = res.filter(study_design__icontains=study_design)
 
+        try:
+            tags = form.data["tags"]
+            tags = tags.split(",")
+        except KeyError:
+            tags = None
+
+        if not tags:
+            res = Project.objects.all()
+        else:
+            qs = [Q(country__icontains=tag)|
+                    Q(platform__icontains=tag)|
+                    Q(disease__icontains=tag)|
+                    Q(study_design__icontains=tag)|
+                    Q(study_title__icontains=tag)|
+                    Q(sample_type__icontains=tag)
+                    for tag in tags]
+            query = qs.pop()
+            for q in qs:
+                query |= q
+
+            res = Project.objects.filter(query)
 
         res_count = len(res)
         query = ""
@@ -145,11 +169,41 @@ def results(request):
         return render(request, "results.html", {'results': res, 'res_count': res_count,  'query': query[:-1]})
     else:
         form = PostForm()
-        return render(request, "search.html", {"form": form})
 
+        all_records=Project.objects.all()
+        df = read_frame(all_records)
+        df = df.loc[~(pd.isnull(df.lat) | pd.isnull(df.lon)),
+                ['lon', 'lat', 'sample_type', 'disease','platform',
+                    'country','sample_count']]
+        site_pie_dict = [{'name': item['body_site'],
+                            'y': item['type_count']} for item in \
+                                    all_records.values('body_site')\
+                                    .annotate(type_count=Count('body_site')) ]
+        #  print(site_pie_dict)
 
+        platform_pie_dict = [{'name': item['platform'], 'y': item['type_count'] } for item in all_records.values('platform').annotate(type_count=Count('sample_type')) ]
 
+        assay_type=pd.DataFrame(list(all_records.values('assay_type').annotate(type_count=Count('sample_type'))))
+        xdata_assay=list(assay_type['assay_type'])
+        ydata_assay=list(assay_type['type_count'])
 
+        disease=pd.DataFrame(list(all_records.values('disease').annotate(type_count=Count('disease'))))
+        xdata_disease=list(disease['disease'])
+        ydata_disease=list(disease['type_count'])
+        print("anmol")
+
+        context={#'form':form,
+                'xdata_assay': xdata_assay,
+                'ydata_assay': ydata_assay,
+                'xdata_disease': xdata_disease,
+                'ydata_disease': ydata_disease,
+                'platform_pie_dict': platform_pie_dict,
+                'site_pie_dict': site_pie_dict,
+                'records': df};
+        #  print(all_records.values())
+        return render(request, "search.html", context=context)
+
+        #  return render(request, 'dashboard.html', context=context)
 
 def summary(request):
     all_records=Project.objects.all()
@@ -183,20 +237,3 @@ def summary(request):
     #  print(all_records.values())
 
     return render(request, 'dashboard.html', context=context)
-
-
-#  def summary(request):
-#      """The Database Summary Page.
-#      """
-#      df = "/home/devil/Documents/Tools/Database/MicroBiome/test.csv"
-#      all_records = pd.read_csv(
-#          df,
-#          usecols=["LON", "LAT", "SAMPLE_TYPE", "DISEASE", "PLATFORM", "COUNTRY", "SAMPLE_COUNT"])
-#      all_records = all_records[~pd.isnull(all_records.LON)]
-#
-#      print(all_records.head().T.to_dict().values())
-#      data = all_records.head().to_csv()
-#      #  all_records = Project.objects.all()
-#      #  return render(request, 'index.html', {'records': all_records,
-#      return render(request, 'pivottablejs.html', {'records': all_records,
-#                                            'data': data})
