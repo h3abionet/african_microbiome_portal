@@ -11,6 +11,7 @@ dependencies:
   - bzip2=1.0.6
   - ca-certificates=2019.3.9
   - cairo=1.16.0
+  - django-tags-input=4.6.0
   - certifi=2019.3.9
   - click=7.0
   - click-plugins=1.1.1
@@ -172,5 +173,6 @@ dependencies:
     - typed-ast==1.4.0
     - unidecode==1.0.23
     - wcwidth==0.1.7
+    - tagit
 prefix: /home/devil/anaconda3/envs/database
 
