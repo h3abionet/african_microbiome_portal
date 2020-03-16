@@ -3,16 +3,28 @@ from django import forms
 from .models import Project
 
 
+class Upload(forms.Form):
+    infile = forms.FileField()
+    separator = forms.ChoiceField(choices=((" ", "Space"),
+                                            ("\t", "Tab"),
+                                            (",", "Comma"),
+                                            (";", "Semi-Comma")))
+
+
+
 class PostForm(forms.ModelForm):
-    #  tags =
+    #  tags = forms.CharField(label='')
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].label = ''
     class Meta:
         model = Project
         #  fields = ("country",)
         #  fields = ("country", "platform", "disease", "study_design")
         fields = ('tags',)
         widgets = {
-            'tags': forms.TextInput(attrs={'data-role': 'tagsinput',
-                "placeholder":"Search Your Keywords"})
+                'tags': forms.TextInput(attrs={'data-role': 'tagsinput',
+                    'placeholder':"Add your search keywords"})
         }
         error_css_class = 'error'
         required_css_class = 'bold'

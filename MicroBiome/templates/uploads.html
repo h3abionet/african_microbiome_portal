@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width" />
+                <title>Uploads</title>
+
+        </head>
+        <body>
+        <!-- https://code.djangoproject.com/wiki/NewbieMistakes  -->
+                <form action="/microbiome/upload/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        {{form}}
+                        <button type="submit">Upload</button>
+                </form>
+        </body>
+</html>

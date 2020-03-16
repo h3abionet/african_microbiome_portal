@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width" />
+                <title>Warning</title>
+        </head>
+        <body>
+                <p>Following column(s) not found in your data table. Please add the column(s)</p>
+                <ul>
+                {% for col in columns %}
+                <li>{{col}}</li>
+                {% endfor %}
+                </ul>
+        </body>
+</html>

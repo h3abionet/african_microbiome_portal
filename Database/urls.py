@@ -22,14 +22,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 
 urlpatterns = [
-    #  path('', include('MicroBiome.urls')),  # information From each app
+    path('', include('MicroBiome.urls')),  # information From each app
     path('^grappelli/', include('grappelli.urls')),
     #  path('', include('frontpage.urls')),
     #  path('flu/', include('flu.urls')),
     #  path('exp/', include('experimental.urls')),
     path('admin/', admin.site.urls),
     path('microbiome/', include("MicroBiome.urls")),
-    path('uploads/', include("Uploads.urls")),
     #  path('djide/', include('djide.urls')),
 ]
 

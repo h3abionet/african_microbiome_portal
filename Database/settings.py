@@ -24,7 +24,7 @@ SECRET_KEY = 'anmolyouareanidiot'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # For neo4J database connections
@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
     #  'django_neomodel',
     'MicroBiome',
-    'Uploads',
     'leaflet',
     'djgeojson',
     'django_nvd3',
@@ -67,8 +66,6 @@ INSTALLED_APPS = [
 ]
 
 TAGGIT_CASE_INSENSITIVE = True
-
-FILE_UPLOAD_TEMP_DIR = '/tmp'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

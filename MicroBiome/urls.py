@@ -9,13 +9,15 @@ urlpatterns = [
     path('search/', views.search_form, name="search"),
     path('results/', views.results, name="results"),
     path('summary/', views.summary, name="summary"),
+    path("upload/", views.upload_file,name="upload"),
     #  path('download/', views.results_download, name="download"),
 
     # Mostly statics pages
     path('about/', TemplateView.as_view(template_name="about.html")),
+    path('test/', TemplateView.as_view(template_name="test.html")),
     path('contributor/', TemplateView.as_view(template_name="contributors.html")),
     path('resource/', TemplateView.as_view(template_name="resouces.html")),
-    path('outreach/', TemplateView.as_view(template_name="outreach.html")),
+    path('help/', TemplateView.as_view(template_name="help.html")),
     path('publication/', TemplateView.as_view(template_name="publications.html")),
     #  path('contributors/', views.contributors, name="contributors"),
 ]

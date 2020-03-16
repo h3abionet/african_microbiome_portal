@@ -90,7 +90,7 @@
                 <div class="card-body">
 									<h4 align="center">Sample collection locations</h4>
 									 {% leaflet_map "mapd" callback="map_init" %}
-                    {% comment %} <div id="disease"></div> {% endcomment %}
+                    <div id="disease"></div>
                 </div>
             </div>
 				</div>
@@ -121,7 +121,8 @@
 		subtitle: {
 				text: ''
 		},tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			pointFormat: '<a href="https://www.google.com">test</a>:{point.percentage:.1f}'
+				{% comment %} pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {% endcomment %}
 		},
 		plotOptions: {
 				pie: {
@@ -294,11 +295,11 @@
               // zoom to point & add it to map
               var marker = L.marker([lat, lon]);
               // var marker = L.marker([lat, lon]).addTo(map);
-        var list = "<Strong>Condition: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?disease={{spot.disease }}'>{{ spot.disease }}</a>" + "<br />"
-                       + "<Strong>Platform: </Strong>" + "{{ spot.platform }}" + "<br />"
-                       + "<Strong>Sample type: </Strong>" + "{{ spot.sample_type }}" + "<br />"
-                       + "<Strong>Sample count: </Strong>" + "{{ spot.sample_count }}" + "<br />"
-          + "<Strong>Country: </Strong>" + "<a href='http://localhost:8000/microbiome/results/?country={{spot.country }}'>{{ spot.country }}</a>" + "<br />"
+        var list = "<Strong>Condition: </Strong>" + "<a href='/microbiome/results/?tags={{spot.disease }}'>{{ spot.disease }}</a>" + "<br />"
+					+ "<Strong>Platform: </Strong>" + "<a href='/microbiome/results/?tags={{spot.platform}}'>{{ spot.platform }}</a>" + "<br />"
+					+ "<Strong>Sample type: </Strong>" + "<a href='/microbiome/results/?tags={{spot.sample_type }}'>{{ spot.sample_type }}</a>" + "<br />"
+                       + "<Strong>Sample count: </Strong>" + "{{ spot.sample_number }}" + "<br />"
+          + "<Strong>Country: </Strong>" + "<a href='/microbiome/results/?tags={{spot.country }}'>{{ spot.country }}</a>" + "<br />"
               //marker.setContent(list).openPopup();
         marker.bindPopup(list).addTo(map);
           // .openPopup();

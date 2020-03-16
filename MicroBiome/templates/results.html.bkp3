@@ -1,0 +1,152 @@
+{% extends "mainLayout.html" %}
+{% load static %}
+{% load django_tables2 %}
+{% load render_table from django_tables2 %}
+{% comment %} {% block title %} {% endcomment %}
+{% comment %}   Welcome to the database {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+{% comment %}  {% endcomment %}
+{% block js %}
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+{% comment %} https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/ {% endcomment %}
+	<script>
+		$(function(){
+    $('#example tfoot th').each(function(){
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    });
+    var table = $('#example').DataTable();
+	table.columns().every( function () {
+        var that = this;
+        $('input', this.footer()).on('keyup change', function(){
+            if(that.search() !== this.value){
+                that.search(this.value).draw();
+            }
+        });
+    });
+});
+
+	</script>
+{% comment %}   <script> {% endcomment %}
+{% comment %}     $(document).ready(function() { {% endcomment %}
+{% comment %}   $(".search").keyup(function () { {% endcomment %}
+{% comment %}     var searchTerm = $(".search").val(); {% endcomment %}
+{% comment %}     var listItem = $('.results tbody').children('tr'); {% endcomment %}
+{% comment %}     var searchSplit = searchTerm.replace(/ /g, "'):containsi('") {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}   $.extend($.expr[':'], {'containsi': function(elem, i, match, array){ {% endcomment %}
+{% comment %}         return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0; {% endcomment %}
+{% comment %}     } {% endcomment %}
+{% comment %}   }); {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}   $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){ {% endcomment %}
+{% comment %}     $(this).attr('visible','false'); {% endcomment %}
+{% comment %}   }); {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}   $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){ {% endcomment %}
+{% comment %}     $(this).attr('visible','true'); {% endcomment %}
+{% comment %}   }); {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}   var jobCount = $('.results tbody tr[visible="true"]').length; {% endcomment %}
+{% comment %}     $('.counter').text(jobCount + ' item'); {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}   if(jobCount == '0') {$('.no-result').show();} {% endcomment %}
+{% comment %}     else {$('.no-result').hide();} {% endcomment %}
+{% comment %}       }); {% endcomment %}
+{% comment %} }); {% endcomment %}
+{% comment %}   </script> {% endcomment %}
+{% endblock %}
+
+{% block css%}
+	<link rel="stylesheet" href="ihttps://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/pages.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}" /> {% endcomment %}
+{% comment %} <style> {% endcomment %}
+{% comment %} table.dataTable thead .sorting:after, {% endcomment %}
+{% comment %} table.dataTable thead .sorting:before, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_asc:after, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_asc:before, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_asc_disabled:after, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_asc_disabled:before, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_desc:after, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_desc:before, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_desc_disabled:after, {% endcomment %}
+{% comment %} table.dataTable thead .sorting_desc_disabled:before { {% endcomment %}
+{% comment %}   bottom: .5em; {% endcomment %}
+{% comment %} } {% endcomment %}
+{% comment %} </style> {% endcomment %}
+{% comment %} <style> {% endcomment %}
+{% comment %} .results tr[visible='false'], {% endcomment %}
+{% comment %} .no-result{ {% endcomment %}
+{% comment %}   display:none; {% endcomment %}
+{% comment %} } {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %} .results tr[visible='true']{ {% endcomment %}
+{% comment %}   display:table-row; {% endcomment %}
+{% comment %} } {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %} .counter{ {% endcomment %}
+{% comment %}   padding:8px; {% endcomment %}
+{% comment %}   color:#ccc; {% endcomment %}
+{% comment %} } {% endcomment %}
+{% comment %} </style> {% endcomment %}
+{% endblock %}
+
+
+{% block content %}
+	{% render_table table %}
+	Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a>
+{% comment %}   <div class="form-group pull-right"> {% endcomment %}
+{% comment %}     <input type="text" class="search form-control" placeholder="What you looking for?"> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+{% comment %} <span class="counter pull-right"></span> {% endcomment %}
+{% comment %} <table  id="example" class="table table-striped table-bordered" style="width:100%"> {% endcomment %}
+<table cellspacing="0" id="example" class="table table-striped table-bordered table-sm" width="100%">
+	<thead><tr><th class="th-sm">Project</th><th class="th-sm">Title</th><th class="th-sm">Sample Count</th><th class="th-sm">Country</th><th class="th-sm">Sample Type</th><th class="th-sm">Platform</th></tr></thead>
+        {% comment %} <div class="infinite-container"> {% endcomment %}
+                <tbody>
+        {% for result in results%}
+					<tr>
+						<td><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></td>
+						<td>{{result.study_title|slice:":30"}}</td><td>{{result.sample_count}}</td><td>{{result.country}}</td><td>{{result.sample_type}}</td><td>{{result.platform}}</td></tr>
+{% endfor %}
+                </tbody>
+
+	{% comment %} <tr><th data-priority="1">Country</th><th data-priority="2">Collection date</th><th data-priority="3">Instrument</th></tr> {% endcomment %}
+	{% comment %} {% for result in results%} {% endcomment %}
+	{% comment %} <tr><td>{{result.country}}</td><td>{{result.collection_date}}</td><td>{{result.instrument}}</td></tr> {% endcomment %}
+	{% comment %} {% endfor %} {% endcomment %}
+</table>
+{% comment %} {% if results.has_other_pages %} {% endcomment %}
+{% comment %} <ul class="pages"> {% endcomment %}
+{% comment %}   {% if results.has_previous %} {% endcomment %}
+{% comment %}       <li><a href="?{{query}}&page={{ results.previous_page_number }}">&laquo;</a></li> {% endcomment %}
+{% comment %}     {% else %} {% endcomment %}
+{% comment %}       <li class="disabled"><span>&laquo;</span></li> {% endcomment %}
+{% comment %}     {% endif %} {% endcomment %}
+{% comment %}     {% for l in  results.paginator.page_range %} {% endcomment %}
+{% comment %}     {% if l <= results.number|add:5 and l >= results.number|add:-5 %} {% endcomment %}
+{% comment %}       <li><a href="?{{query }}&page={{forloop.counter}}">{{forloop.counter}}</a></li> {% endcomment %}
+{% comment %}     {% endif %} {% endcomment %}
+{% comment %}   {% endfor %} {% endcomment %}
+{% comment %}  {% endcomment %}
+{% comment %}     [> {% for i in results.paginator.page_range %} <] {% endcomment %}
+{% comment %}     [>   {% if results.number == i %} <] {% endcomment %}
+{% comment %}     [>     <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li> <] {% endcomment %}
+{% comment %}     [>   {% else %} <] {% endcomment %}
+{% comment %}     [>     <li><a href="?{{query}}page={{ i }}">{{ i }}</a></li> <] {% endcomment %}
+{% comment %}     [>   {% endif %} <] {% endcomment %}
+{% comment %}     [> {% endfor %} <] {% endcomment %}
+{% comment %}     {% if results.has_next %} {% endcomment %}
+{% comment %}       <li><a href="?{{query}}&page={{ results.next_page_number }}">&raquo;</a></li> {% endcomment %}
+{% comment %}     {% else %} {% endcomment %}
+{% comment %}       <li class="disabled"><span>&raquo;</span></li> {% endcomment %}
+{% comment %}     {% endif %} {% endcomment %}
+{% comment %} </ul> {% endcomment %}
+{% comment %} {% endif %} {% endcomment %}
+{% endblock %}

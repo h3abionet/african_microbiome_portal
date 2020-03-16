@@ -1,0 +1,72 @@
+{% extends 'mainLayout.html' %}
+{% load static %}
+{% block title %}Help{% endblock %}
+
+{%block content %}
+	<H2>Database pages</H2>
+	<p>The repository is contions six web pages:</p>
+	<ul>
+		<li>About</li>
+		<li>Search</li>
+		<li>Publication</li>
+		<li>Resources</li>
+		<li>Help</li>
+	</ul>
+	<h3>About</h3>
+	<p>This page contain basic information on the database.</p>
+	<h3>Search</h3>
+	<p>This is the home page. It is divided in to two pannels: Pannel A is Search forms and pannel B is the graphical overview of the data in the database.</p>
+	<img src="{% static "img/Searchpage.png" %}" class="rounded" alt="Search page" style="width:100%;">
+	<p>Search form accepts multiple keywords, seprated with tab key. Empty search form for all the results.</p>
+	<p>Overview pannel is divided into 5 sub-pannels providing graphical overview of sample collection geographical location, heath contions of individuals, sequencing platform, sample collection body site and assay used in the study.
+		</p>
+		<p>Query results are provided as table. However, due to large number of columns, most of the information are hidden and cab accessed by clicking "+" on the left of each row. Result can also be acquired using imbedded links in the summary pannel. Result can be further filtered using the form on the right top corner of the table.</p>
+		<img src="{% static "img/Results.png" %}" class="rounded" alt="Results page" style="width:100%;">
+
+		<h3>Publication</h3>
+		<p>It contain information on citing this database and the list of the publication citing this repository</p>
+
+		<h3>Resources</h3>
+		<p>Resources page will provide the details of available tools, pipelines and training resources associated to metagenomic data.</p>
+
+		<h3>Help</h3>
+		<p>This page.</p>
+
+		<H2>Other Information</H2>
+		<h3>Contact Us/Feedback</h3>                                                              <p>H3AiBionet Contacts</p>
+		<h3>FAQs</h3>
+		<p>We need to generate this</p>
+
+    <h3>Data Submission Format</h3>
+   <p>We accept data in tabulated format with following columns</p>
+   <ul>
+     <li> REPOSITORY ID </li>
+ <li> STUDY TITLE </li>
+ <li> REPOSITORY LINK </li>
+ <li> SAMPLE NUMBER </li>
+ <li> STUDY LINK </li>
+ <li> ASSAY TYPE </li>
+ <li> TECHNOLOGY </li>
+ <li> COUNTRY </li>
+ <li> DISEASE </li>
+ <li> STUDY DESIGN </li>
+ <li> BODY SITE </li>
+ <li> PLATFORM </li>
+ <li> PARTICIPANT FEATURES </li>
+ <li> AVERAGE SPOTLENGTH </li>
+ <li> LIBRARY LAYOUT </li>
+ <li> LON LAT </li>
+ <li> SAMPLE TYPE </li>
+ <li> COLLECTION DATE </li>
+ <li> ETHNICITY  </li>
+ <li> URBANZATION </li>
+ <li> REGION </li>
+ <li> CITY </li>
+ <li> TARGET amplicon  </li>
+ <li> DIET </li>
+
+     </ul>
+
+
+
+{% endblock %}

@@ -7,14 +7,22 @@
 {% comment %} {% endblock %} {% endcomment %}
 {% comment %}  {% endcomment %}
 {% block js %}
+
+	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
 	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
 	{% comment %} To Create Tag Fields: https://stackoverflow.com/questions/10839570/how-does-stackoverflow-make-its-tag-input-field {% endcomment %}
 	<script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 {% endblock %}
 
 {% block css%}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+	{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> {% endcomment %}
 	<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="{% static 'css/search.css'%}">
+	<style>
+.bootstrap-tagsinput {
+  width: 100% !important;
+}
+</style>
 {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
 {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
 {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
@@ -24,46 +32,31 @@
 
 
   <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
-		{% comment %} To add attributes to the from fields: https://stackoverflow.com/questions/20593046/how-do-i-add-data-role-something-to-my-django-form-field {% endcomment %}
-		{% comment %} NOTE: If file is undefined, you will get error So be careful {% endcomment %}
-		<div class="row">Input Forms</div>
-		<div class="row">Input Forms</div>
 		<div class="row">
-			<div class="col-12">
-				{{ form.tags|as_crispy_field}}
+			<div class="input-group py-0">
+    {% comment %} <input type="text" class="form-control" placeholder="Search this blog"> {% endcomment %}
+				<div class="col-11">
+					{{ form.tags|as_crispy_field}}
+				</div>
+			{% comment %} <i class="fa fa-search" style="font-size:5px;"></i> {% endcomment %}
+
+				<div class="input-group-append input-group-btn">
+					<button class="btn btn-secondary" type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
 			</div>
 
-			{% comment %} <div class="col-sm-6"> {% endcomment %}
-			{% comment %}   {{ form.country|as_crispy_field}} {% endcomment %}
-			{% comment %} </div> {% endcomment %}
-
-
-			{% comment %} <div class="col-sm-6"> {% endcomment %}
-			{% comment %}   {{ form.platform|as_crispy_field}} {% endcomment %}
+			{% comment %} <div class="col-12"> {% endcomment %}
+			{% comment %}   {{ form.tags|as_crispy_field}} {% endcomment %}
 			{% comment %} </div> {% endcomment %}
 		</div>
-		{% comment %} <div class="row"> {% endcomment %}
-		{% comment %}   <div class="col-sm-6"> {% endcomment %}
-		{% comment %}     {{ form.disease|as_crispy_field}} {% endcomment %}
-		{% comment %}   </div> {% endcomment %}
-		{% comment %}   <div class="col-sm-6"> {% endcomment %}
-		{% comment %}     {{ form.study_design|as_crispy_field}} {% endcomment %}
-		{% comment %}   </div> {% endcomment %}
-		{% comment %} </div> {% endcomment %}
-		{% comment %} <div class="row"> {% endcomment %}
-		{% comment %}   <div class="col-12"> {% endcomment %}
-		{% comment %}     [> To add Place holder: http://jsfiddle.net/developit/d5w4jpxq/ <] {% endcomment %}
-		{% comment %}     <input type="text" value="html,input,tag", placeholder="add...", data-role="tagsinput"></input> {% endcomment %}
-		{% comment %}   </div> {% endcomment %}
-		{% comment %} </div> {% endcomment %}
 
-
-
-    {% comment %} </div> {% endcomment %}
-    {% comment %} {{ form.job_title|as_crispy_field }} {% endcomment %}
-    {% comment %} {{ form.bio|as_crispy_field }} {% endcomment %}
-    <button type="submit" class="btn btn-success col">Search</button>
+    {% comment %} <button type="submit" class="btn col bg-mibio text-white">Search</button> {% endcomment %}
 	</form>
+
+
+
 	{% include "dashboard.html" %}
 	{% comment %}          [> https://getbootstrap.com/docs/4.1/components/forms/ <] {% endcomment %}
 	{% comment %}          <table> {% endcomment %}

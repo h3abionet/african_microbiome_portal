@@ -1,0 +1,10 @@
+{% extends 'mainLayout.html' %}
+
+{% block title%}Test{% endblock %}
+{% block content %}
+	{% if request.user.is_admin %}
+		You are an admin.
+	{% else %}
+		You are not admin.
+		{% endif %}
+	{% endblock %}
