@@ -11,7 +11,7 @@ dependencies:
   - ca-certificates=2019.3.9=hecc5488_0
   - cairo=1.16.0=ha4e643d_1000
   - certifi=2019.3.9=py37_0
-  - click-plugins=1.1.1=py_0
+  # - click-plugins=1.1.1=py_0
   - curl=7.64.0=h646f8bb_0
   - dbus=1.13.6=he372182_0
   - descartes=1.1.0=py_3
@@ -62,9 +62,9 @@ dependencies:
   - libxml2=2.9.9=h13577e0_0
   - lz4-c=1.8.3=he1b5a44_1001
   - mapclassify=2.0.1=py_0
-  - matplotlib=3.1.0=py37_1
-  - matplotlib-base=3.1.0=py37hfd891ef_1
-  - ncurses=6.1=he6710b0_1
+  # - matplotlib=3.1.0=py37_1
+  # - matplotlib-base=3.1.0=py37hfd891ef_1
+  # - ncurses=6.1=he6710b0_1
   - numpy=1.16.4=py37h95a1406_0
   - openjpeg=2.3.1=h58a6597_0
   - openssl=1.0.2r=h14c3975_0
@@ -79,7 +79,7 @@ dependencies:
   - proj4=5.2.0=he1b5a44_1003
   - pthread-stubs=0.4=h14c3975_1001
   - pyparsing=2.4.0=py_0
-  - pyqt=5.6.0=py37h13b7fb3_1008
+  # - pyqt=5.6.0=py37h13b7fb3_1008
   - python=3.7.0=h6e4f718_3
   - python-dateutil=2.8.0=py_0
   - pytz=2019.1=py_0
@@ -112,7 +112,7 @@ dependencies:
   - zstd=1.4.0=h3b9ef0a_0
   - pip:
     - backcall==0.1.0
-    - bokeh==1.2.0
+    # - bokeh==1.2.0
     - click==7.0
     - cligj==0.5.0
     - cycler==0.10.0
@@ -121,24 +121,26 @@ dependencies:
     - django-geojson==2.12.0
     - django-ide==0.0.5
     - django-leaflet==0.24.0
-    - django-neomodel==0.0.4
+    # - django-neomodel==0.0.4
     - django-nvd3==0.9.7
     - django-tables2==2.0.6
     - fiona==1.8.6
-    - ipython==7.5.0
-    - ipython-genutils==0.2.0
-    - jedi==0.13.3
+    # - ipython==7.5.0
+    # - ipython-genutils==0.2.0
+    # - jedi==0.13.3
     - jinja2==2.10.1
     - markupsafe==1.1.1
     - bootstrap-admin==0.4.3
+    - django-grappelli==2.13.1
+    - django-autocomplete-light==3.3.5
     - munch==2.3.2
-    - mypy==0.701
-    - mypy-extensions==0.4.1
-    - neo4j==1.7.4
-    - neo4j-driver==1.6.3
-    - neobolt==1.7.13
-    - neomodel==3.3.1
-    - neotime==1.7.4
+    # - mypy==0.701
+    # - mypy-extensions==0.4.1
+    # - neo4j==1.7.4
+    # - neo4j-driver==1.6.3
+    # - neobolt==1.7.13
+    # - neomodel==3.3.1
+    # - neotime==1.7.4
     - packaging==19.0
     - parso==0.4.0
     - pexpect==4.7.0

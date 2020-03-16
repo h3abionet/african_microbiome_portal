@@ -8,6 +8,7 @@
 # Export dependencies of the enviroment
 
 ```bash
+conda env export --no-builds > environment2.yml
 conda env export -n test-env -f test-env-spec.yml
 ```
 
