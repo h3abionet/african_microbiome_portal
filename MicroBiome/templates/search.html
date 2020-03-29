@@ -5,17 +5,14 @@
 {% comment %} {% block title %} {% endcomment %}
 {% comment %}   Welcome to the database {% endcomment %}
 {% comment %} {% endblock %} {% endcomment %}
-{% comment %}  {% endcomment %}
 {% block js %}
 
 	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
 	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
-	{% comment %} To Create Tag Fields: https://stackoverflow.com/questions/10839570/how-does-stackoverflow-make-its-tag-input-field {% endcomment %}
 	<script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 {% endblock %}
 
 {% block css%}
-	{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> {% endcomment %}
 	<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
 	<link rel="stylesheet" href="{% static 'css/search.css'%}">
 	<style>
@@ -23,22 +20,16 @@
   width: 100% !important;
 }
 </style>
-{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> {% endcomment %}
-{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/form.css' %}" /> {% endcomment %}
-{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/dropdown.css' %}" /> {% endcomment %}
 {% endblock %}
-{% comment %} https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html {% endcomment %}
 {% block content %}
 
 
   <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
 		<div class="row">
 			<div class="input-group py-0">
-    {% comment %} <input type="text" class="form-control" placeholder="Search this blog"> {% endcomment %}
 				<div class="col-11">
 					{{ form.tags|as_crispy_field}}
 				</div>
-			{% comment %} <i class="fa fa-search" style="font-size:5px;"></i> {% endcomment %}
 
 				<div class="input-group-append input-group-btn">
 					<button class="btn btn-secondary" type="submit">
@@ -47,27 +38,11 @@
 				</div>
 			</div>
 
-			{% comment %} <div class="col-12"> {% endcomment %}
-			{% comment %}   {{ form.tags|as_crispy_field}} {% endcomment %}
-			{% comment %} </div> {% endcomment %}
 		</div>
 
-    {% comment %} <button type="submit" class="btn col bg-mibio text-white">Search</button> {% endcomment %}
 	</form>
 
 
 
 	{% include "dashboard.html" %}
-	{% comment %}          [> https://getbootstrap.com/docs/4.1/components/forms/ <] {% endcomment %}
-	{% comment %}          <table> {% endcomment %}
-	{% comment %}            <tr><td>Country</td><td>Source</td></tr> {% endcomment %}
-	{% comment %}            <tr><td>{{form.country}}</td><td>{{form.isolation_source}}</td></tr> {% endcomment %}
-	{% comment %}          </table> {% endcomment %}
-	{% comment %}      [> {{form.as_p}} <] {% endcomment %}
-	{% comment %}      [> {{form.as_p}} <] {% endcomment %}
-	{% comment %}      [> {{form.as_ul}} <] {% endcomment %}
-  {% comment %}      <!--TODO: Learn to make form auto arrange based on the number of inputs--> {% endcomment %}
-  {% comment %}     <button type="Submit" name="Submit">Submit</button> {% endcomment %}
-  {% comment %}    </form> {% endcomment %}
-  {% comment %}  {% endcomment %}
-{% endblock %}
+	{% endblock %}
