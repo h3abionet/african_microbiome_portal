@@ -34,20 +34,15 @@ https://stackoverflow.com/questions/29508958/how-to-embed-standalone-bokeh-graph
 https://github.com/apache/incubator-superset
 
 
+
 # TODOs
-
-- Use GeoDjango for display samples location on the map
-
-# Resizing div area
-https://www.w3schools.com/cssref/css3_pr_resize.asp
-
-
-# Configurations for ReactJS
-
-- https://www.tutorialspoint.com/reactjs/reactjs_environment_setup.htm
-
-# Configurations for CoffeeScripts
-
-# Pagination
-
-- Done using [Paginator](https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html)
+- [ ] Update dependencies for installation - Anmol
+- [ ] Create docker - Anmol
+- [ ] Add footers. - Micheal
+- [ ] Fix orientation of dashboard - Micheal
+- [ ] Fix orientations of data test page -  Alfred
+	- Highlight data already existing data in the database
+- [ ] Add map in data test page -- Anmol
+- [ ] Accordion help page -- Anmol
+- [ ] Beautify file upload page - Anmol
+- [ ] Back-end error correction and optimisation -- Anmol
