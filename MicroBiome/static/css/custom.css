@@ -10,7 +10,10 @@
     margin-left: 50px;
 }
 
-
+.container {
+  margin-top: 40px;
+  flex: 1 0 auto;
+}
 /* body { */
 /*     padding-top: 200px; /* Whatever the height of your navbar is; the */
 /*                              default is 50px */ */
@@ -1490,4 +1493,29 @@ div#klixoSlider_166 div.textContent {
 
 .node_page .sppb-carousel-inner>.sppb-item {
     padding: 60px 10px;
+}
+
+
+.page-footer{
+  background-color: #B83F0D;
+  color: #ffffff;
+  position:initial;
+  bottom:0;
+  width:100%;
+  height:160px;
+  padding: 20px 0px 0px 100px;
+  flex-shrink: 0;
+  margin-top: 30px;
+  font-size: 0.8em;
+}
+.col .footer-link {
+  color: #fff;
+}
+.page-footer a {
+  color: #fff;
+}
+.page-footer .container-fluid, .page-footer .row {
+  width: 100%;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
