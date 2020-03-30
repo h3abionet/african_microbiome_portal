@@ -120,9 +120,20 @@
 		},
 		subtitle: {
 				text: ''
-		},tooltip: {
+		},
+		/*tooltip: {
 			pointFormat: '<a href="https://www.google.com">test</a>:{point.percentage:.1f}'
 				{% comment %} pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {% endcomment %}
+		}, */
+		tooltip: {
+		  useHTML: true,
+		  style: {
+		    padding: 0,
+		    pointerEvents: 'auto'
+		  },
+		  formatter: function() {
+		    return '<a href="http://google.com">Clickable link</a>: {point.percentage:.1f}'
+		  }
 		},
 		plotOptions: {
 				pie: {
@@ -213,7 +224,18 @@
 				text: 'Number of studies'
 						}
 		},
-		tooltip: {},
+		//tooltip: {},
+		tooltip: {
+		  useHTML: true,
+		  style: {
+		    padding: 0,
+		    pointerEvents: 'auto'
+		  },
+		  formatter: function() {
+		    return '<a href="http://google.com">Clickable link</a>'
+		  }
+		},
+		
 		plotOptions: {
 						column: {
 				pointPadding: 0.2,
@@ -256,9 +278,21 @@
 		},
 		subtitle: {
 				text: ''
-		},tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 		},
+		/*tooltip: {
+				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},*/
+		tooltip: {
+		  useHTML: true,
+		  style: {
+		    padding: 0,
+		    pointerEvents: 'auto'
+		  },
+		  formatter: function() {
+		    return '<a href="http://google.com">{series.name}</a>: {point.percentage:.1f}'
+		  }
+		},
+
 		plotOptions: {
 				pie: {
 						allowPointSelect: true,
