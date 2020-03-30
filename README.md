@@ -46,3 +46,4 @@ https://github.com/apache/incubator-superset
 - [ ] Accordion help page -- Anmol
 - [ ] Beautify file upload page - Anmol
 - [ ] Back-end error correction and optimisation -- Anmol
+- [ ] There is also no link to the corresponding study (pubmed)
