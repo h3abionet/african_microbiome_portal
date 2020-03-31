@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'tags_input',
     'django_tables2',
     "taggit",
+    'widget_tweaks',
     #  'djide',
     #  'rooms',
 ]

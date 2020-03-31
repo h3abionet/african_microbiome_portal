@@ -1,4 +1,5 @@
-.bg-mibio{ background-color: #B83F0D; }
+.bg-mibio{ background-color: #5AA1E3; }
+/* .bg-mibio{ background-color: #B83F0D; } */
 #logo {
 		position: absolute;
 		/* display:flex; */
@@ -850,7 +851,8 @@ a#scroll-top.open {
 }
 
 .top_helpdesk {
-  background-color: #e44f3d;
+  background-color: #123456;
+  /* background-color: #e44f3d; */
   color: #ffffff;
   font-weight: normal;
   border-radius: 0 0 0 5px;

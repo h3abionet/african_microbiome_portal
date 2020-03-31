@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title></title>
+		{% block title %}{% endblock %}
 		{% block js_top %}
 		{% endblock %}
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -32,7 +32,7 @@
 							<a class="nav-link text-white" href="/microbiome/search/">Search</a>
 						</li>
 						{% comment %} <li class="nav-item ml-auto py-0"> {% endcomment %}
-						{% comment %}   <a class="nav-link text-white" href="/microbiome/summary/">Summary</a> {% endcomment %}
+							<a class="nav-link text-white" href="/microbiome/upload/">Data Validation</a>
 						{% comment %} </li> {% endcomment %}
 						<li class="nav-item ml-auto py-0">
 							<a class="nav-link text-white" href="/microbiome/contributor/">Contributor</a>

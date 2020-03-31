@@ -1,15 +1,31 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
+from django.urls import reverse
 
 from .models import Project
 
 
 class Upload(forms.Form):
     infile = forms.FileField()
-    separator = forms.ChoiceField(choices=((" ", "Space"),
-                                            ("\t", "Tab"),
-                                            (",", "Comma"),
-                                            (";", "Semi-Comma")))
+    separator = forms.ChoiceField(choices=(("", "Choose ...."),
+                                           (" ", "Space"),
+                                           ("\t", "Tab"),
+                                           (",", "Comma"),
+                                           (";", "Semi-Comma")))
 
+    def __init__(self, *args, **kwargs):
+        super(Upload, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_action = reverse("upload")
+        self.helper.method = "POST"
+        #  self.fields["infile"].label = False
+        #  self.helper.form_show_labels = False
+        #  selff.helper.layout = Layout(
+        #      Row(Column('infile', css_class='form-group col-md-4 mb-0'),
+        #          Column('separator', css_class='form-group col-md-4 mb-0')
+        #          )
+        #  )
 
 
 class PostForm(forms.ModelForm):
@@ -17,14 +33,17 @@ class PostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
         self.fields['tags'].label = ''
+
     class Meta:
         model = Project
         #  fields = ("country",)
         #  fields = ("country", "platform", "disease", "study_design")
         fields = ('tags',)
         widgets = {
-                'tags': forms.TextInput(attrs={'data-role': 'tagsinput',
-                    'placeholder':"Add your search keywords"})
+            'tags': forms.TextInput(attrs={  # 'data-role': 'tagsinput',
+                #  'class':'form-control',
+                'type': 'text',
+                'placeholder': "Add your search keywords"})
         }
         error_css_class = 'error'
         required_css_class = 'bold'

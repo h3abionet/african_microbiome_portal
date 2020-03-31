@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html>
-        <head>
-                <meta charset="UTF-8" />
-                <meta name="viewport" content="width=device-width" />
-                <title>Uploads</title>
-
-        </head>
-        <body>
+{% extends "mainLayout.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
         <!-- https://code.djangoproject.com/wiki/NewbieMistakes  -->
-                <form action="/microbiome/upload/" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                        {{form}}
-                        <button type="submit">Upload</button>
+				{% comment %} {{crispy form}} {% endcomment %}
+                <form action="/microbiome/upload/" method="POST" enctype="multipart/form-data" class="md-form my-3">{% csrf_token %}
+									<div class="container">
+										<div class="row">
+											<div class="col">{{form.infile|as_crispy_field}}</div>
+										</div>
+										<div class="row">
+											<div class="col"><div class="dropdown">{{form.separator|as_crispy_field}}</div></div>
+										</div>
+										<div class="row">
+
+											<button type="submit" class="btn btn-primary btn-block">UPLOAD</button>
+										</div>
+									</div>
+													{% comment %} {{form.infile|as_crispy_field}} {% endcomment %}
+                        {% comment %} <button type="submit">Upload</button> {% endcomment %}
                 </form>
-        </body>
-</html>
+{% endblock %}

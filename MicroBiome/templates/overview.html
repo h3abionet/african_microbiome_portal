@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-        <head>
-                <meta charset="UTF-8" />
-                 <meta name="viewport" content="width=device-width" />
-                <title>Overview</title>
-                <style>
+{% extends 'mainLayout.html'%}
+{% load leaflet_tags %}
+{% load static %}
+{% block title %}Overview{% endblock %}
+{% block css %}
+<style>
 * {box-sizing: border-box}
 
 /* Style the tab */
@@ -50,6 +49,42 @@
   height: 300px;
 }
                 </style>
+
+
+
+<style>
+.leaflet-container {  /* all maps */
+                width:  100%;
+                height: 120px;
+}
+/* Resize the "display_raw" textbox */
+.django-leaflet-raw-textarea {
+                width: 100%;
+}
+
+<link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />
+
+
+.item {
+        color: white;
+        padding: 0.5em 0;
+        font-size: 2em;
+}
+
+.map_div {
+        grid-area: map_div;
+}
+
+</style>
+
+
+
+
+
+{% endblock %}
+
+{% block js_top%}
+	{% leaflet_js %}
                 <script>
 function openCity(evt, cityName) {
   var i, tabcontent, tablinks;
@@ -68,13 +103,12 @@ function openCity(evt, cityName) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
                 </script>
-        </head>
-        <body>
+	{% endblock %}
+
+	{% block content %}
                  <div class="tab">
                          {% for key,val in results.items %}
         <button class="tablinks" onclick="openCity(event, '{{key}}')">{{key}}</button>
-  <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button> -->
-  <!-- <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
         {% endfor %}
 </div>
 
@@ -82,14 +116,48 @@ document.getElementById("defaultOpen").click();
 <!-- Need to merge country and coordinates -->
 <div id="{{key}}" class="tabcontent">
         <!-- {{val}} -->
+				{% if key == "LON LAT" %}
+					 <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+					{% leaflet_map "mapd" callback="map_init" %}
+					 </div>
+            </div>
+                                </div>
+                 </div>
+
+        </div>
+
+					<p>Anmol</p>
+					<script type="text/javascript">
+						function map_init(map, options){
+					{% for res in val %}
+					var coord = "{{ res }}";
+					var lon_lat = coord.split(',');
+					if (lon_lat.length == 2){
+							 var lon = lon_lat[1];
+							var lat = lon_lat[0];
+              var marker = L.marker([lat, lon]);
+						var list = ""
+						marker.bindPopup(list).addTo(map);
+					}
+
+						{% endfor %}
+						 map.setView([-0.6605788, 14.8965794], 2);
+
+
+						}
+					</script>
+				{% else %}
         <ul>
         {% for res in val %}
         <li>{{res}}</li>
         <!-- Add to show if it new in the database -->
         {% endfor %}
         </ul>
+				{% endif %}
 </div>
 {% endfor %}
 
-        </body>
-</html>
+{% endblock %}

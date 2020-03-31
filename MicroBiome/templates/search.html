@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% load bootstrap4 %}
 {% load static %}
+{% load widget_tweaks %}
 {% comment %} {% block title %} {% endcomment %}
 {% comment %}   Welcome to the database {% endcomment %}
 {% comment %} {% endblock %} {% endcomment %}
@@ -22,25 +23,42 @@
 </style>
 {% endblock %}
 {% block content %}
+	<br />
+	<br />
+	<br />
 
 
   <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
-		<div class="row">
-			<div class="input-group py-0">
-				<div class="col-11">
-					{{ form.tags|as_crispy_field}}
-				</div>
 
-				<div class="input-group-append input-group-btn">
-					<button class="btn btn-secondary" type="submit">
-						<i class="fa fa-search"></i>
-					</button>
-				</div>
-			</div>
-
+		<div class="input-group">
+								{% comment %} <input type="text" class="form-control" placeholder="Search this blog"> {% endcomment %}
+					{{ form.tags|add_class:"form-control"}}
+					{% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
 		</div>
 
+		{% comment %} <div class="row"> {% endcomment %}
+		{% comment %}   <div class="input-group py-1"> {% endcomment %}
+		{% comment %}     <div class="col-11"> {% endcomment %}
+		{% comment %}     </div> {% endcomment %}
+    {% comment %}  {% endcomment %}
+		{% comment %}     <div class="input-group-append input-group-btn"> {% endcomment %}
+		{% comment %}       <button class="btn btn-secondary" type="submit"> {% endcomment %}
+		{% comment %}         <i class="fa fa-search fa-lg"></i> {% endcomment %}
+		{% comment %}       </button> {% endcomment %}
+		{% comment %}     </div> {% endcomment %}
+		{% comment %}   </div> {% endcomment %}
+    {% comment %}  {% endcomment %}
+		{% comment %} </div> {% endcomment %}
+
 	</form>
+	<br />
+	<br />
+	<br />
 
 
 
