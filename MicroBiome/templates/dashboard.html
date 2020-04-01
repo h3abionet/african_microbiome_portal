@@ -48,9 +48,9 @@
 {% comment %} https://medium.com/wdstack/bootstrap-4-chart-js-39006427f08f {% endcomment %}
 {% comment %} TODO: Need to change it to mobile friendly {% endcomment %}
 {% comment %} <div class="container"> {% endcomment %}
+	<div class="card mt-4 text-center"><H1>PORTAL DATA OVERVIEW</H1></div>
+	<br />
 
-<div class="card mt-4 text-center"><H1>PORTAL DATA OVERVIEW</H1></div>
-<br />
 	<div class="container">
     <div class="row">
         <div class="col-sm-6 pr-0">
@@ -118,25 +118,19 @@
 				}
 		},
 		title: {
-				text: 'Studies by bodysite'
+				text: 'Studies by Body Site'
 		},
 		subtitle: {
 				text: ''
-		},
-		/*tooltip: {
-			pointFormat: '<a href="https://www.google.com">test</a>:{point.percentage:.1f}'
-				{% comment %} pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {% endcomment %}
-		}, */
-		tooltip: {
-		  hideDelay: 1000000,
-		  useHTML: true,
-		  style: {
-		    padding: 0,
-		    pointerEvents: 'auto'
-		  },
-		  formatter: function() {
-		    return '<a href="http://google.com">Clickable link</a>: {point.percentage:.1f}'
-		  }
+		},tooltip: {
+			hideDelay:10000,
+			useHTML:true,
+			style: {
+              padding: 0,
+              pointerEvents: 'auto'
+              },
+
+			pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>'
 		},
 		plotOptions: {
 				pie: {
@@ -171,7 +165,7 @@
 					type: 'column'
 	},
 	title: {
-					text: 'Studies by assay type'
+					text: 'Studies by Assay Type'
 	},
 	xAxis: {
 					categories:xdata_assay,
@@ -180,7 +174,7 @@
 	yAxis: {
 					min: 0,
 					title: {
-			text: 'Number of samples'
+			text: 'Number of Samples'
 					}
 	},
 	tooltip: {},
@@ -215,7 +209,7 @@
 						type: 'column'
 		},
 		title: {
-						text: 'Studies by disease/condition'
+						text: 'Studies by Disease/Condition'
 		},
 		xAxis: {
 						categories:xdata_disease,
@@ -224,22 +218,18 @@
 		yAxis: {
 						min: 0,
 						title: {
-				text: 'Number of studies'
+				text: 'Number of Studies'
 						}
 		},
-		//tooltip: {},
-		tooltip: {
-		  hideDelay: 1000000,
-		  useHTML: true,
-		  style: {
-		    padding: 0,
-		    pointerEvents: 'auto'
-		  },
-		  formatter: function() {
-		    return '<a href="http://google.com">Clickable link</a>'
-		  }
-		},
-
+	 tooltip: {
+								hideDelay: 10000,
+								useHTML: true,
+								style: {
+									padding: 0,
+									pointerEvents: 'auto'
+								},
+	 pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>',
+							},
 		plotOptions: {
 						column: {
 				pointPadding: 0.2,
@@ -278,26 +268,23 @@
 				}
 		},
 		title: {
-				text: 'Studies by Sequencing platform'
+				text: 'Studies by Sequencing Platform'
 		},
 		subtitle: {
 				text: ''
 		},
-		/*tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-		},*/
-		tooltip: {
-		  hideDelay: 1000000,
-		  useHTML: true,
-		  style: {
-		    padding: 0,
-		    pointerEvents: 'auto'
-		  },
-		  formatter: function() {
-		    return '<a href="http://google.com">{series.name}</a>: {point.percentage:.1f}'
-		  }
-		},
-
+		{% comment %}   tooltip: { {% endcomment %}
+		{% comment %}     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {% endcomment %}
+		{% comment %} }, {% endcomment %}
+			tooltip: {
+                  hideDelay: 10000,
+                  useHTML: true,
+                  style: {
+                    padding: 0,
+                    pointerEvents: 'auto'
+                  },
+     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',
+                },
 		plotOptions: {
 				pie: {
 						allowPointSelect: true,
