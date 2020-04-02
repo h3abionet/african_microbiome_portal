@@ -203,6 +203,11 @@
 <script>
 		xdata_disease = {{xdata_disease|safe}};
 		ydata_disease = {{ydata_disease|safe}};
+		
+		var ydata_disease_sum=0;
+		for (var i=0; i<ydata_disease.length; i++){
+			ydata_disease_sum+=ydata_disease[i] 
+		}		
 
 		Highcharts.chart('disease', {
 		chart: {
@@ -228,7 +233,12 @@
 									padding: 0,
 									pointerEvents: 'auto'
 								},
-	 pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>',
+	formatter:function(){	
+		var pcnt = (this.y/ydata_disease_sum)*100;
+		pcnt=Highcharts.numberFormat(pcnt)+'%';
+		return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+	}
+	/* pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>' */
 							},
 		plotOptions: {
 						column: {
