@@ -159,7 +159,11 @@
 <script>
 	xdata_assay = {{xdata_assay|safe}};
 	ydata_assay = {{ydata_assay|safe}};
-
+	
+	var ydata_assay_sum=0;
+	for (var i=0; i<ydata_assay.length; i++){
+		ydata_assay_sum+=ydata_assay[i] 
+	}
 	Highcharts.chart('assay_type', {
 	chart: {
 					type: 'column'
@@ -177,7 +181,18 @@
 			text: 'Number of Samples'
 					}
 	},
-	tooltip: {},
+	tooltip: {
+		hideDelay: 10000,
+		useHTML: true,
+		style: {
+			padding: 0,
+			pointerEvents: 'auto'
+		},
+		formatter:function(){	
+			var pcnt = (this.y/ydata_assay_sum)*100;
+			pcnt=Highcharts.numberFormat(pcnt)+'%';
+			return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+	},	
 	plotOptions: {
 					column: {
 			pointPadding: 0.2,
@@ -227,12 +242,12 @@
 						}
 		},
 	 tooltip: {
-								hideDelay: 10000,
-								useHTML: true,
-								style: {
-									padding: 0,
-									pointerEvents: 'auto'
-								},
+		hideDelay: 10000,
+		useHTML: true,
+		style: {
+			padding: 0,
+			pointerEvents: 'auto'
+		},
 	formatter:function(){	
 		var pcnt = (this.y/ydata_disease_sum)*100;
 		pcnt=Highcharts.numberFormat(pcnt)+'%';
