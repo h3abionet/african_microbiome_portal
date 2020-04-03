@@ -105,6 +105,7 @@
 
 <script>
 		site_pie_dict = {{site_pie_dict|safe}};
+		
 		{% comment %} TODO: Need to integrate link from server side. as https://stackoverflow.com/questions/16176390/highcharts-provide-urls-for-series-data-to-open-clickable-link {% endcomment %}
 		Highcharts.chart('body_site', {
 				chart: {
@@ -126,11 +127,15 @@
 			hideDelay:10000,
 			useHTML:true,
 			style: {
-              padding: 0,
-              pointerEvents: 'auto'
-              },
-
-			pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>'
+              			padding: 0,
+              			pointerEvents: 'auto'
+              		},
+			formatter:function(){
+                       		var pcnt = this.point.percentage;
+                        	pcnt=Highcharts.numberFormat(pcnt)+'%';
+                        	return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
+			}
+		/*pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>' */
 		},
 		plotOptions: {
 				pie: {
@@ -192,6 +197,8 @@
 			var pcnt = (this.y/ydata_assay_sum)*100;
 			pcnt=Highcharts.numberFormat(pcnt)+'%';
 			return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+	
+		}
 	},	
 	plotOptions: {
 					column: {
@@ -308,7 +315,14 @@
                     padding: 0,
                     pointerEvents: 'auto'
                   },
-     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
                 },
 		plotOptions: {
 				pie: {
