@@ -105,6 +105,7 @@
 
 <script>
 		site_pie_dict = {{site_pie_dict|safe}};
+		
 		{% comment %} TODO: Need to integrate link from server side. as https://stackoverflow.com/questions/16176390/highcharts-provide-urls-for-series-data-to-open-clickable-link {% endcomment %}
 		Highcharts.chart('body_site', {
 				chart: {
@@ -126,11 +127,15 @@
 			hideDelay:10000,
 			useHTML:true,
 			style: {
-              padding: 0,
-              pointerEvents: 'auto'
-              },
-
-			pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>'
+              			padding: 0,
+              			pointerEvents: 'auto'
+              		},
+			formatter:function(){
+                       		var pcnt = this.point.percentage;
+                        	pcnt=Highcharts.numberFormat(pcnt)+'%';
+                        	return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
+			}
+		/*pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>' */
 		},
 		plotOptions: {
 				pie: {
@@ -159,7 +164,11 @@
 <script>
 	xdata_assay = {{xdata_assay|safe}};
 	ydata_assay = {{ydata_assay|safe}};
-
+	
+	var ydata_assay_sum=0;
+	for (var i=0; i<ydata_assay.length; i++){
+		ydata_assay_sum+=ydata_assay[i] 
+	}
 	Highcharts.chart('assay_type', {
 	chart: {
 					type: 'column'
@@ -177,7 +186,20 @@
 			text: 'Number of Samples'
 					}
 	},
-	tooltip: {},
+	tooltip: {
+		hideDelay: 10000,
+		useHTML: true,
+		style: {
+			padding: 0,
+			pointerEvents: 'auto'
+		},
+		formatter:function(){	
+			var pcnt = (this.y/ydata_assay_sum)*100;
+			pcnt=Highcharts.numberFormat(pcnt)+'%';
+			return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+	
+		}
+	},	
 	plotOptions: {
 					column: {
 			pointPadding: 0.2,
@@ -203,6 +225,11 @@
 <script>
 		xdata_disease = {{xdata_disease|safe}};
 		ydata_disease = {{ydata_disease|safe}};
+		
+		var ydata_disease_sum=0;
+		for (var i=0; i<ydata_disease.length; i++){
+			ydata_disease_sum+=ydata_disease[i] 
+		}		
 
 		Highcharts.chart('disease', {
 		chart: {
@@ -222,13 +249,18 @@
 						}
 		},
 	 tooltip: {
-								hideDelay: 10000,
-								useHTML: true,
-								style: {
-									padding: 0,
-									pointerEvents: 'auto'
-								},
-	 pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>',
+		hideDelay: 10000,
+		useHTML: true,
+		style: {
+			padding: 0,
+			pointerEvents: 'auto'
+		},
+	formatter:function(){	
+		var pcnt = (this.y/ydata_disease_sum)*100;
+		pcnt=Highcharts.numberFormat(pcnt)+'%';
+		return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+	}
+	/* pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>' */
 							},
 		plotOptions: {
 						column: {
@@ -283,7 +315,14 @@
                     padding: 0,
                     pointerEvents: 'auto'
                   },
-     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
                 },
 		plotOptions: {
 				pie: {
