@@ -36,14 +36,14 @@ https://github.com/apache/incubator-superset
 
 
 # TODOs
-- [ ] Update dependencies for installation - Anmol
+- [x] Update dependencies for installation - Anmol
 - [ ] Create docker - Anmol
-- [ ] Add footers. - Micheal
-- [ ] Fix orientation of dashboard - Micheal
+- [x] Add footers. - Micheal
+- [x] Fix orientation of dashboard - Micheal
 - [ ] Fix orientations of data test page -  Alfred
 	- Highlight data already existing data in the database
 - [ ] Add map in data test page -- Anmol
-- [ ] Accordion help page -- Anmol
-- [ ] Beautify file upload page - Anmol
+- [x] Accordion help page -- Anmol
+- [x] Beautify file upload page - Anmol
 - [ ] Back-end error correction and optimisation -- Anmol
 - [ ] There is also no link to the corresponding study (pubmed)
