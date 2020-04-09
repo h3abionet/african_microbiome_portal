@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 		<link rel="stylesheet" href="{% static "css/custom.css" %}">
+
 		{% block css %}
 		{% endblock %}
 	</head>
@@ -54,7 +55,6 @@
 			{% block content %}
 			{% endblock %}
 
-
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -62,12 +62,51 @@
     <script>
     $("#post-form").submit(function(e){
         e.preventDefault();
-        });</script>
+        });
+    </script>
 		{% block js%}
 		{% endblock %}
 		{% block content2 %}
 		{% endblock %}
+	</div>
+	<div><p></div>
+<!-- Footer -->
+	<div class="page-footer">
+		<!-- Footer Links -->
+		<div class="container-fluid text-center text-md-left">
+			<div class="row">
+				<div class="col-md-3">
+					<p>H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number U41HG006941</p>
+				</div>
+				<div class="col-md-2"><img src="{% static "img/NHGRI-logo_footer.png" %}" class="img-responsive"></div>
+				<div class="col-md-2"><img src="{% static "img/NIH-logo_footer.png" %}" class="img-responsive"></div>
+				<div class="col-md-2"><a href="https://h3africa.org/"><img src="{% static "img/h3africa-_partner.png" %}" class="img-responsive"></a></div>
+				<!-- <div class="col-md-2"><img src="{% static "img/idm_uct_logo.png" %}" class="img-responsive"></div> -->
+				<div class="col-md-2" style="font-size: 22px;">
+					<a target="_blank" href="https://www.facebook.com/H3ABioNet" style="padding: 5px;"><i class="fab fa-facebook-square icon-large"></i></a>
+					<a target="_blank" href="https://twitter.com/H3ABioNet" style="padding: 5px;"><i class="fab fa-twitter-square"></i></a>
+					<a target="_blank" href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw" style="padding: 5px;"><i class="fab fa-youtube-square"></i></a>
+				</div>
+			</div>
 		</div>
-
+		<div class="row">
+			<div class="col-md-3">
+				<p> © {% now "Y" %} Copyright:<a href="https://h3abionet.org/"> H3ABioNet</a></p>
+			</div>
+			<div class="col-md-2">
+				<a href="https://helpdesk.h3abionet.org/"> Helpdesk</a>
+			</div>
+			<div class="col-md-2">
+				<a href="#">Github Repository</a>
+			</div>
+			<div class="col-md-2">
+				<a href="/disclaimer">Disclaimer</a>
+			</div>
+			<div class="col-md-2">
+				<a target="_blank" href="https://h3abionet.org/">H3ABioNet</a>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
 </body>
 </html>
