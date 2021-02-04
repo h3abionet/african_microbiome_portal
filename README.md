@@ -93,3 +93,4 @@ https://github.com/apache/incubator-superset
 - [ ] Beautify file upload page - Anmol
 - [ ] Back-end error correction and optimisation -- Anmol
 - [ ] Cleaning of new datasets
+- [ ] Logo for the portal
