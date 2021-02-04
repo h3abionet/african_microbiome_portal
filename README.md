@@ -6,7 +6,7 @@ H3Africa initiative to provide a centralized repository for microbiome metadata 
 - [About](#about)
 - [Technology](#technology)
 - [Setting up the system](#setting)
-- [ToDos](#todo)
+- [TODOs](#todo)
 
 <a name="about"/>
 
