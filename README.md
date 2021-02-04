@@ -9,6 +9,7 @@ H3Africa initiative to provide a centralized repository for microbiome metadata 
 - [ToDos](#todo)
 
 <a name="about"/>
+
 ## About
 
 The African microbiome portal (AMP) is in development under H3Africa initiative to provide a centralized repository for microbiome metadata associated with African populations, with following aims:
@@ -20,6 +21,7 @@ The African microbiome portal (AMP) is in development under H3Africa initiative 
 
 
 <a name="technology" />
+
 ## Technology
 
 This project is created with :
@@ -84,6 +86,7 @@ https://github.com/apache/incubator-superset
 
 -->
 <a name="todo"/>
+
 ## TODOs
 - [ ] Create docker setting - Anmol
 - [ ] Beautify file upload page - Anmol
