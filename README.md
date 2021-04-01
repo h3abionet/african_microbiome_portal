@@ -41,7 +41,7 @@ This project is created with :
 
 ## Setting up the system
 
-The current code has onlt tested in Linux enviroment.
+The current code has only tested in Linux enviroment.
 
 ### Steps for Virtual Enviroment
 
