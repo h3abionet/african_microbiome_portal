@@ -6,7 +6,7 @@ H3Africa initiative to provide a centralized repository for microbiome metadata 
 - [About](#about)
 - [Technology](#technology)
 - [Setting up the system](#setting)
-- [TODOs](#todo)
+<!- [TODOs](#todo) -->
 
 <a name="about"/>
 
@@ -85,7 +85,6 @@ https://stackoverflow.com/questions/29508958/how-to-embed-standalone-bokeh-graph
 # Automated data visualisation
 https://github.com/apache/incubator-superset
 
--->
 <a name="todo"/>
 
 ## TODOs
@@ -94,3 +93,5 @@ https://github.com/apache/incubator-superset
 - [ ] Back-end error correction and optimisation -- Anmol
 - [ ] Cleaning of new datasets
 - [ ] Logo for the portal
+-->
+
