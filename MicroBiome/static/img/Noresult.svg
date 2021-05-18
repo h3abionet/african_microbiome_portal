@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   sodipodi:docname="Noresult.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="780.34699"
+     inkscape:cy="715.57406"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g842"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1513"
+     inkscape:window-height="1199"
+     inkscape:window-x="521"
+     inkscape:window-y="127"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g842"
+       transform="matrix(1.117674,0,0,1.117674,-7.5662601,-9.9840862)">
+      <g
+         id="g865"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300">
+        <circle
+           style="fill:#ff0000;fill-opacity:0.517759;stroke:none;stroke-width:0.414914;paint-order:stroke markers fill"
+           id="path10"
+           cx="127.16326"
+           cy="147.71008"
+           r="62.864758" />
+        <text
+           xml:space="preserve"
+           style="font-size:16.9333px;line-height:0;font-family:sans-serif;stroke-width:0.264583"
+           x="77.582924"
+           y="154.02286"
+           id="text837"><tspan
+             sodipodi:role="line"
+             id="tspan835"
+             x="77.582924"
+             y="154.02286"
+             style="font-weight:bold;font-size:16.9333px;fill:#fff4f4;fill-opacity:1;stroke-width:0.264583">No Result!</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

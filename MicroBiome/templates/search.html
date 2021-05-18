@@ -1,67 +1,42 @@
-{% extends "mainLayout.html" %}
-{% block title %}Search{% endblock %}
-{% load crispy_forms_tags %}
-{% load bootstrap4 %}
-{% load static %}
-{% load widget_tweaks %}
-{% comment %} {% block title %} {% endcomment %}
-{% comment %}   Welcome to the database {% endcomment %}
-{% comment %} {% endblock %} {% endcomment %}
-{% block js %}
+{% extends "mainLayout.html" %} {% block title %}Search{% endblock %} {% load crispy_forms_tags %} {% load bootstrap4 %} {% load static %} {% load widget_tweaks %} {% block js %}
 
-	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
-	<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
-	<script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-{% endblock %}
-
-{% block css%}
-	<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-	<link rel="stylesheet" href="{% static 'css/search.css'%}">
-	<style>
-.bootstrap-tagsinput {
-  width: 100% !important;
-}
+<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+<script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+{% endblock %} {% block css%}
+<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="{% static 'css/search.css'%}">
+<style>
+    .bootstrap-tagsinput {
+        width: 100% !important;
+    }
 </style>
-{% endblock %}
-{% block content %}
-	<br />
-	<br />
-	<br />
+{% endblock %} {% block content %}
+<br />
+<br />
+<br />
 
 
-  <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
+<form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
 
-		<div class="input-group">
-								{% comment %} <input type="text" class="form-control" placeholder="Search this blog"> {% endcomment %}
-					{{ form.tags|add_class:"form-control"}}
-					{% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">
+    <div class="input-group">
+        {% comment %} <input type="text" class="form-control" placeholder="Search this blog"> {% endcomment %} {{ form.tags|add_class:"form-control"}} {% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
                         <i class="fa fa-search"></i>
                     </button>
-                </div>
-		</div>
-
-		{% comment %} <div class="row"> {% endcomment %}
-		{% comment %}   <div class="input-group py-1"> {% endcomment %}
-		{% comment %}     <div class="col-11"> {% endcomment %}
-		{% comment %}     </div> {% endcomment %}
-    {% comment %}  {% endcomment %}
-		{% comment %}     <div class="input-group-append input-group-btn"> {% endcomment %}
-		{% comment %}       <button class="btn btn-secondary" type="submit"> {% endcomment %}
-		{% comment %}         <i class="fa fa-search fa-lg"></i> {% endcomment %}
-		{% comment %}       </button> {% endcomment %}
-		{% comment %}     </div> {% endcomment %}
-		{% comment %}   </div> {% endcomment %}
-    {% comment %}  {% endcomment %}
-		{% comment %} </div> {% endcomment %}
-
-	</form>
-	<br />
-	<br />
-	<br />
+        </div>
+    </div>
 
 
+</form>
+<!-- <H3>SEARCH</H3>
+{% csrf_token %}
+<param id="test" value="100 ">
+<input type='text' id='search' name="search " />
+<div id="results"></div> -->
 
-	{% include "dashboard.html" %}
-	{% endblock %}
+
+<br />
+<br />
+<br /> {% include "dashboard.html" %} {% endblock %}

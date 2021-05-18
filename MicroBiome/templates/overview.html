@@ -62,7 +62,32 @@
                 width: 100%;
 }
 
-<link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />
+{% comment %} <link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" /> {% endcomment %}
+{% comment %} ul.no-bullets { {% endcomment %}
+{% comment %}   list-style-type: none; {% endcomment %}
+{% comment %}   margin: 0; {% endcomment %}
+{% comment %}   padding: 0; {% endcomment %}
+{% comment %} } {% endcomment %}
+
+ul.striped-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    {% comment %} max-width: 200px; {% endcomment %}
+}
+ul.striped-list > li {
+    border-bottom: 1px solid rgb(221,221,221);
+    padding: 6px;
+}
+ul.striped-list > li:nth-of-type(odd) {
+    background-color: #337ab7;
+}
+ul.striped-list > li:last-child {
+    border-bottom: none;
+}
+
+
+
 
 
 .item {
@@ -121,13 +146,12 @@ document.getElementById("defaultOpen").click();
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-					{% leaflet_map "mapd" callback="map_init" %}
+					{% comment %} {% leaflet_map "mapd" callback="map_init" %} {% endcomment %}
 					 </div>
             </div>
                                 </div>
                  </div>
 
-        </div>
 
 					<p>Anmol</p>
 					<script type="text/javascript">
@@ -150,12 +174,18 @@ document.getElementById("defaultOpen").click();
 						}
 					</script>
 				{% else %}
-        <ul>
+					<div class="row">
+					<div class="col-12">
+					<div class="card">
+        <ul class="striped-list">
         {% for res in val %}
         <li>{{res}}</li>
         <!-- Add to show if it new in the database -->
         {% endfor %}
         </ul>
+					</div>
+					</div>
+					</div>
 				{% endif %}
 </div>
 {% endfor %}

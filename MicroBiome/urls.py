@@ -1,15 +1,17 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from . import views
+from . import views, live_search
 
 urlpatterns = [
-    path('', views.front_main, name="index"),
+    #  path('', views.front_main, name="index"),
     # Code controlled pages
     path('search/', views.search_form, name="search"),
+    path('search2/', live_search.search, name="live_search"),
     path('results/', views.results, name="results"),
-    path('summary/', views.summary, name="summary"),
-    path("upload/", views.upload_file,name="upload"),
+    path('results_sample/', views.results_sample, name="results_sample"),
+    #  path('summary/', views.summary, name="summary"),
+    path("upload/", views.upload_file, name="upload"),
     #  path('download/', views.results_download, name="download"),
 
     # Mostly statics pages

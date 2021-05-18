@@ -1,9 +1,6 @@
-{% extends 'mainLayout.html' %}
-{% load static %}
-{% block title %}Help{% endblock %}
-{% block js_top %}
+{% extends 'mainLayout.html' %} {% load static %} {% block title %}Help{% endblock %} {% block js_top %}
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery(".content").hide();
 		//toggle the componenet with class msg_body
@@ -11,60 +8,58 @@
 		jQuery(this).next(".content").slideToggle("slow");
 		});
 	});
-    </script>
-{% endblock %}
-
-{%block content %}
+    </script> -->
+{% endblock %} {%block content %}
 
 <div id="accordion">
 
 
 
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 					<h3>About</h3>
         </button>
-      </h5>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                This page contain basic information on the database.
+            </div>
+        </div>
     </div>
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-				This page contain basic information on the database.
-      </div>
-    </div>
-  </div>
 
 
 
 
 
-
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 					<H3>Search</H3>
         </button>
-      </h5>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="card-body">
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
 
-<p>This is the home page. It is divided in to two pannels: Pannel A is Search forms and pannel B is the graphical overview of the data in
-the database.</p>
-        <img src="{% static "img/Searchpage.png" %}" class="rounded" alt="Search page" style="width:100%;">
-        <p>Search form accepts multiple keywords, seprated with tab key. Empty search form for all the results.</p>
-        <p>Overview pannel is divided into 5 sub-pannels providing graphical overview of sample collection geographical location, heath contions of individuals, sequencing platform, sample collection body site and assay used in the study.
+                <p>This is the home page. It is divided in to two pannels: Pannel A is Search forms and pannel B is the graphical overview of the data in the database.</p>
+                <img src="{% static " img/Searchpage.png " %}" class="rounded" alt="Search page" style="width:100%;">
+                <p>Search form accepts multiple keywords, seprated with tab key. Empty search form for all the results.</p>
+                <p>Overview pannel is divided into 5 sub-pannels providing graphical overview of sample collection geographical location, heath contions of individuals, sequencing platform, sample collection body site and assay used in the study.
                 </p>
-                <p>Query results are provided as table. However, due to large number of columns, most of the information are hidden and cab accessed by clicking "+" on the left of each row. Result can also be acquired using imbedded links in the summary pannel. Result can be further filtered using the form on the right top corner of the table.</p>
-                <img src="{% static "img/Results.png" %}" class="rounded" alt="Results page" style="width:100%;">
+                <p>Query results are provided as table. However, due to large number of columns, most of the information are hidden and cab accessed by clicking "+" on the left of each row. Result can also be acquired using imbedded links in the summary
+                    pannel. Result can be further filtered using the form on the right top corner of the table.</p>
+                <img src="{% static " img/Results.png " %}" class="rounded" alt="Results page" style="width:100%;">
 
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
 
@@ -72,95 +67,95 @@ the database.</p>
 
 
 
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 					<H3>Publication</H3>
         </button>
-      </h5>
+            </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                It contain information on citing this database and the list of the publication citing this repository.
+            </div>
+        </div>
     </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-      <div class="card-body">
-				It contain information on citing this database and the list of the publication citing this repository.
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-header" id="headingFour">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+    <div class="card">
+        <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
 					<H3>Resources</H3>
         </button>
-      </h5>
+            </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+                Resources page will provide the details of available tools, pipelines and training resources associated to metagenomic data.
+            </div>
+        </div>
     </div>
-    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-      <div class="card-body">
-				Resources page will provide the details of available tools, pipelines and training resources associated to metagenomic data.
-      </div>
-    </div>
-  </div>
 
 
-  <div class="card">
-    <div class="card-header" id="headingFive">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+    <div class="card">
+        <div class="card-header" id="headingFive">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
 					<H3>Help</H3>
         </button>
-      </h5>
+            </h5>
+        </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+                This page.
+            </div>
+        </div>
     </div>
-    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-      <div class="card-body">
-				This page.
-      </div>
-    </div>
-  </div>
 
 
-  <div class="card">
-    <div class="card-header" id="headingSix">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+    <div class="card">
+        <div class="card-header" id="headingSix">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
 					<H3>Data Submission Format</H3>
         </button>
-      </h5>
-    </div>
-    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-      <div class="card-body">
-				 <p>We accept data in tabulated format with following columns</p>
-   <ul>
-     <li> REPOSITORY ID </li>
- <li> STUDY TITLE </li>
- <li> REPOSITORY LINK </li>
- <li> SAMPLE NUMBER </li>
- <li> STUDY LINK </li>
- <li> ASSAY TYPE </li>
- <li> TECHNOLOGY </li>
- <li> COUNTRY </li>
- <li> DISEASE </li>
- <li> STUDY DESIGN </li>
- <li> BODY SITE </li>
- <li> PLATFORM </li>
- <li> PARTICIPANT FEATURES </li>
- <li> AVERAGE SPOTLENGTH </li>
- <li> LIBRARY LAYOUT </li>
- <li> LON LAT </li>
- <li> SAMPLE TYPE </li>
- <li> COLLECTION DATE </li>
- <li> ETHNICITY  </li>
- <li> URBANZATION </li>
- <li> REGION </li>
- <li> CITY </li>
- <li> TARGET amplicon  </li>
- <li> DIET </li>
+            </h5>
+        </div>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+            <div class="card-body">
+                <p>We accept data in tabulated format with following columns</p>
+                <ul>
+                    <li> REPOSITORY ID </li>
+                    <li> STUDY TITLE </li>
+                    <li> REPOSITORY LINK </li>
+                    <li> SAMPLE NUMBER </li>
+                    <li> STUDY LINK </li>
+                    <li> ASSAY TYPE </li>
+                    <li> TECHNOLOGY </li>
+                    <li> COUNTRY </li>
+                    <li> DISEASE </li>
+                    <li> STUDY DESIGN </li>
+                    <li> BODY SITE </li>
+                    <li> PLATFORM </li>
+                    <li> PARTICIPANT FEATURES </li>
+                    <li> AVERAGE SPOTLENGTH </li>
+                    <li> LIBRARY LAYOUT </li>
+                    <li> LON LAT </li>
+                    <li> SAMPLE TYPE </li>
+                    <li> COLLECTION DATE </li>
+                    <li> ETHNICITY </li>
+                    <li> URBANZATION </li>
+                    <li> REGION </li>
+                    <li> CITY </li>
+                    <li> TARGET amplicon </li>
+                    <li> DIET </li>
 
-     </ul>
+                </ul>
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
 
@@ -172,19 +167,21 @@ the database.</p>
 
 
 
-	{% comment %} <H2>Database pages</H2> {% endcomment %}
-	{% comment %} <p>The repository is contions six web pages:</p> {% endcomment %}
-	{% comment %} <ul> {% endcomment %}
-	{% comment %}   <li>About</li> {% endcomment %}
-	{% comment %}   <li>Search</li> {% endcomment %}
-	{% comment %}   <li>Publication</li> {% endcomment %}
-	{% comment %}   <li>Resources</li> {% endcomment %}
-	{% comment %}   <li>Help</li> {% endcomment %}
-	{% comment %} </ul> {% endcomment %}
-		<H2>Other Information</H2>
-		<h3>Contact Us/Feedback</h3>                                                              <p>H3AiBionet Contacts</p>
-		<h3>FAQs</h3>
-		<p>We need to generate this</p>
-
+{% comment %}
+<H2>Database pages</H2> {% endcomment %} {% comment %}
+<p>The repository is contions six web pages:</p> {% endcomment %} {% comment %}
+<ul> {% endcomment %} {% comment %}
+    <li>About</li> {% endcomment %} {% comment %}
+    <li>Search</li> {% endcomment %} {% comment %}
+    <li>Publication</li> {% endcomment %} {% comment %}
+    <li>Resources</li> {% endcomment %} {% comment %}
+    <li>Help</li> {% endcomment %} {% comment %} </ul> {% endcomment %}
+<H2>Other Information</H2>
+<h3>Contact Us/Feedback</h3>
+<p>H3AiBionet Contacts</p>
+<h3>FAQs</h3>
+<p>We need to generate this</p>
+<H3>TODO</H3>
+<p> explain VLPM</p>
 
 {% endblock %}

@@ -1,0 +1,11 @@
+{%if not results.empty%} {% for result in results%}
+
+<div class="col-12 res">
+    <button type="button" class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold" data-toggle="collapse" data-target="#{{result.title}}">{{result.title}}</button>
+
+
+</div>
+
+{% endfor %} {% else %}
+<div class="col-sm btn btn-danger">No result found. Please search different keyword(s). Redirecting to search page in 3 seconds.</div>
+{%endif%}

@@ -1,0 +1,254 @@
+<script>
+		platform_pie_dict = {{platform_pie_dict_project|safe}};
+		Highcharts.chart('platform_pie_project', {
+				chart: {
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false,
+				type: 'pie',
+				options3d: {
+						enabled: true,
+						alpha: 45
+				}
+		},
+		title: {
+				text: 'Projects by Sequencing Platform'
+		},
+		subtitle: {
+				text: ''
+		},
+			tooltip: {
+                  hideDelay: 10000,
+                  useHTML: true,
+                  style: {
+                    padding: 0,
+                    pointerEvents: 'auto'
+                  },
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
+                },
+		plotOptions: {
+				pie: {
+						size:250,
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+								enabled: false
+						},
+						showInLegend: true,
+						innerSize: 100,
+						depth: 45
+				}
+		},
+		series: [{
+						name: 'Platform',
+						data: platform_pie_dict
+		}],
+		credits: {
+						enabled: false
+		},
+		legend: {
+						maxHeight:80,
+						floating: false,
+						layout: 'horizontal',
+						x: 0,
+						y: 0
+  },
+
+		});
+</script>
+
+
+<script>
+		platform_pie_dict = {{platform_pie_dict_sample|safe}};
+		Highcharts.chart('platform_pie_sample', {
+				chart: {
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false,
+				type: 'pie',
+				options3d: {
+						enabled: true,
+						alpha: 45
+				}
+		},
+		title: {
+				text: 'Samples by Sequencing Platform'
+		},
+		subtitle: {
+				text: ''
+		},
+			tooltip: {
+                  hideDelay: 10000,
+                  useHTML: true,
+                  style: {
+                    padding: 0,
+                    pointerEvents: 'auto'
+                  },
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
+                },
+		plotOptions: {
+				pie: {
+						size:250,
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+								enabled: false
+						},
+						showInLegend: true,
+						innerSize: 100,
+						depth: 45
+				}
+		},
+		series: [{
+						name: 'Platform',
+						data: platform_pie_dict
+		}],
+		credits: {
+						enabled: false
+		},
+		legend: {
+						maxHeight:80,
+						floating: false,
+						layout: 'horizontal',
+						x: 0,
+						y: 0
+  },
+
+		});
+</script>
+
+
+
+
+<!--Bar charts-->
+
+<!-- <script> -->
+<!--     xdata_platforms_project = {{xdata_platforms_project|safe}}; -->
+<!--     ydata_platforms_project = {{ydata_platforms_project|safe}}; -->
+<!--  -->
+<!--     var ydata_platforms_project_sum=0; -->
+<!--     for (var i=0; i<ydata_platforms_project.length; i++){ -->
+<!--       ydata_platforms_project_sum+=ydata_platforms_project[i] -->
+<!--     } -->
+<!--  -->
+<!--     Highcharts.chart('platform_bar_project', { -->
+<!--     chart: { -->
+<!--             type: 'column' -->
+<!--     }, -->
+<!--     title: { -->
+<!--             text: 'Studies by platform project' -->
+<!--     }, -->
+<!--     xAxis: { -->
+<!--             categories:xdata_platforms_project, -->
+<!--             crosshair: true -->
+<!--     }, -->
+<!--     yAxis: { -->
+<!--             min: 0, -->
+<!--             title: { -->
+<!--         text: 'Number of Studies' -->
+<!--             } -->
+<!--     }, -->
+<!--    tooltip: { -->
+<!--     hideDelay: 10000, -->
+<!--     useHTML: true, -->
+<!--     style: { -->
+<!--       padding: 0, -->
+<!--       pointerEvents: 'auto' -->
+<!--     }, -->
+<!--   formatter:function(){ -->
+<!--     var pcnt = (this.y/ydata_platforms_project_sum)*100; -->
+<!--     pcnt=Highcharts.numberFormat(pcnt)+'%'; -->
+<!--     return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>'; -->
+<!--   } -->
+<!--   /* pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>' */ -->
+<!--               }, -->
+<!--     plotOptions: { -->
+<!--             column: { -->
+<!--         pointPadding: 0.2, -->
+<!--         borderWidth: 0 -->
+<!--       } -->
+<!--     }, -->
+<!--     series: [{ -->
+<!--             showInLegend: false, -->
+<!--             name: 'platform_project', -->
+<!--             data: ydata_platforms_project -->
+<!--  -->
+<!--     }], -->
+<!--     credits: { -->
+<!--             enabled: false -->
+<!--     }, -->
+<!--     }); -->
+<!--     </script> -->
+<!--Sample Bar-->
+<!--script>
+	xdata_platforms_sample = {{xdata_platforms_sample|safe}};
+	ydata_platforms_sample = {{ydata_platforms_sample|safe}};
+
+	var ydata_platforms_sample_sum=0;
+	for (var i=0; i<ydata_platforms_sample.length; i++){
+	  ydata_platforms_sample_sum+=ydata_platforms_sample[i]
+	}
+
+	Highcharts.chart('platform_bar_sample', {
+	chart: {
+			type: 'column'
+	},
+	title: {
+			text: 'Studies by platform sample'
+	},
+	xAxis: {
+			categories:xdata_platforms_sample,
+			crosshair: true
+	},
+	yAxis: {
+			min: 0,
+			title: {
+		text: 'Number of Studies'
+			}
+	},
+   tooltip: {
+	hideDelay: 10000,
+	useHTML: true,
+	style: {
+	  padding: 0,
+	  pointerEvents: 'auto'
+	},
+  formatter:function(){
+	var pcnt = (this.y/ydata_platforms_sample_sum)*100;
+	pcnt=Highcharts.numberFormat(pcnt)+'%';
+	return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
+  }
+  /* pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>' */
+			  },
+	plotOptions: {
+			column: {
+		pointPadding: 0.2,
+		borderWidth: 0
+	  }
+	},
+	series: [{
+			showInLegend: false,
+			name: 'platform_sample',
+			data: ydata_platforms_sample
+
+	}],
+	credits: {
+			enabled: false
+	},
+	});
+	</script-->
+

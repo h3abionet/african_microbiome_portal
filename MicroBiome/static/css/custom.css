@@ -369,6 +369,17 @@
     }
 }
 
+
+/*Added my anmol*/
+.card-body img {
+    max-width: 100%;
+    max-height: auto;
+}
+
+
+
+
+
 /* TODO Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 

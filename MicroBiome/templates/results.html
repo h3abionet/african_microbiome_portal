@@ -1,103 +1,150 @@
-{% extends "mainLayout.html" %}
-{% load static %}
-{% comment %} {% block title %} {% endcomment %}
-{% comment %}   Welcome to the database {% endcomment %}
-{% comment %} {% endblock %} {% endcomment %}
-{% comment %}  {% endcomment %}
-{% block js %}
- <script src="{% static "js/tableToCards.js" %}"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+{% extends "mainLayout.html" %} {% load static %} {% comment %} {% block title %} {% endcomment %} {% comment %} Welcome to the database {% endcomment %} {% comment %} {% endblock %} {% endcomment %} {% comment %} {% endcomment %} {% block js %}
+<!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 {% comment %} https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/ {% endcomment %}
-	<script>
-		$(document).ready(function() {
-    $('#example').dataTable({
-		"responsive": true,
-		"columnDefs": [
-								{% comment %} { responsivePriority: 1, targets: 0 }, {% endcomment %}
-								{% comment %} { responsivePriority: 2, targets: 4 } {% endcomment %}
-		        ]
-    } );
-} );
+<script>
+    $(document).ready(function() {
+        $("#filter").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".res").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>
-{% endblock %}
+{% endblock %} {% block css%}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+<style>
+    .hideme {
+        height: 1px;
+        border: none
+    }
 
-{% block css%}
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
-	<style>
-.hideme {
-height: 1px; border: none }
-.noborder{border: none}
-.offscreen {
-height: 1px; width: 1px; position: absolute; overflow: hidden; top: -10px; }
-	</style>
-{% endblock %}
+    .noborder {
+        border: none
+    }
+
+    .offscreen {
+        height: 1px;
+        width: 1px;
+        position: absolute;
+        overflow: hidden;
+        top: -10px;
+    }
+</style>
+{% endblock %} {% block content %}
+<br />
+<br />
+<div class="col-12">
+    {% csrf_token %}
+    <param id="tags" value="{{tags}}"><input class="col-12" , id="search" type="text" placeholder="Refine your search"></div>
+<div id="dynamic">{% if qt == "get" %} {%if not results.empty%}
+    <div class="items" id="accordion">
+        {% for result in results%}
+
+        <div class="col-12 res">
+            <button type="button" class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold" data-toggle="collapse" data-target="#{{result.project__repoid}}">{{result.project__title}}</button>
+            <div id="{{result.project__repoid}}" class="collapse" data-parent="#accordion">
+                <table class="table col-sm">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bioproject ID</td>
+                            <td>
+                                <a href='https://www.ncbi.nlm.nih.gov/bioproject/?term={{result.project__repoid}}'>{{result.project__repoid}}
+                            </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Sample Count</td>
+                            <td>
+                                <a href='/results_sample/?project={{result.project__repoid}}&tags={{tags}}'>{{result.samp_size}}</a></td>
+                        </tr>
+                        {% if result.locetdiet__country %}
+                        <tr>
+                            <td>Country</td>
+                            <td>{{result.locetdiet__country|safe}}</td>
+                        </tr>
+                        {% endif %} {% if result.disease__disease %}
+                        <tr>
+                            <td>Disease</td>
+                            <td>{{result.disease__disease}}</td>
+                        </tr>
+                        {% endif %} {% if result.assay__assay %}
+                        <tr>
+                            <td>Assay</td>
+                            <td>{{result.assay__assay}}</td>
+                        </tr>
+                        {%endif%} {% if result.amplicon__amplicon %}
+                        <tr>
+                            <td>Amplicons</td>
+                            <td>{{result.amplicon__amplicon}}</td>
+                        </tr>
+                        {%endif%} {% if result.platform__platform %}
+                        <tr>
+                            <td>Platform</td>
+                            <td>{{result.platform__platform}}</td>
+                        </tr>
+                        {%endif%}{% if result.locetdiet__diets %}
+                        <tr>
+                            <td>Diet</td>
+                            <td>{{result.locetdiet__diets}}</td>
+                        </tr>
+                        {%endif%}{% if result.locetdiet__ethnicity %}
+                        <tr>
+                            <td>Ethnicity</td>
+                            <td>{{result.locetdiet__ethnicity}}</td>
+                        </tr>
+                        {%endif%}{% if result.locetdiet__region %}
+                        <tr>
+                            <td>Region</td>
+                            <td>{{result.locetdiet__region}}</td>
+                        </tr>
+                        {%endif%}{% if result.locetdiet__urbanization %}
+                        <tr>
+                            <td>Urbanization</td>
+                            <td>{{result.locetdiet__urbanization}}</td>
+                        </tr>
+                        {%endif%}{% if result.locetdiet__cityvillage %}
+                        <tr>
+                            <td>City Village</td>
+                            <td>{{result.locetdiet__cityvillage}}</td>
+                        </tr>
+                        {%endif%}
 
 
-{% block content %}
-	<br />
-	<br />
 
-	{% comment %} Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a> {% endcomment %}
-<table cellspacing="0" id="example" class="table table-striped table-bordered table-sm display nowrap" width="100%">
-	{% comment %} <input class="form-control" id="myInput" type="text" placeholder="Search.."> {% endcomment %}
-	{% comment %} <thead><tr class="hideme"><th class="th-sm" data-card-title>Title</th><th class="th-sm">Project</th><th class="th-sm">Sample Count</th><th class="th-sm">Country</th><th class="th-sm">Sample Type</th><th class="th-sm">Platform</th></tr></thead> {% endcomment %}
-	<thead><tr class="hideme">
-			<th class="th-sm" data-card-title>Title</th>
-			<th class="th-sm">Project</th>
-			<th class="th-sm">Sample Count</th>
-			<th class="th-sm">Country</th>
-			<th class="th-sm">Sample Type</th>
-			<th class="th-sm">Platform</th>
 
-			<th class="th-sm">Assay Type</th>
-			<th class="th-sm">Technology</th>
-			<th class="th-sm">Disease</th>
-			<th class="th-sm">Study Design</th>
-			<th class="th-sm">Body Site</th>
-			<th class="th-sm">Participant Features</th>
-			<th class="th-sm">Library Layout</th>
-			<th class="th-sm">Ethinicity</th>
-			<th class="th-sm">Ubarnisation</th>
-			<th class="th-sm">Region</th>
-			<th class="th-sm">City</th>
-			<th class="th-sm">Diet</th>
-			<th class="th-sm">Target Amplicon</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for result in results.itertuples%}
-				<tr>
-					<td>{{result.study_title}}</td>
-					<td><a href='https://www.ncbi.nlm.nih.gov/bioproject/?term={{result.repository_id}}'>{{result.repository_id}}</td>
-					<td>{{result.sample_number|safe}}</td>
-					<td>{{result.country|safe}}</td>
-					<td>{{result.sample_type|safe}}</td>
-					<td>{{result.platform|safe}}</td>
-					<td>{{result.assay_type|safe}}</td>
-					<td>{{result.technology|safe}}</td>
-					<td>{{result.disease|safe}}</td>
-					<td>{{result.study_design|safe}}</td>
-					<td>{{result.body_site|safe}}</td>
-					<td>{{result.participant_features|safe}}</td>
-					<td>{{result.library_layout|safe}}</td>
-					<td>{{result.ethnicity|safe}}</td>
-					<td>{{result.urbanzation|safe}}</td>
-					<td>{{result.region|safe}}</td>
-					<td>{{result.city|safe}}</td>
-					<td>{{result.diet|safe}}</td>
-					<td>{{result.target_amplicon|safe}}</td>
-				</tr>
-						{% comment %} <td><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></td><td>{{result.study_title}}</td><td>{{result.sample_count}}</td><td>{{result.country}}</td><td>{{result.sample_type}}</td><td>{{result.platform}}</td></tr> {% endcomment %}
-{% endfor %}
-                </tbody>
 
-</table>
-{% endblock %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+        <div>{% include "pagination.html" %}
+        </div>
+
+    </div>
+    {% else %}
+    <div class="col-sm btn btn-danger">No result found. Please search different keyword(s). Redirecting to search page in 3 seconds.</div>
+    <meta http-equiv="refresh" content="3;url=/search/" /> {%endif%}
+
+    <br />
+    <br />
+    <br /> {% include "result_dashboard.html" %}{%endif%}
+</div>{% endblock %}

@@ -1,0 +1,70 @@
+{%if not results.empty%}
+<div class="items" id="accordion">
+    {% for result in results%}
+
+    <div class="col-12 res">
+        <button type="button" class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold" data-toggle="collapse" data-target="#{{result.project__repoid}}">{{result.project__title}}</button>
+        <div id="{{result.project__repoid}}" class="collapse" data-parent="#accordion">
+            <table class="table col-sm">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bioproject ID</td>
+                        <td>
+                            <a href='https://www.ncbi.nlm.nih.gov/bioproject/?term={{result.project__repoid}}'>{{result.project__repoid}}
+                        </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Sample Count</td>
+                        <td>
+                            <a href='/results_sample/?project={{result.project__repoid}}&tags={{tags}}'>{{result.samp_size}}</a></td>
+                    </tr>
+                    {% if result.locetdiet__country %}
+                    <tr>
+                        <td>Country</td>
+                        <td>{{result.locetdiet__country|safe}}</td>
+                    </tr>
+                    {% endif %} {% if result.disease__disease %}
+                    <tr>
+                        <td>Disease</td>
+                        <td>{{result.disease__disease}}</td>
+                    </tr>
+                    {% endif %} {% if result.assay__assay %}
+                    <tr>
+                        <td>Assay</td>
+                        <td>{{result.assay__assay}}</td>
+                    </tr>
+                    {%endif%} {% if result.amplicon__amplicon %}
+                    <tr>
+                        <td>Amplicons</td>
+                        <td>{{result.amplicon__amplicon}}</td>
+                    </tr>
+                    {%endif%} {% if result.platform__platform %}
+                    <tr>
+                        <td>Platform</td>
+                        <td>{{result.platform__platform}}</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+    <div>{% include "pagination.html" %}
+    </div>
+
+</div>
+{% else %}
+<div class="col-sm btn btn-danger">No result found. Please search different keyword(s). Redirecting to search page in 3 seconds.</div>
+<meta http-equiv="refresh" content="3;url=/search/" /> {%endif%}
+
+<br />
+<br />
+<br /> {% include "result_dashboard.html" %}

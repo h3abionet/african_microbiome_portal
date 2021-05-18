@@ -1,0 +1,112 @@
+{% extends "mainLayout.html" %} {% load static %} {% comment %} {% block title %} {% endcomment %} {% comment %} Welcome to the database {% endcomment %} {% comment %} {% endblock %} {% endcomment %} {% comment %} {% endcomment %} {% block js %}
+<!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+{% comment %} https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/ {% endcomment %}
+<script>
+    $(document).ready(function() {
+        $('#example').dataTable({
+            "responsive": true,
+            "paging": false,
+            "searching": false,
+            "info": false,
+            "columnDefs": []
+        });
+    });
+</script>
+{% endblock %} {% block css%}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+<style>
+    .hideme {
+        height: 1px;
+        border: none
+    }
+    
+    .noborder {
+        border: none
+    }
+    
+    .offscreen {
+        height: 1px;
+        width: 1px;
+        position: absolute;
+        overflow: hidden;
+        top: -10px;
+    }
+</style>
+{% endblock %} {% block content %}
+<br />
+<br /> {% comment %} Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a> {% endcomment %}
+<table cellspacing="0" id="example" class="table table-striped table-bordered table-sm display nowrap" width="100%">
+    {% comment %} <input class="form-control" id="myInput" type="text" placeholder="Search.."> {% endcomment %}
+    <thead>
+        <tr class="hideme">
+            <th class="th-sm" data-card-title>Sample ID</th>
+            <th class="th-sm">Country</th>
+            <th class="th-sm">Disease</th>
+            <th class="th-sm">Platform</th>
+            <th class="th-sm">Assay</th>
+            <th class="th-sm">Amplicons</th>
+            {% comment %}
+            <th class="th-sm">Sample Type</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Platform</th> {% endcomment %} {% comment %} {% endcomment %} {% comment %}
+            <th class="th-sm">Assay Type</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Technology</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Disease</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Study Design</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Body Site</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Participant Features</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Library Layout</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Ethinicity</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Ubarnisation</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Region</th> {% endcomment %} {% comment %}
+            <th class="th-sm">City</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Diet</th> {% endcomment %} {% comment %}
+            <th class="th-sm">Target Amplicon</th> {% endcomment %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results%}
+        <tr>
+            <td><a href='https://www.ncbi.nlm.nih.gov/sra/?term={{result.sampid}}&tags={{tags}}'>{{result.sampid}}</td>
+					<td>{{result.locetdiet__country|safe}}</td>
+					<td>{{result.disease__disease|safe}}</td>
+					<td>{{result.platform__platform|safe}}</td>
+					<td>{{result.assay__assay|safe}}</td> 
+					<td>{{result.amplicon__amplicon|safe}}</td> 
+					{% comment %} <td>{{result.technology|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.disease|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.study_design|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.body_site|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.participant_features|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.library_layout|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.ethnicity|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.urbanzation|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.region|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.city|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.diet|safe}}</td> {% endcomment %}
+					{% comment %} <td>{{result.target_amplicon|safe}}</td> {% endcomment %}
+				</tr>
+						{% comment %} <td><a href="{%if 'ncbi' in result.repo %}https://www.ncbi.nlm.nih.gov/bioproject/{% else %}https://www.mg-rast.org/mgmain.html?project={% endif %}{{result.repository_id}}">{{result.repository_id}}</a></td>
+            <td>{{result.study_title}}</td>
+            <td>{{result.sample_count}}</td>
+            <td>{{result.country}}</td>
+            <td>{{result.sample_type}}</td>
+            <td>{{result.platform}}</td>
+        </tr> {% endcomment %} {% endfor %}
+    </tbody>
+
+</table>
+<div>{% include "pagination.html" %}
+</div>
+
+<br />
+<br />
+<br /> {% include "result_dashboard.html" %} {% endblock %}

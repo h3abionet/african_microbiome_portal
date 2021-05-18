@@ -56,14 +56,44 @@
         <div class="col-sm-6 pr-0">
             <div class="card">
                 <div class="card-body">
-                    <div id="body_site"></div>
+                <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#project_body_site_pie">Project body_site Pie</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#sample_body_site_pie">Sample body_site Pie</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="project_body_site_pie"><div id="body_site_pie_project"></div></div>
+  <div class="tab-pane container fade" id="sample_body_site_pie"><div id="body_site_pie_sample"></div></div>
+</div>
+
+                    {% comment %} <div id="body_site"></div> {% endcomment %}
                 </div>
             </div>
         </div>
 				<div class="col-sm-6 pl-0">
             <div class="card">
                 <div class="card-body">
-                    <div id="assay_type"></div>
+                <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#project_assay_pie">Project assay Pie</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#sample_assay_pie">Sample assay Pie</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="project_assay_pie"><div id="assay_pie_project"></div></div>
+  <div class="tab-pane container fade" id="sample_assay_pie"><div id="assay_pie_sample"></div></div>
+</div>
+
+                    {% comment %} <div id="assay"></div> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -73,14 +103,44 @@
         <div class="col-sm-6 pr-0">
             <div class="card">
                 <div class="card-body">
-                    <div id="disease"></div>
+                <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#project_disease_pie">Project disease Pie</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#sample_disease_pie">Sample disease Pie</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="project_disease_pie"><div id="disease_pie_project"></div></div>
+  <div class="tab-pane container fade" id="sample_disease_pie"><div id="disease_pie_sample"></div></div>
+</div>
+
+                    {% comment %} <div id="disease"></div> {% endcomment %}
                 </div>
             </div>
         </div>
 				<div class="col-sm-6 pl-0">
             <div class="card">
                 <div class="card-body">
-                    <div id="platform"></div>
+                <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#project_platform_pie">Project Platform Pie</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#sample_platform_pie">Sample Platform Pie</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="project_platform_pie"><div id="platform_pie_project"></div></div>
+  <div class="tab-pane container fade" id="sample_platform_pie"><div id="platform_pie_sample"></div></div>
+</div>
+
+                    {% comment %} <div id="platform"></div> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -92,7 +152,7 @@
                 <div class="card-body">
 									<h4 align="center">Sample collection locations</h4>
 									 {% leaflet_map "mapd" callback="map_init" %}
-                    <div id="disease"></div>
+                    {% comment %} <div id="disease"></div> {% endcomment %}
                 </div>
             </div>
 				</div>
@@ -102,276 +162,24 @@
 
 
 {% comment %} BODY SITE {% endcomment %}
-
-<script>
-		site_pie_dict = {{site_pie_dict|safe}};
-		
-		{% comment %} TODO: Need to integrate link from server side. as https://stackoverflow.com/questions/16176390/highcharts-provide-urls-for-series-data-to-open-clickable-link {% endcomment %}
-		Highcharts.chart('body_site', {
-				chart: {
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false,
-				type: 'pie',
-				options3d: {
-						enabled: true,
-						alpha: 45
-				}
-		},
-		title: {
-				text: 'Studies by Body Site'
-		},
-		subtitle: {
-				text: ''
-		},tooltip: {
-			hideDelay:10000,
-			useHTML:true,
-			style: {
-              			padding: 0,
-              			pointerEvents: 'auto'
-              		},
-			formatter:function(){
-                       		var pcnt = this.point.percentage;
-                        	pcnt=Highcharts.numberFormat(pcnt)+'%';
-                        	return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
-			}
-		/*pointFormat: '<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>' */
-		},
-		plotOptions: {
-				pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						dataLabels: {
-								enabled: false
-						},
-						showInLegend: true,
-						innerSize: 100,
-						depth: 45
-				}
-		},
-		series: [{
-						name: 'Body site',
-						data: site_pie_dict
-		}],
-		credits: {
-						enabled: false
-		},
-		});
-</script>
-
-{% comment %} ASSAY TYPE {% endcomment %}
-
-<script>
-	xdata_assay = {{xdata_assay|safe}};
-	ydata_assay = {{ydata_assay|safe}};
-	
-	var ydata_assay_sum=0;
-	for (var i=0; i<ydata_assay.length; i++){
-		ydata_assay_sum+=ydata_assay[i] 
-	}
-	Highcharts.chart('assay_type', {
-	chart: {
-					type: 'column'
-	},
-	title: {
-					text: 'Studies by Assay Type'
-	},
-	xAxis: {
-					categories:xdata_assay,
-					crosshair: true
-	},
-	yAxis: {
-					min: 0,
-					title: {
-			text: 'Number of Samples'
-					}
-	},
-	tooltip: {
-		hideDelay: 10000,
-		useHTML: true,
-		style: {
-			padding: 0,
-			pointerEvents: 'auto'
-		},
-		formatter:function(){	
-			var pcnt = (this.y/ydata_assay_sum)*100;
-			pcnt=Highcharts.numberFormat(pcnt)+'%';
-			return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
-	
-		}
-	},	
-	plotOptions: {
-					column: {
-			pointPadding: 0.2,
-			borderWidth: 0
-		}
-	},
-	series: [{
-					showInLegend: false,
-					name: 'Assay type',
-					data: ydata_assay
-
-	}],
-	credits: {
-					enabled: false
-	},
-
-	});
-	</script>
+{% include "bodysite.html" %}
 
 
  {% comment %} DISEASE {% endcomment %}
+{% include "disease.html" %}
 
-<script>
-		xdata_disease = {{xdata_disease|safe}};
-		ydata_disease = {{ydata_disease|safe}};
-		
-		var ydata_disease_sum=0;
-		for (var i=0; i<ydata_disease.length; i++){
-			ydata_disease_sum+=ydata_disease[i] 
-		}		
-
-		Highcharts.chart('disease', {
-		chart: {
-						type: 'column'
-		},
-		title: {
-						text: 'Studies by Disease/Condition'
-		},
-		xAxis: {
-						categories:xdata_disease,
-						crosshair: true
-		},
-		yAxis: {
-						min: 0,
-						title: {
-				text: 'Number of Studies'
-						}
-		},
-	 tooltip: {
-		hideDelay: 10000,
-		useHTML: true,
-		style: {
-			padding: 0,
-			pointerEvents: 'auto'
-		},
-	formatter:function(){	
-		var pcnt = (this.y/ydata_disease_sum)*100;
-		pcnt=Highcharts.numberFormat(pcnt)+'%';
-		return '<a href="/microbiome/results/?tags=' + this.x +'"/>' + this.x + ': ' + pcnt + '</a>';
-	}
-	/* pointFormat: '<a href="http://google.com">Clickable link {point.name}</a>' */
-							},
-		plotOptions: {
-						column: {
-				pointPadding: 0.2,
-				borderWidth: 0
-			}
-		},
-		series: [{
-						showInLegend: false,
-						name: 'Disease/Condition',
-						data: ydata_disease
-
-		}],
-		credits: {
-						enabled: false
-		},
-		});
-		</script>
-
+{% comment %} ASSAY {% endcomment %}
+{% include "assay.html" %}
 
 
 {% comment %} PLAFORM {% endcomment %}
+{% include "platform.html" %}
+
+
+{% comment %} MAP {% endcomment %}
+{% include "coordinates.html" %}
 
 
 
-<script>
-		platform_pie_dict = {{platform_pie_dict|safe}};
-		Highcharts.chart('platform', {
-				chart: {
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false,
-				type: 'pie',
-				options3d: {
-						enabled: true,
-						alpha: 45
-				}
-		},
-		title: {
-				text: 'Studies by Sequencing Platform'
-		},
-		subtitle: {
-				text: ''
-		},
-		{% comment %}   tooltip: { {% endcomment %}
-		{% comment %}     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {% endcomment %}
-		{% comment %} }, {% endcomment %}
-			tooltip: {
-                  hideDelay: 10000,
-                  useHTML: true,
-                  style: {
-                    padding: 0,
-                    pointerEvents: 'auto'
-                  },
-
-		formatter:function(){
-                                var pcnt = this.point.percentage;
-                                pcnt=Highcharts.numberFormat(pcnt)+'%';
-                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt + '</a>';
-                        }
-
-/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
-                },
-		plotOptions: {
-				pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						dataLabels: {
-								enabled: false
-						},
-						showInLegend: true,
-						innerSize: 100,
-						depth: 45
-				}
-		},
-		series: [{
-						name: 'Platform',
-						data: platform_pie_dict
-		}],
-		credits: {
-						enabled: false
-		},
-		});
-</script>
-
-{% for spot in all_records %}
-	{% if spot.lat == None %}
-		{{spot.lat }}
-		{% endif %}
-{% endfor %}
-
- <script type="text/javascript">
-      function map_init(map, options){
-          {% for spot in records.itertuples %}
-              var lon = "{{ spot.lat }}";
-              var lat = "{{ spot.lon }}";
-              // zoom to point & add it to map
-              var marker = L.marker([lat, lon]);
-              // var marker = L.marker([lat, lon]).addTo(map);
-        var list = "<Strong>Condition: </Strong>" + "<a href='/microbiome/results/?tags={{spot.disease }}'>{{ spot.disease }}</a>" + "<br />"
-					+ "<Strong>Platform: </Strong>" + "<a href='/microbiome/results/?tags={{spot.platform}}'>{{ spot.platform }}</a>" + "<br />"
-					+ "<Strong>Sample type: </Strong>" + "<a href='/microbiome/results/?tags={{spot.sample_type }}'>{{ spot.sample_type }}</a>" + "<br />"
-                       + "<Strong>Sample count: </Strong>" + "{{ spot.sample_number }}" + "<br />"
-          + "<Strong>Country: </Strong>" + "<a href='/microbiome/results/?tags={{spot.country }}'>{{ spot.country }}</a>" + "<br />"
-              //marker.setContent(list).openPopup();
-        marker.bindPopup(list).addTo(map);
-          // .openPopup();
-          {% endfor %}
-          map.setView([-0.6605788, 14.8965794], 2); //1.3733, 32.2903
-
-      }
-  </script>
 
 {% endblock %}

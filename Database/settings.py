@@ -39,8 +39,8 @@ ALLOWED_HOSTS = ['*']
 # For future test purpose https://grappelliproject.com/
 
 INSTALLED_APPS = [
-    'dal',
-    'dal_select2',
+    # 'dal',
+    # 'dal_select2',
     'grappelli',
     #  'bootstrap_admin', # always before django.contrib.admin
     'django.contrib.admin',

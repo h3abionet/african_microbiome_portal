@@ -1,0 +1,137 @@
+<script>
+		disease_pie_dict = {{disease_pie_dict_project|safe}};
+		Highcharts.chart('disease_pie_project', {
+				chart: {
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false,
+				type: 'pie',
+				options3d: {
+						enabled: true,
+						alpha: 45
+				}
+		},
+		title: {
+				text: 'Projects by Disease'
+		},
+		subtitle: {
+				text: ''
+		},
+			tooltip: {
+                  hideDelay: 10000,
+                  useHTML: true,
+                  style: {
+                    padding: 0,
+                    pointerEvents: 'auto'
+                  },
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
+                },
+		plotOptions: {
+				pie: {
+						size:250,
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+								enabled: false
+						},
+						showInLegend: true,
+						innerSize: 100,
+						depth: 45
+				}
+		},
+		series: [{
+						name: 'disease',
+						data: disease_pie_dict
+		}],
+		credits: {
+						enabled: false
+		},
+		legend: {
+						maxHeight:80,
+						floating: false,
+						layout: 'horizontal',
+						x: 0,
+						y: 0
+  },
+
+		});
+</script>
+
+
+<script>
+		disease_pie_dict = {{disease_pie_dict_sample|safe}};
+		Highcharts.chart('disease_pie_sample', {
+				chart: {
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false,
+				type: 'pie',
+				options3d: {
+						enabled: true,
+						alpha: 45
+				}
+		},
+		title: {
+				text: 'Samples by Disease'
+		},
+		subtitle: {
+				text: ''
+		},
+			tooltip: {
+                  hideDelay: 10000,
+                  useHTML: true,
+                  style: {
+                    padding: 0,
+                    pointerEvents: 'auto'
+                  },
+
+		formatter:function(){
+                                var pcnt = this.point.percentage;
+                                pcnt=Highcharts.numberFormat(pcnt)+'%';
+                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                        }
+
+/*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
+                },
+		plotOptions: {
+				pie: {
+						size:250,
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+								enabled: false
+						},
+						showInLegend: true,
+						innerSize: 100,
+						depth: 45
+				}
+		},
+		series: [{
+						name: 'disease',
+						data: disease_pie_dict
+		}],
+		credits: {
+						enabled: false
+		},
+		legend: {
+						maxHeight:80,
+						floating: false,
+						layout: 'horizontal',
+						x: 0,
+						y: 0
+  },
+
+		});
+</script>
+
+
+
+
+
