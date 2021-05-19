@@ -12,136 +12,128 @@ def is_balanced(strng):
     """
     open_list = ["[", "("]
     close_list = ["]", ")"]
-    stack = []
-    for i, s in enumerate(strng):
-        if s in open_list:
+    stck = []
+    for i, s_g in enumerate(strng):
+        if s_g in open_list:
             if i != 0 and strng[i-1] != "\\":
-                stack.append(s)
-        elif s in close_list:
+                stck.append(s_g)
+        elif s_g in close_list:
             if i != 0 and strng[i-1] != "\\":
-                pos = close_list.index(s)
-                if ((len(stack) > 0) and
-                        (open_list[pos] == stack[len(stack)-1])):
-                    stack.pop()
+                pos = close_list.index(s_g)
+                if ((len(stck) > 0) and
+                        (open_list[pos] == stck[len(stck)-1])):
+                    stck.pop()
                 else:
                     return False
-    if len(stack) == 0:
-        return True
-    else:
-        return False
+    return bool(not stck)
 
 
-def val_type(val):
+def val_type(vals):
     """Return value and type."""
-    v, t = "", ""
-    tt = False
-    for x in val:
-        if x == "[":
-            tt = True
+    value, typ = "", ""
+    temp_type = False
+    for val in vals:
+        if val == "[":
+            temp_type = True
             continue
-        if tt:
-            if x == "]":
+        if temp_type:
+            if val == "]":
                 continue
-            t += x
+            typ += val
         else:
-            v += x
-    if not(v.strip()):
-        return
-    if not t.strip():
-        t = "all"
-    return v.strip(), t.strip()
+            value += val
+    if not value.strip():
+        return None
+    if not typ.strip():
+        typ = "all"
+    return value.strip(), typ.strip()
 
 
-class stack:
+class Stack:
+    """Stores information in stack."""
+
     def __init__(self):
         self.item = []
 
-    def push(self, it):
-        self.item.append(it)
+    def push(self, value):
+        """Insert the givel value in the stack."""
+        self.item.append(value)
 
     def peek(self):
+        """Checks whether stack is empty. if not, return the last value of stack
+        without removing the value from stack.
+        """
         if self.isempty():
             return 0
         return self.item[-1]
 
     def pop(self):
+        """Remove and return last value of the stack if stack in not empty."""
         if self.isempty():
             return 0
-        return(self.item.pop())
+        return self.item.pop()
 
     def length(self):
-        return (len(self.item))
+        """Returns length of the stack at current point."""
+        return len(self.item)
 
     def isempty(self):
-        if self.item == []:
-            return True
-        else:
-            return False
+        """Checks whether the stack is empty."""
+        return bool(not self.item)
 
     def display(self):
+        """Displays the values of the stack."""
         if self.isempty():
             return
-        temps = stack()
+        temps = Stack()
         while not self.isempty():
-            x = self.peek()
-            print("~", x)
-            temps.push(x)
+            last_val = self.peek()
+            temps.push(last_val)
             self.pop()
         while not temps.isempty():
-            x = temps.peek()
-            self.push(x)
+            last_val = temps.peek()
+            self.push(last_val)
             temps.pop()
 
-    def isOperand(self, ch):
-        return ch.isalpha()
-
-    def notGreater(self, i):
+    def not_greater(self, operand):
+        """Checks whether the role of operand is greater."""
         precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '^': 3}
         if self.peek() == '(':
             return False
-        a = precedence[i]
-        b = precedence[self.peek()]
-        if a <= b:
-            return True
-        else:
-            return False
+        operand_a = precedence[operand]
+        operand_b = precedence[self.peek()]
+        return bool(operand_a <= operand_b)
 
-    def infixToPostfix(self, exp):
+    def infix2postfix(self, exp):
+        """Convert infix expression to postfix expression."""
         output = ""
 
-        for i in exp:
+        for character in exp:
 
-            if self.isOperand(i):  # check if operand add to output
-                #                 print(i,"~ Operand push to stack")
-                output = output + i
+            if character.isalpha():  # check if operand add to output
+                output = output + character
 
             # If the character is an '(', push it to stack
-            elif i == '(':
-                self.push(i)
-#                 print(i," ~ Found ( push into stack")
+            elif character == '(':
+                self.push(character)
 
-            elif i == ')':  # if ')' pop till '('
+            elif character == ')':  # if ')' pop till '('
                 while (not self.isempty() and self.peek() != '('):
-                    n = self.pop()
-                    output = output + n
-#                     print(n, "~ Operator popped from stack")
+                    last = self.pop()
+                    output = output + last
                 if (not self.isempty() and self.peek() != '('):
-                    #                     print("_________")
                     return -1
-                else:
-                    _ = self.pop()
+                _ = self.pop()
             else:
-                while (not self.isempty() and self.notGreater(i)):
+                while (not self.isempty() and self.not_greater(character)):
                     c = self.pop()
                     output = output + c
-                self.push(i)
-#                 print(i,"Operator pushed to stack")
+                self.push(character)
 
         # pop all the operator from the stack
         while not self.isempty():
-            xx = self.pop()
-            output = output + xx
-#             print(xx,"~ pop at last")
+            last = self.pop()
+            output = output + last
         return output
 
 
@@ -185,5 +177,5 @@ def str2eq(strng):
     return my_equation, value_dict
 
 
-st = stack()
-st.infixToPostfix(my_equation)
+st = Stack()
+# st.infixToPostfix(my_equation)
