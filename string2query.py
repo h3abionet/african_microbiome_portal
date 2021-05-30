@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 """Convert string to tree which could be used for queries."""
+import operator
+from django.db.models import Q
+from django.db.models.lookups import StartsWith
 
 
 def is_balanced(strng):
@@ -15,13 +18,12 @@ def is_balanced(strng):
     stck = []
     for i, s_g in enumerate(strng):
         if s_g in open_list:
-            if i != 0 and strng[i-1] != "\\":
+            if i != 0 and strng[i - 1] != "\\":
                 stck.append(s_g)
         elif s_g in close_list:
-            if i != 0 and strng[i-1] != "\\":
+            if i != 0 and strng[i - 1] != "\\":
                 pos = close_list.index(s_g)
-                if ((len(stck) > 0) and
-                        (open_list[pos] == stck[len(stck)-1])):
+                if (len(stck) > 0) and (open_list[pos] == stck[len(stck) - 1]):
                     stck.pop()
                 else:
                     return False
@@ -97,8 +99,10 @@ class Stack:
 
     def not_greater(self, operand):
         """Checks whether the role of operand is greater."""
-        precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '^': 3}
-        if self.peek() == '(':
+        # NOTE: For the task in this program order is not important as the are
+        # separated by ()
+        precedence = {"+": 1, "-": 1, "*": 2, "/": 2, "%": 2, "^": 3}
+        if self.peek() == "(":
             return False
         operand_a = precedence[operand]
         operand_b = precedence[self.peek()]
@@ -114,20 +118,19 @@ class Stack:
                 output = output + character
 
             # If the character is an '(', push it to stack
-            elif character == '(':
+            elif character == "(":
                 self.push(character)
 
-            elif character == ')':  # if ')' pop till '('
-                while (not self.isempty() and self.peek() != '('):
+            elif character == ")":  # if ')' pop till '('
+                while not self.isempty() and self.peek() != "(":
                     last = self.pop()
                     output = output + last
-                if (not self.isempty() and self.peek() != '('):
+                if not self.isempty() and self.peek() != "(":
                     return -1
                 _ = self.pop()
             else:
-                while (not self.isempty() and self.not_greater(character)):
-                    c = self.pop()
-                    output = output + c
+                while not self.isempty() and self.not_greater(character):
+                    output = output + self.pop()
                 self.push(character)
 
         # pop all the operator from the stack
@@ -149,33 +152,181 @@ def str2eq(strng):
     qvalue = ""
     value_dict = {}
     my_equation = ""
-    for x in strng:
-        if x in "(&|)":
+    for character in strng:
+        if character in "(&|)":
             if qvalue:
-                # TODO: Rename here
-                t = val_type(qvalue)
-                if t:
+                vtype = val_type(qvalue)
+                if vtype:
                     my_equation += chr(init_chr)
-                    value_dict[chr(init_chr)] = t
+                    value_dict[chr(init_chr)] = vtype
                     init_chr += 1
                 qvalue = ""
-            if x == '&':
+            if character == "&":
                 my_equation += "*"
-            elif x == "|":
+            elif character == "|":
                 my_equation += "+"
             else:
-                my_equation += x
+                my_equation += character
         else:
-            qvalue += x
+            qvalue += character
 
-    if x != ")" and qvalue:
-        # TODO: Rename here
-        t = val_type(qvalue)
-        if t:
-            my_equation += chr(init_chr)
-            value_dict[chr(init_chr)] = x
+    if strng.endswith(")") and qvalue and val_type(qvalue):
+        my_equation += chr(init_chr)
+        value_dict[chr(init_chr)] = ")"
     return my_equation, value_dict
 
 
-st = Stack()
-# st.infixToPostfix(my_equation)
+def query_Q(query):
+    """TODO: Docstring for query_Q.
+
+    :query: TODO
+    :returns: TODO
+
+    """
+    if query[1] == "sampid":
+        return (
+            ~Q(sampid__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(sampid__icontains=query[0])
+        )
+    if query[1] == "avspotlen":
+        return (
+            ~Q(avspotlen__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(avspotlen__icontains=query[0])
+        )
+    if query[1] == "country":
+        return (
+            ~Q(locetdiet__country__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__country__icontains=query[0])
+        )
+    if query[1] == "region":
+        return (
+            ~Q(locetdiet__region__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__region__icontains=query[0])
+        )
+    if query[1] == "urbanization":
+        return (
+            ~Q(locetdiet__urbanization__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__urbanization__icontains=query[0])
+        )
+    if query[1] == "cityvillage":
+        return (
+            ~Q(locetdiet__cityvillage__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__cityvillage__icontains=query[0])
+        )
+    if query[1] == "urbanization":
+        return (
+            ~Q(locetdiet__urbanization__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__urbanization__icontains=query[0])
+        )
+    if query[1] == "platform":
+        return (
+            ~Q(platform__platform__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(platform__platform__icontains=query[0])
+        )
+    if query[1] == "amplicon":
+        return (
+            ~Q(amplicon__amplicon__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(amplicon__amplicon__icontains=query[0])
+        )
+    if query[1] == "assay":
+        return (
+            ~Q(assay__assay__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(assay__assay__icontains=query[0])
+        )
+    if query[1] == "ethinicity":
+        return (
+            ~Q(locetdiet__ethnicity__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(locetdiet__ethnicity__icontains=query[0])
+        )
+    if query[1] == "disease":
+        return (
+            ~Q(disease__disease__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(disease__disease__icontains=query[0])
+        )
+    if not query[0].startswith("~"):
+        return (
+            Q(sampid__icontains=query[0])
+            | Q(avspotlen__icontains=query[0])
+            | Q(locetdiet__country__icontains=query[0])
+            | Q(locetdiet__region__icontains=query[0])
+            | Q(locetdiet__urbanization__icontains=query[0])
+            | Q(locetdiet__cityvillage__icontains=query[0])
+            | Q(locetdiet__ethnicity__icontains=query[0])
+            | Q(platform__platform__icontains=query[0])
+            | Q(amplicon__amplicon__icontains=query[0])
+            | Q(assay__assay__icontains=query[0])
+            | Q(disease__disease__icontains=query[0])
+        )
+    return ~(
+        Q(sampid__icontains=query[0][1:])
+        | Q(avspotlen__icontains=query[0][1:])
+        | Q(locetdiet__country__icontains=query[0][1:])
+        | Q(locetdiet__region__icontains=query[0][1:])
+        | Q(locetdiet__urbanization__icontains=query[0][1:])
+        | Q(locetdiet__cityvillage__icontains=query[0][1:])
+        | Q(locetdiet__ethnicity__icontains=query[0][1:])
+        | Q(platform__platform__icontains=query[0][1:])
+        | Q(amplicon__amplicon__icontains=query[0][1:])
+        | Q(assay__assay__icontains=query[0][1:])
+        | Q(disease__disease__icontains=query[0][1:])
+    )
+
+
+def eq2query(postfix, diction):
+    """Convert of postfix to Query."""
+    to_calculate = []
+    to_operate = []
+    postfix = list(postfix)
+    query = None
+    while postfix:
+        current = postfix.pop()
+        if current in "+*":
+            to_operate.append(current)
+        else:
+            to_calculate.append(query_Q(diction[current]))
+            if len(to_calculate) >= 2:
+                # TODO: Perform your queries and push it back
+                first = to_calculate.pop()
+                second = to_calculate.pop()
+                operator = to_operate.pop()
+                if operator == "*":
+                    query = first & second
+                else:
+                    query = first | second
+                to_calculate.append(query)
+    if len(to_calculate) > 1:
+        print("Something worng.")
+    return to_calculate[0]
+
+
+def ppp(qry):
+    """TODO: Docstring for ppp.
+
+    :qry: TODO
+    :returns: TODO
+
+    """
+    postfix = str2eq(qry)
+    eq2query(postfix)
+
+
+if __name__ == "__main__":
+    infix_equation, diction = str2eq(
+        "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
+    )
+    blnc = is_balanced(infix_equation)
+    postfix_eqaution = Stack().infix2postfix(infix_equation)
+    sql_query = eq2query(postfix_eqaution, diction)
+    print(infix_equation, blnc, postfix_eqaution, sql_query)
