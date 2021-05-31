@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 """Convert string to tree which could be used for queries."""
+import operator
 from django.db.models import Q
+from django.db.models.lookups import StartsWith
 
 
 def is_balanced(strng):
@@ -168,9 +170,10 @@ def str2eq(strng):
         else:
             qvalue += character
 
-    if strng.endswith(")") and qvalue and val_type(qvalue):
+    if qvalue:  # and val_type(qvalue):
         my_equation += chr(init_chr)
-        value_dict[chr(init_chr)] = ")"
+        value_dict[chr(init_chr)] = val_type(qvalue)
+
     return my_equation, value_dict
 
 
@@ -295,7 +298,6 @@ def eq2query(postfix, diction):
         else:
             to_calculate.append(query_Q(diction[current]))
             if len(to_calculate) >= 2:
-                # TODO: Perform your queries and push it back
                 first = to_calculate.pop()
                 second = to_calculate.pop()
                 operator = to_operate.pop()
@@ -322,15 +324,19 @@ def query2sqlquery(qry):
     blnc = is_balanced(infix_equation)
     if not blnc:
         print("Given query is not balanced")
-    postfix_eqaution = Stack().infix2postfix(infix_equation)
-    sql_query = eq2query(postfix_eqaution, diction)
+    postfix_equation = Stack().infix2postfix(infix_equation)
+    print(infix_equation, blnc, postfix_equation)
+    sql_query = eq2query(postfix_equation, diction)
+    return sql_query
 
 
 if __name__ == "__main__":
     infix_equation, diction = str2eq(
-        "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
+        # "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
+        "Malawi"
     )
+    print(infix_equation, diction)
     blnc = is_balanced(infix_equation)
     postfix_eqaution = Stack().infix2postfix(infix_equation)
     sql_query = eq2query(postfix_eqaution, diction)
-    print(infix_equation, diction,  blnc, postfix_eqaution, sql_query)
+    print(infix_equation, blnc, postfix_eqaution, sql_query)

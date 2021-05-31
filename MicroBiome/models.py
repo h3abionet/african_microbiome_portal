@@ -119,7 +119,8 @@ class Assay(models.Model):
 
 class Samples(models.Model):
     sampid = models.CharField(max_length=100)
-    avspotlen = models.IntegerField(default=None, null=True) # Average spot length
+    avspotlen = models.IntegerField(
+        default=None, null=True)  # Average spot length
     coldate = models.CharField(default=None, null=True, max_length=100)
     project = models.ForeignKey(
         TestProject, on_delete=models.CASCADE, default=None)

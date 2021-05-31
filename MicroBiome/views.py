@@ -8,6 +8,7 @@ be written here.
 """
 import numpy as np
 import pandas as pd
+from .string2query import query2sqlquery
 
 # For pagination
 #  from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -622,29 +623,31 @@ def results_sample(request):
         print(project, tags)
 
         if tags:
-            broken_tags = tags.split(",")
-            qs = [
-                Q(sampid__icontains=tag)
-                | Q(avspotlen__icontains=tag)
-                | Q(locetdiet__country__icontains=tag)
-                | Q(locetdiet__region__icontains=tag)
-                | Q(locetdiet__urbanization__icontains=tag)
-                | Q(locetdiet__cityvillage__icontains=tag)
-                | Q(locetdiet__ethnicity__icontains=tag)
-                | Q(locetdiet__country__icontains=tag)
-                | Q(platform__platform__icontains=tag)
-                | Q(amplicon__amplicon__icontains=tag)
-                | Q(assay__assay__icontains=tag)
-                | Q(disease__disease__icontains=tag)
-                for tag in broken_tags
-            ]
-            # print(tags, broken_tags)
-            query2 = qs.pop()
-            for q in qs:
-                query2 |= q
-            query &= query2
-
-        print(query, "Anmol")
+            #             broken_tags = tags.split(",")
+            #             qs = [
+            #                 Q(sampid__icontains=tag)
+            #                 | Q(avspotlen__icontains=tag)
+            #                 | Q(locetdiet__country__icontains=tag)
+            #                 | Q(locetdiet__region__icontains=tag)
+            #                 | Q(locetdiet__urbanization__icontains=tag)
+            #                 | Q(locetdiet__cityvillage__icontains=tag)
+            #                 | Q(locetdiet__ethnicity__icontains=tag)
+            #                 | Q(locetdiet__country__icontains=tag)
+            #                 | Q(platform__platform__icontains=tag)
+            #                 | Q(amplicon__amplicon__icontains=tag)
+            #                 | Q(assay__assay__icontains=tag)
+            #                 | Q(disease__disease__icontains=tag)
+            #                 for tag in broken_tags
+            #             ]
+            #             # print(tags, broken_tags)
+            #             query2 = qs.pop()
+            #             for q in qs:
+            #                 query2 |= q
+            #             query &= query2
+            #
+            #         print(query, "Anmol")
+            query = query2sqlquery(tags)
+            print(query, "anmol kiarn")
 
         res = Samples.objects.filter(query).values(
             "sampid",
@@ -848,25 +851,27 @@ def results(request):
             "locetdiet__lat",
         )
     else:
-        broken_tags = set(tags.split(","))
-        qs = [
-            Q(sampid__icontains=tag)
-            | Q(avspotlen__icontains=tag)
-            | Q(project__title__icontains=tag)
-            | Q(locetdiet__country__icontains=tag)
-            | Q(locetdiet__region__icontains=tag)
-            | Q(locetdiet__urbanization__icontains=tag)
-            | Q(locetdiet__cityvillage__icontains=tag)
-            | Q(locetdiet__ethnicity__icontains=tag)
-            | Q(platform__platform__icontains=tag)
-            | Q(amplicon__amplicon__icontains=tag)
-            | Q(assay__assay__icontains=tag)  # |
-            #   Q(disease__disease__icontains=tag)
-            for tag in broken_tags
-        ]
-        query = qs.pop()
-        for q in qs:
-            query |= q
+        # broken_tags = set(tags.split(","))
+        # qs = [
+        #     Q(sampid__icontains=tag)
+        #     | Q(avspotlen__icontains=tag)
+        #     | Q(project__title__icontains=tag)
+        #     | Q(locetdiet__country__icontains=tag)
+        #     | Q(locetdiet__region__icontains=tag)
+        #     | Q(locetdiet__urbanization__icontains=tag)
+        #     | Q(locetdiet__cityvillage__icontains=tag)
+        #     | Q(locetdiet__ethnicity__icontains=tag)
+        #     | Q(platform__platform__icontains=tag)
+        #     | Q(amplicon__amplicon__icontains=tag)
+        #     | Q(assay__assay__icontains=tag)  # |
+        #     #   Q(disease__disease__icontains=tag)
+        #     for tag in broken_tags
+        # ]
+        # query = qs.pop()
+        # for q in qs:
+        #     query |= q
+        print(tags)
+        query = query2sqlquery(tags)
 
         res = Samples.objects.filter(query).values(
             "project__repoid",
