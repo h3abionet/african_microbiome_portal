@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
 """Convert string to tree which could be used for queries."""
-import operator
 from django.db.models import Q
-from django.db.models.lookups import StartsWith
 
 
 def is_balanced(strng):
     """TO Check if string is balanced, check only '() and []'
 
-    :strng: TODO
-    :returns: TODO
+    input: A+(B*C)+(D*E)
+    output: True
 
+    input: A+(B*C+(D*E)
+    output: False
     """
     open_list = ["[", "("]
     close_list = ["]", ")"]
@@ -31,7 +31,14 @@ def is_balanced(strng):
 
 
 def val_type(vals):
-    """Return value and type."""
+    """
+    Returns value and type.
+    Input: "Malawi[country]"
+    Output: ("Malawi", "country")
+
+    Input: "Malawi"
+    output:("Malawi", "all")
+    """
     value, typ = "", ""
     temp_type = False
     for val in vals:
@@ -55,6 +62,7 @@ class Stack:
     """Stores information in stack."""
 
     def __init__(self):
+        """__init__."""
         self.item = []
 
     def push(self, value):
@@ -109,7 +117,11 @@ class Stack:
         return bool(operand_a <= operand_b)
 
     def infix2postfix(self, exp):
-        """Convert infix expression to postfix expression."""
+        """
+        Convert infix expression to postfix expression.
+        Input: A+(B*C)+(D*E)
+        Output: ABC*+DE*+
+        """
         output = ""
 
         for character in exp:
@@ -141,11 +153,13 @@ class Stack:
 
 
 def str2eq(strng):
-    """TODO: Docstring for str2eq.
-
-    :strng: TODO
-    :returns: TODO
-
+    """
+    Converts a given string to mathematical equation and operand dictionanry.
+    Input: "~amplicons | (South Africa[country] & cancer[disease]) | \
+            (Malawi[country] & Illumina[platform])"
+    output: A+(B*C)+(D*E) {'A': ('~amplicons', 'all'), \
+            'B': ('South Africa', 'country'), 'C': ('cancer', 'disease'), \
+            'D': ('Malawi', 'country'), 'E': ('Illumina', 'platform')}
     """
 
     init_chr = 65  # "A"
@@ -170,7 +184,7 @@ def str2eq(strng):
         else:
             qvalue += character
 
-    if qvalue:  # and val_type(qvalue):
+    if qvalue:
         my_equation += chr(init_chr)
         value_dict[chr(init_chr)] = val_type(qvalue)
 
@@ -178,12 +192,7 @@ def str2eq(strng):
 
 
 def query_Q(query):
-    """TODO: Docstring for query_Q.
-
-    :query: TODO
-    :returns: TODO
-
-    """
+    """Converts query and query type (i.e. ("Malawi","country")) to Django Q object."""
     if query[1] == "sampid":
         return (
             ~Q(sampid__icontains=query[0][1:])
@@ -318,9 +327,7 @@ def query2sqlquery(qry):
     :returns: TODO
 
     """
-    infix_equation, diction = str2eq(
-        qry
-    )
+    infix_equation, diction = str2eq(qry)
     blnc = is_balanced(infix_equation)
     if not blnc:
         print("Given query is not balanced")
@@ -332,8 +339,8 @@ def query2sqlquery(qry):
 
 if __name__ == "__main__":
     infix_equation, diction = str2eq(
-        # "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
-        "Malawi"
+        "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
+        # "Malawi"
     )
     print(infix_equation, diction)
     blnc = is_balanced(infix_equation)
