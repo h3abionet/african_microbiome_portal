@@ -8,11 +8,15 @@ from .models import Project
 
 class Upload(forms.Form):
     infile = forms.FileField()
-    separator = forms.ChoiceField(choices=(("", "Choose ...."),
-                                           (" ", "Space"),
-                                           ("\t", "Tab"),
-                                           (",", "Comma"),
-                                           (";", "Semi-Comma")))
+    separator = forms.ChoiceField(
+        choices=(
+            ("", "Choose ...."),
+            (" ", "Space"),
+            ("\t", "Tab"),
+            (",", "Comma"),
+            (";", "Semi-Comma"),
+        )
+    )
 
     def __init__(self, *args, **kwargs):
         super(Upload, self).__init__(*args, **kwargs)
@@ -32,23 +36,27 @@ class PostForm(forms.ModelForm):
     #  tags = forms.CharField(label='')
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
-        self.fields['tags'].label = ''
+        self.fields["tags"].label = ""
 
     class Meta:
         model = Project
         #  fields = ("country",)
         #  fields = ("country", "platform", "disease", "study_design")
-        fields = ('tags',)
+        fields = ("tags",)
         widgets = {
-            'tags': forms.TextInput(attrs={  # 'data-role': 'tagsinput',
-                #  'class':'form-control',
-                'type': 'text',
-                'placeholder': "Add your search keywords"})
+            "tags": forms.TextInput(
+                attrs={  # 'data-role': 'tagsinput',
+                    #  'class':'form-control',
+                    "type": "text",
+                    "placeholder": "(Malawi[country] & AMPLICON[assay]) | ~Eye[bodysite]",
+                }
+            )
         }
-        error_css_class = 'error'
-        required_css_class = 'bold'
+        error_css_class = "error"
+        required_css_class = "bold"
         # https://www.webforefront.com/django/formtemplatelayout.html
         # TODO: allow empty fields
+
     #  def clean_rowname(self):
     #      return self.cleaned_data['country'] or None
 

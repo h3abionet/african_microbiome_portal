@@ -12,6 +12,21 @@
 }
 
 
+
+.gfg {
+    margin: 3%;
+    position: relative;
+}
+
+.right-down-txt{
+    /*To put text right bottom corner of the map*/
+    /* position: absolute; */
+    bottom: 0px;
+    left: 0px;
+    font-size: 10px;
+}
+
+
 /* body { */
 /*     padding-top: 200px; /* Whatever the height of your navbar is; the */
 /*                              default is 50px */ */

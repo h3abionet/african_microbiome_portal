@@ -64,7 +64,9 @@ If you make any change in the conda environment by adding or removing modules.
 conda env export --no-builds > environment2.yml
 conda env export -n test-env -f test-env-spec.yml
 ```
-
+## Docker configuration
+- To containerise of Django application, instruction from [Docker](https://docs.docker.com/samples/django/) was followed.
+- Instruction to run the container was followed from [Docker Tip #30: Running Docker Compose from a Different Directory](https://nickjanetakis.com/blog/docker-tip-30-running-docker-compose-from-a-different-directory)
 
 <!--
 # Database

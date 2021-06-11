@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+  sqlite3:
+    image: nouchka/sqlite3:latest
+    volumes:
+      - ./db/:/root/db/
+    stdin_open: true
+    tty: true
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - sqlite3
+
+

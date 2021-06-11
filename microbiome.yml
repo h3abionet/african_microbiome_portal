@@ -4,6 +4,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - geopy
   - _libgcc_mutex=0.1=main
   - atk=2.25.90=hb9dd440_1002
   - attrs=19.1.0=py_0
