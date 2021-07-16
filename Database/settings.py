@@ -57,10 +57,10 @@ INSTALLED_APPS = [
     'djgeojson',
     'django_nvd3',
     'bootstrap4',
-    'crispy_forms',
-    'tags_input',
+    'crispy_forms',  # TODO: Clean it
+    'tags_input',  # TODO: REmove this while cleaning the code
     'django_tables2',
-    "taggit",
+    "taggit",  # TODO: Remove it during cleaning
     'widget_tweaks',
     #  'djide',
     #  'rooms',

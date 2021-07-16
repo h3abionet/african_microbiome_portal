@@ -16,20 +16,21 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 #  from .models import Movie, Person
 from .forms import PostForm, Upload
-from .models import (Amplicon, Assay, Disease, LocEthDiet, Platform, Project,
-                     Samples, TestProject)
+from .models import (BioProject, BodySite, Disease, LocEthDiet, Platform,
+                     Pubmed, Samples, StudyDesign)
 
 
 def search(request):
-    if request.method=="POST":
+    if request.method == "POST":
         search_text = request.POST["tags"]
     else:
         search_text = ''
     print("Varsha Shetty", request.POST['oldsearch'])
-    if search_text=='':
+    if search_text == '':
         res = pd.DataFrame()
     else:
-        res = read_frame(TestProject.objects.filter(title__icontains=search_text))
+        res = read_frame(TestProject.objects.filter(
+            title__icontains=search_text))
     print(res)
 
-    return render(None,"ajax_search.html",{'results':res})
+    return render(None, "ajax_search.html", {'results': res})

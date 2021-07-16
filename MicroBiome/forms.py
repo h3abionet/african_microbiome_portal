@@ -3,7 +3,7 @@ from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 from django.urls import reverse
 
-from .models import Project
+from .models import Tags
 
 
 class Upload(forms.Form):
@@ -39,7 +39,7 @@ class PostForm(forms.ModelForm):
         self.fields["tags"].label = ""
 
     class Meta:
-        model = Project
+        model = Tags
         #  fields = ("country",)
         #  fields = ("country", "platform", "disease", "study_design")
         fields = ("tags",)

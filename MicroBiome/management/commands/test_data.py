@@ -13,6 +13,20 @@ def remove_multiple_spaces(txt):
     return re.sub(" +", " ", txt).strip()
 
 
+def check_study_design(study_design_info):
+    """TODO: Docstring for check_study_design.
+
+    :study_design_info: TODO
+    :returns: TODO
+
+    """
+    for study in study_design_info:
+        if models.StudyDesign.objects.filter(study_design__exact=study[0]):
+            print(study, "Found")
+        else:
+            print(study, "Not Found")
+
+
 def check_pubmed(pubmed_info):
     """Checking info in pubmed table."""
     for info in pubmed_info:
@@ -99,29 +113,26 @@ def check_bodysite(bodysites):
             print(bodysite, "Not found")
 
 
-def projects(project_lits):
-    """TODO: Docstring for projects.
+def check_samples(samples):
+    """TODO: Docstring for check_bodysite.
 
-    :project_lits: TODO
+    :bodysites: TODO
     :returns: TODO
 
     """
-    pass
-    # TODO: Generate warding if exists
-    # models.Project.
-
-
-def other_param(arg1):
-    """TODO: Docstring for other_param.
-
-    :arg1: TODO
-    :returns: TODO
-
-    """
-    # Check if it is not reported earlier or any closely replated words are in
-    # any table which could be utilised as replacement
-    #
-    pass
+    for sample in samples:
+        if models.Samples.objects.filter(sampid__exact=sample[0]):
+            print(bodysite, "Found")
+            if not models.Samples.objects.filter(
+                sampid__exact=sample[0],
+                avspotlen__exact=sample[1],
+                col_date__exact=sample[2],
+                lib_layout__exact=sample[3],
+                target_amplicon__exact=sample[4],
+            ):
+                print("Associated information didn't match")
+        else:
+            print(sample, "Not found")
 
 
 # TODO: Request admin to contact data provider in case of conflict.
@@ -154,7 +165,6 @@ def review_outcome(data):
 
 
 class Command(BaseCommand):
-
     """Docstring for Command."""
 
     def __init__(self):
@@ -179,131 +189,147 @@ class Command(BaseCommand):
         if not path.exists(infile):
             print("Given file path doesn't exist.")
             exit(0)
-        if not path.isfile(infile):
             print("Give path is not a file. Exiting . . . .")
+        if not path.isfile(infile):
             exit(0)
-        try:
-            data = pd.read_csv(
-                infile,
-                usecols=[
-                    "REPOSITORY ID",
-                    # "REPOSITORY LINK",
-                    "SAMPLE NUMBER",
-                    "STUDY TITLE",
-                    "STUDY LINK",
-                    "ASSAY TYPE",
-                    "TECHNOLOGY",
-                    "COUNTRY",
-                    "DISEASE",
-                    "DOID",
-                    "STUDY DESIGN",
-                    "BODY SITE",
-                    "PLATFORM",
-                    "PARTICIPANT FEATURES",
-                    "AVERAGE SPOTLENGTH",
-                    "Run ID",
-                    "Sample ID",
-                    "Sample Name",
-                    "COLLECTION DATE",
-                    "LIBRARY LAYOUT",
-                    "LAT LON",
-                    "SAMPLE TYPE",
-                    "ETHNICITY",
-                    "ELO",
-                    "URBANZATION",
-                    "REGION",
-                    "CITYVILLAGE",
-                    "TARGET AMPLICON",
-                    "DIET",
-                ],
-            )
-            data = data.applymap(lambda val: str(val).upper())
-            print(data)
-            # data_type = data.dtypes
-            # for col in data_type.index:
-            #     if col in []:
-            #         if data_type[col].type != np.int64:
-            #             print("Expected integer, got mixed or text values")
-            #     else:
-            #         print("Expected string, got float or integers")
-            pubmed = data[["STUDY TITLE", "STUDY LINK"]].drop_duplicates()
+        usecols = [
+            "REPOSITORY ID",
+            # "REPOSITORY LINK",
+            "SAMPLE NUMBER",
+            "STUDY TITLE",
+            "STUDY LINK",
+            "ASSAY TYPE",
+            "TECHNOLOGY",
+            "COUNTRY",
+            "DISEASE",
+            "DOID",
+            "STUDY DESIGN",
+            "BODY SITE",
+            "PLATFORM",
+            "PARTICIPANT FEATURES",
+            "AVERAGE SPOTLENGTH",
+            "Run ID",
+            "Sample ID",
+            "Sample Name",
+            "COLLECTION DATE",
+            "LIBRARY LAYOUT",
+            "LAT LON",
+            "SAMPLE TYPE",
+            "ETHNICITY",
+            "ELO",
+            "URBANZATION",
+            "REGION",
+            "CITYVILLAGE",
+            "TARGET AMPLICON",
+            "DIET",
+        ]
 
-            # pubmed = pubmed.applymap(
-            #     lambda values: [
-            #         remove_multiple_spaces(value)
-            #         for value in values.split("//")
-            #     ]
-            # )
-            # pubmed_pair = []
-            # for _, row in pubmed.iterrows():
-            #     for pair in zip(row["STUDY TITLE"], row["STUDY LINK"]):
-            #         pubmed_pair.append(pair)
-
-            # print(len(pubmed_pair))
-            # check_pubmed(pubmed_pair)
-
-            disease = data[["DISEASE", "DOID"]].drop_duplicates()
-            disease = disease[~pd.isnull(disease["DISEASE"])].fillna("")
-
-            disease = disease.applymap(
-                lambda values: [
-                    remove_multiple_spaces(value) for value in values.split("//")
-                ]
-            )
-            disease_pair = []
-            for _, row in disease.iterrows():
-                for pair in zip(row["DISEASE"], row["DOID"]):
-                    disease_pair.append(pair)
-            # check_disease(disease_pair)
-
-            bodysite = data[["BODY SITE"]].drop_duplicates()
-            bodysite = bodysite[~pd.isnull(bodysite["BODY SITE"])].fillna("")
-            bodysite = list(bodysite["BODY SITE"].values)
-            # print(bodysite)
-            # check_bodysite(bodysite)
-
-            # Platform
-            platform = (
-                data[["PLATFORM", "TECHNOLOGY", "ASSAY TYPE"]]
-                .drop_duplicates()
-                .fillna("")
-            )
-
-            platform = platform.applymap(
-                lambda values: [
-                    remove_multiple_spaces(value) for value in values.split("//")
-                ]
-            )
-            platform_info = []
-            for _, row in platform.iterrows():
-                for triple in zip(
-                    row["PLATFORM"], row["TECHNOLOGY"], row["ASSAY TYPE"]
-                ):
-                    platform_info.append(triple)
-
-            # check_platform(platform_info)
-
-            loc_diet = data[
-                [
-                    "COUNTRY",
-                    "REGION",
-                    "URBANZATION",
-                    "ELO",
-                    "CITYVILLAGE",
-                    "DIET",
-                    "LAT LON",
-                    "ETHNICITY",
-                ]
-            ].drop_duplicates()
-            # loc_diet.loc[:, ["LAN", "LOT"]] = loc_diet["LAT LON"].apply(lan_lot)
-            loc_diet.loc[:, ["LAN", "LOT", "CAPITAL"]] = (
-                loc_diet["LAT LON"].apply(lan_lot).to_list()
-            )
-            del loc_diet["LAT LON"]
-            check_loc_diet(loc_diet.values)
-
-            # for _, row in data.iterrows():
-            #     print(row)
-        except:
-            print("Given file is in not csv formatted or some colums doesn't exist")
+        data = pd.read_csv(
+            infile
+        )
+        not_found_column = set(usecols) - set(data.columns)
+        if not_found_column:
+            not_found_column = ",".join(not_found_column)
+            print(not_found_column + " not found")
             exit(0)
+        data = data.applymap(lambda val: str(val).upper())
+        print(data)
+        # data_type = data.dtypes
+        # for col in data_type.index:
+        #     if col in []:
+        #         if data_type[col].type != np.int64:
+        #             print("Expected integer, got mixed or text values")
+        #     else:
+        #         print("Expected string, got float or integers")
+        pubmed = data[["STUDY TITLE", "STUDY LINK"]].drop_duplicates()
+
+        # pubmed = pubmed.applymap(
+        #     lambda values: [
+        #         remove_multiple_spaces(value)
+        #         for value in values.split("//")
+        #     ]
+        # )
+        # pubmed_pair = []
+        # for _, row in pubmed.iterrows():
+        #     for pair in zip(row["STUDY TITLE"], row["STUDY LINK"]):
+        #         pubmed_pair.append(pair)
+
+        # print(len(pubmed_pair))
+        # check_pubmed(pubmed_pair)
+
+        disease = data[["DISEASE", "DOID"]].drop_duplicates()
+        disease = disease[~pd.isnull(disease["DISEASE"])].fillna("")
+
+        disease = disease.applymap(
+            lambda values: [
+                remove_multiple_spaces(value) for value in values.split("//")
+            ]
+        )
+        disease_pair = []
+        for _, row in disease.iterrows():
+            for pair in zip(row["DISEASE"], row["DOID"]):
+                disease_pair.append(pair)
+        # check_disease(disease_pair)
+
+        bodysite = data[["BODY SITE"]].drop_duplicates()
+        bodysite = bodysite[~pd.isnull(bodysite["BODY SITE"])].fillna("")
+        bodysite = list(bodysite["BODY SITE"].values)
+        # print(bodysite)
+        # check_bodysite(bodysite)
+
+        # Platform
+        platform = (
+            data[["PLATFORM", "TECHNOLOGY", "ASSAY TYPE"]]
+            .drop_duplicates()
+            .fillna("")
+        )
+
+        platform = platform.applymap(
+            lambda values: [
+                remove_multiple_spaces(value) for value in values.split("//")
+            ]
+        )
+        platform_info = []
+        for _, row in platform.iterrows():
+            for triple in zip(
+                row["PLATFORM"], row["TECHNOLOGY"], row["ASSAY TYPE"]
+            ):
+                platform_info.append(triple)
+
+        # check_platform(platform_info)
+
+        loc_diet = data[
+            [
+                "COUNTRY",
+                "REGION",
+                "URBANZATION",
+                "ELO",
+                "CITYVILLAGE",
+                "DIET",
+                "LAT LON",
+                "ETHNICITY",
+            ]
+        ].drop_duplicates()
+        # loc_diet.loc[:, ["LAN", "LOT"]] = loc_diet["LAT LON"].apply(lan_lot)
+        loc_diet.loc[:, ["LAN", "LOT", "CAPITAL"]] = (
+            loc_diet["LAT LON"].apply(lan_lot).to_list()
+        )
+        del loc_diet["LAT LON"]
+        # check_loc_diet(loc_diet.values)
+        samples = data[
+            [
+                # "STUDY DESIGN",
+                "Run ID",
+                # "PARTICIPANT FEATURES",
+                "AVERAGE SPOTLENGTH",
+                "COLLECTION DATE",
+                "LIBRARY LAYOUT",
+                # "SAMPLE TYPE",
+                "TARGET AMPLICON",
+            ]
+        ].drop_duplicates("Run ID")
+        # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
+        print(samples.head())
+        # check_samples(samples.values)
+        # for _, row in data.iterrows():
+        #     print(row)
