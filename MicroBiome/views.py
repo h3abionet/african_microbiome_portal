@@ -24,7 +24,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 #  from django_tables2.config import RequestConfig
 #  from .djmodel import get_model_repr
-# Create your views here.
 #  from .models import Movie, Person
 from .forms import PostForm, Upload
 from .models import (
