@@ -438,6 +438,7 @@ class Command(BaseCommand):
                 return None
         for _, row in disease.iterrows():
             for pair in zip(row["DISEASE"], map(doid, row["DOID"])):
+                print(pair, "anmol")
                 disease_pair.append(pair)
         # print(disease)
         disease_dict = upate_disease(disease_pair)

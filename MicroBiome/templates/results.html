@@ -1,150 +1,231 @@
-{% extends "mainLayout.html" %} {% load static %} {% comment %} {% block title %} {% endcomment %} {% comment %} Welcome to the database {% endcomment %} {% comment %} {% endblock %} {% endcomment %} {% comment %} {% endcomment %} {% block js %}
-<!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-{% comment %} https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/ {% endcomment %}
-<script>
-    $(document).ready(function() {
-        $("#filter").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $(".res").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+{% extends "mainLayout.html" %}
+{% load static %}
+{% block title%}
+  Welcome to the database
+{% endblock %}
+{% block js %}
+  <!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  {% comment %}
+    https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/
+  {% endcomment %}
+  <script>
+    $(document).ready(function () {
+          $("#filter").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".res").filter(function () {
+                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+              });
         });
-    });
-</script>
-{% endblock %} {% block css%}
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
-<style>
-    .hideme {
-        height: 1px;
-        border: none
-    }
+  </script>
+  {% endblock %} {% block css%}
+  <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
+      />
+  <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+      />
+  <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"
+      />
+  <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"
+      />
+  <style>
+.hideme {
+  height: 1px;
+  border: none;
+}
 
-    .noborder {
-        border: none
-    }
+  .noborder {
+    border: none;
+  }
 
-    .offscreen {
-        height: 1px;
-        width: 1px;
-        position: absolute;
-        overflow: hidden;
-        top: -10px;
-    }
-</style>
-{% endblock %} {% block content %}
-<br />
-<br />
-<div class="col-12">
-    {% csrf_token %}
-    <param id="tags" value="{{tags}}"><input class="col-12" , id="search" type="text" placeholder="Refine your search"></div>
-<div id="dynamic">{% if qt == "get" %} {%if not results.empty%}
-    <div class="items" id="accordion">
+  .offscreen {
+    height: 1px;
+    width: 1px;
+    position: absolute;
+    overflow: hidden;
+    top: -10px;
+  }
+  </style>
+  {% endblock %} {% block content %}
+  <br />
+  <br />
+  <div class="row">
+    <div class={% if not results.empty %}"col-10"{% else %} "col-12" {% endif %}>
+      {% csrf_token %}
+      <param id="tags" value="{{tags}}" />
+      <input
+          class="col-12"
+          id="search"
+          type="text"
+          placeholder="Refine your search (Currently inactive)"
+          />
+    </div>
+    {% if not results.empty %}
+      <div class="col-2">
+        <a class="btn btn-primary" href="#" role="button">Download Results</a>
+      </div>
+    {% endif %}
+  </div>
+  <div id="dynamic">
+    {% if qt == "get" %} {%if not results.empty%}
+      <div class="items" id="accordion">
         {% for result in results%}
 
-        <div class="col-12 res">
-            <button type="button" class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold" data-toggle="collapse" data-target="#{{result.project__repoid}}">{{result.project__title}}</button>
-            <div id="{{result.project__repoid}}" class="collapse" data-parent="#accordion">
+          <div class="row res">
+            <div class="col-12">
+              <button
+                  type="button"
+                  class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold"
+                  data-toggle="collapse"
+                  data-target="#pub_{{result.pubid}}"
+                  >
+                  {{result.title}}
+              </button>
+            </div>
+            {% comment %}<div class="col-sm">A</div>{% endcomment %}
+            <div
+                id="pub_{{result.pubid}}"
+                class="collapse"
+                data-parent="#accordion"
+                >
                 <table class="table col-sm">
-                    <thead>
-                        <tr>
-                            <th>Variable</th>
-                            <th>Values</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Bioproject ID</td>
-                            <td>
-                                <a href='https://www.ncbi.nlm.nih.gov/bioproject/?term={{result.project__repoid}}'>{{result.project__repoid}}
-                            </a>
-                            </td>
-                        </tr>
+                  <thead>
+                    <tr>
+                      <th>Variable</th>
+                      <th>Values</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% comment %}TODO: Change color of alternative columns {% endcomment %}
+                    <tr>
+                      <td>Bioproject ID</td>
+                      <td>
+                        {% for key, value in result.bioproject.items %}
+                          <a
+                              href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
+                              >{{key}}
+                          </a>:
+                          <a
+                              href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{value}}"
+                              >{{value}}
+                          </a>
 
-                        <tr>
-                            <td>Sample Count</td>
-                            <td>
-                                <a href='/results_sample/?project={{result.project__repoid}}&tags={{tags}}'>{{result.samp_size}}</a></td>
-                        </tr>
-                        {% if result.locetdiet__country %}
-                        <tr>
-                            <td>Country</td>
-                            <td>{{result.locetdiet__country|safe}}</td>
-                        </tr>
-                        {% endif %} {% if result.disease__disease %}
-                        <tr>
-                            <td>Disease</td>
-                            <td>{{result.disease__disease}}</td>
-                        </tr>
-                        {% endif %} {% if result.assay__assay %}
-                        <tr>
-                            <td>Assay</td>
-                            <td>{{result.assay__assay}}</td>
-                        </tr>
-                        {%endif%} {% if result.amplicon__amplicon %}
-                        <tr>
-                            <td>Amplicons</td>
-                            <td>{{result.amplicon__amplicon}}</td>
-                        </tr>
-                        {%endif%} {% if result.platform__platform %}
-                        <tr>
-                            <td>Platform</td>
-                            <td>{{result.platform__platform}}</td>
-                        </tr>
-                        {%endif%}{% if result.locetdiet__diets %}
-                        <tr>
-                            <td>Diet</td>
-                            <td>{{result.locetdiet__diets}}</td>
-                        </tr>
-                        {%endif%}{% if result.locetdiet__ethnicity %}
-                        <tr>
-                            <td>Ethnicity</td>
-                            <td>{{result.locetdiet__ethnicity}}</td>
-                        </tr>
-                        {%endif%}{% if result.locetdiet__region %}
-                        <tr>
-                            <td>Region</td>
-                            <td>{{result.locetdiet__region}}</td>
-                        </tr>
-                        {%endif%}{% if result.locetdiet__urbanization %}
-                        <tr>
-                            <td>Urbanization</td>
-                            <td>{{result.locetdiet__urbanization}}</td>
-                        </tr>
-                        {%endif%}{% if result.locetdiet__cityvillage %}
-                        <tr>
-                            <td>City Village</td>
-                            <td>{{result.locetdiet__cityvillage}}</td>
-                        </tr>
-                        {%endif%}
+                          {% endfor %}
+                      </td>
+                    </tr>
 
+                    {% comment %}<tr>{% endcomment %}
+                      {% comment %}<td>Sample Count</td>{% endcomment %}
+                      {% comment %}<td>{% endcomment %}
+                        {% comment %}<a{% endcomment %}
+                          {% comment %}href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"{% endcomment %}
+                          {% comment %}>{{result.samp_size}}</a{% endcomment %}
+                        {% comment %}>{% endcomment %}
+                        {% comment %}</td>{% endcomment %}
+                      {% comment %}</tr>{% endcomment %}
+                    {% if result.country %}
+                      <tr>
+                        <td>Country</td>
+                        <td>
+                          {% for key, value in result.country.items %}
+                            {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                          {% endfor %}
+                        </td>
+                      </tr>
+                      {% endif %} {% if result.disease %}
+                      <tr>
+                        <td>Disease</td>
+                        <td>
+                          {% for key, value in result.disease.items %}
+                            {{key}}:{{value}} {% if not forloop.last %},{% endif %}
+                          {% endfor %}
+                        </td>
 
-
-
-
-
-                    </tbody>
+                      </tr>
+                    {% endif %}
+                    {% if result.assay %}
+                      <tr>
+                        <td>Assay</td>
+                        <td>
+                          {% for key, value in result.assay.items %}
+                            {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                          {% endfor %}
+                        </td>
+                      </tr>
+                      {%endif%} {% if result.amplicon %}
+                      <tr>
+                        <td>Amplicons</td>
+                        <td>
+                          {% for key, value in result.amplicon.items %}
+                            {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                          {% endfor %}
+                        </td>
+                      </tr>
+                      {%endif%} {% if result.platform %}
+                      <tr>
+                        <td>Platform</td>
+                        <td>
+                          {% for key, value in result.platform.items %}
+                            {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                          {% endfor %}
+                        </td>
+                      </tr>
+                      {%endif%}{% if result.locetdiet__diets %}
+                      <tr>
+                        <td>Diet</td>
+                        <td>{{result.locetdiet__diets}}</td>
+                      </tr>
+                      {%endif%}{% if result.locetdiet__ethnicity %}
+                      <tr>
+                        <td>Ethnicity</td>
+                        <td>{{result.locetdiet__ethnicity}}</td>
+                      </tr>
+                      {%endif%}{% if result.locetdiet__region %}
+                      <tr>
+                        <td>Region</td>
+                        <td>{{result.locetdiet__region}}</td>
+                      </tr>
+                      {%endif%}{% if result.locetdiet__urbanization %}
+                      <tr>
+                        <td>Urbanization</td>
+                        <td>{{result.locetdiet__urbanization}}</td>
+                      </tr>
+                      {%endif%}{% if result.locetdiet__cityvillage %}
+                      <tr>
+                        <td>City Village</td>
+                        <td>{{result.locetdiet__cityvillage}}</td>
+                      </tr>
+                    {%endif%}
+                  </tbody>
                 </table>
             </div>
-        </div>
+          </div>
         {% endfor %}
-        <div>{% include "pagination.html" %}
-        </div>
-
-    </div>
+        <div>{% include "pagination.html" %}</div>
+      </div>
     {% else %}
-    <div class="col-sm btn btn-danger">No result found. Please search different keyword(s). Redirecting to search page in 3 seconds.</div>
+      <div class="col-sm btn btn-danger">
+        No result found. Please search different keyword(s). Redirecting to search
+        page in 3 seconds.
+      </div>
     <meta http-equiv="refresh" content="3;url=/search/" /> {%endif%}
 
     <br />
     <br />
-    <br /> {% include "result_dashboard.html" %}{%endif%}
-</div>{% endblock %}
+    <br />
+  {% include "result_dashboard.html" %}{%endif%}
+  </div>
+{% endblock %}

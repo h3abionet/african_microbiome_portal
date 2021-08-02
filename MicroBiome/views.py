@@ -7,6 +7,7 @@ All the view Related to Microbiome will be will be written herobiome wbe will
 be written here.
 """
 import numpy as np
+from numpy.lib.function_base import select
 import pandas as pd
 
 from .string2query import query2sqlquery
@@ -16,7 +17,7 @@ from .string2query import query2sqlquery
 from django_pandas.io import read_frame
 
 from django.shortcuts import render
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 from django.db.models.functions import Length
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.decorators.csrf import csrf_exempt
@@ -26,10 +27,23 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 #  from .models import Movie, Person
 from .forms import PostForm, Upload
-from .models import (BioProject, BodySite, Disease, LocEthDiet, Platform,
-                     Pubmed, Samples, StudyDesign)
-from .query_corrector import (amplicon_correct, assay_correct,
-                              bodysite_correct, loc_correct, platform_correct)
+from .models import (
+    BioProject,
+    BodySite,
+    Disease,
+    LocEthDiet,
+    Platform,
+    Pubmed,
+    Samples,
+    StudyDesign,
+)
+from .query_corrector import (
+    amplicon_correct,
+    assay_correct,
+    bodysite_correct,
+    loc_correct,
+    platform_correct,
+)
 
 #  from django_tables2 import RequestConfig
 
@@ -332,6 +346,12 @@ from .query_corrector import (amplicon_correct, assay_correct,
 # bodysite_update(df)
 # else:
 # continue
+def mergedict(args):
+    """Returns merged dictionary."""
+    output = {}
+    for arg in args:
+        output.update(arg)
+    return output
 
 
 def search_form(request):
@@ -354,27 +374,36 @@ def search_form(request):
     ]
 
     # NOTE: ASSAY
-    assay_project = Platform.objects.values(
-        'assay').annotate(num_samples=Count('samples__bioproject', distinct=True)).order_by('assay')
-    assay_sample = Platform.objects.values(
-        "assay").annotate(num_samples=Count("samples", distinct=True)).order_by('assay')
+    assay_project = (
+        Platform.objects.values("assay")
+        .annotate(num_samples=Count("samples__bioproject", distinct=True))
+        .order_by("assay")
+    )
+    assay_sample = (
+        Platform.objects.values("assay")
+        .annotate(num_samples=Count("samples", distinct=True))
+        .order_by("assay")
+    )
 
     assay_pie_project = [
-        {"name": plts["assay"], "y": plts["num_samples"]}
-        for plts in assay_project
+        {"name": plts["assay"], "y": plts["num_samples"]} for plts in assay_project
     ]
 
     assay_pie_sample = [
-        {"name": plts["assay"], "y": plts["num_samples"]}
-        for plts in assay_sample
+        {"name": plts["assay"], "y": plts["num_samples"]} for plts in assay_sample
     ]
 
     # NOTE: PLATFORM
-    platforms_project = Platform.objects.values("platform").annotate(
-        num_samples=Count("samples__bioproject",
-                          distinct=True)).order_by("platform")
-    platforms_sample = Platform.objects.values("platform").annotate(
-        num_samples=Count("samples", distinct=True)).order_by("platform")
+    platforms_project = (
+        Platform.objects.values("platform")
+        .annotate(num_samples=Count("samples__bioproject", distinct=True))
+        .order_by("platform")
+    )
+    platforms_sample = (
+        Platform.objects.values("platform")
+        .annotate(num_samples=Count("samples", distinct=True))
+        .order_by("platform")
+    )
 
     platform_pie_dict_project = [
         {"name": plts["platform"], "y": plts["num_samples"]}
@@ -411,48 +440,44 @@ def search_form(request):
     )
     disease_sample = Disease.objects.all().annotate(num_samples=Count("samples"))
     disease_pie_project = [
-        {"name": plts.disease, "y": plts.num_samples}
-        for plts in disease_project
+        {"name": plts.disease, "y": plts.num_samples} for plts in disease_project
     ]
     disease_pie_sample = [
-        {"name": plts.disease, "y": plts.num_samples}
-        for plts in disease_sample
+        {"name": plts.disease, "y": plts.num_samples} for plts in disease_sample
     ]
 
-    geoloc_project = pd.DataFrame(Samples.objects.values("longitude", "latitude").annotate(
-        num_project=Count("bioproject", distinct=True)).order_by("longitude", "latitude"))
+    # NOTE: Geographical plotting on map
+    geoloc_project = pd.DataFrame(
+        Samples.objects.values("longitude", "latitude")
+        .annotate(num_project=Count("bioproject", distinct=True))
+        .order_by("longitude", "latitude")
+    )
 
-    geoloc_sample = pd.DataFrame(Samples.objects.values(
-        "longitude", "latitude").order_by().annotate(num_samples=Count("longitude")))
-    geoloc_country = pd.DataFrame(pd.DataFrame(Samples.objects.values(
-        "longitude", "latitude", "loc_diet__country").order_by("longitude", "latitude", "loc_diet__country").distinct()))
-    geoloc = geoloc_project.merge(geoloc_sample, on=["longitude", "latitude"], how="outer").merge(
-        geoloc_country, on=["longitude", "latitude"], how="outer").rename(columns={"longitude": 'lon', "latitude": 'lat', 'loc_diet__country': 'country'})
-    print(geoloc)
-    # GEO LOCATION
-    # geoloc = pd.DataFrame(
-    # LocEthDiet.objects.values("lon", "lat", "country").annotate(
-    # num_project=Count("samples__bioproject", distinct=True)
-    # )
-    # )
-    # geoloc_samp = pd.DataFrame(
-    # LocEthDiet.objects.values("country").annotate(
-    # num_samples=Count("samples"))
-    # )
-
-    # TODO: Fix country issue with multiple coordinates
-    # geoloc = geoloc[~(pd.isna(geoloc.lat) | pd.isna(geoloc.lon))]
-    # geoloc_country = geoloc.drop_duplicates()
-    # for _, row in geoloc_country.iterrows():
-    # geoloc.loc[geoloc["country"] == row["country"], "lon"] = row["lon"]
-    # geoloc.loc[geoloc["country"] == row["country"], "lat"] = row["lat"]
-    # geoloc = (
-    # geoloc.groupby(["lon", "lat", "country"])["num_project"]
-    # .apply(sum)
-    # .reset_index()
-    # )
-    # geoloc = geoloc.merge(geoloc_samp, on="country")
-    # print(geoloc)
+    geoloc_sample = pd.DataFrame(
+        Samples.objects.values("longitude", "latitude")
+        .order_by()
+        .annotate(num_samples=Count("longitude"))
+    )
+    geoloc_country = pd.DataFrame(
+        pd.DataFrame(
+            Samples.objects.values(
+                "longitude", "latitude", "loc_diet__country")
+            .order_by("longitude", "latitude", "loc_diet__country")
+            .distinct()
+        )
+    )
+    geoloc = (
+        geoloc_project.merge(geoloc_sample, on=[
+                             "longitude", "latitude"], how="outer")
+        .merge(geoloc_country, on=["longitude", "latitude"], how="outer")
+        .rename(
+            columns={
+                "longitude": "lon",
+                "latitude": "lat",
+                "loc_diet__country": "country",
+            }
+        )
+    )
 
     context = {
         "form": form,
@@ -468,6 +493,7 @@ def search_form(request):
     }
     # #  print(all_records.values())
     return render(request, "search.html", context)
+
 
 #  return render(request, "search.html", {"form": form})
 
@@ -692,7 +718,9 @@ def results_sample(request):
                 "platform_pie_dict_sample": platform_pie_dict
                 if platform_pie_dict
                 else no_data,
-                "assay_pie_dict_sample": assay_pie_dict if assay_pie_dict else no_data,
+                "assay_pie_dict_sample": (
+                    assay_pie_dict if assay_pie_dict else no_data
+                ),
                 "disease_pie_dict_sample": disease_pie_dict
                 if disease_pie_dict
                 else no_data,
@@ -719,19 +747,33 @@ def results(request):
         search_text = None
         qt = "get"
 
+    res = None
     if not tags:
         # res = TestProject.objects.all()
-        res = Samples.objects.filter().values(
-            "project__repoid",
-            "project__title",
-            "locetdiet__country",
-            "platform__platform",
-            "amplicon__amplicon",
-            "assay__assay",
-            "disease__disease",
-            "locetdiet__lon",
-            "locetdiet__lat",
+        res = Pubmed.objects.annotate(
+            bioproject=F("samples__bioproject__repoid"),
+            sampleid=F("samples__sampid"),
+            country=F("samples__loc_diet__country"),
+            platform=F("samples__platform__platform"),
+            amplicon=F("samples__platform__target_amplicon"),
+            assay=F("samples__platform__assay"),
+            disease=F("samples__disease__disease"),
+            lon=F("samples__longitude"),
+            lat=F("samples__latitude"),
+        ).values(
+            "title",
+            "pubid",
+            "bioproject",
+            "sampleid",
+            "country",
+            "platform",
+            "amplicon",
+            "assay",
+            "disease",
+            "lon",
+            "lat",
         )
+        # print(res)
     else:
         # broken_tags = set(tags.split(","))
         # qs = [
@@ -755,105 +797,152 @@ def results(request):
         print(tags)
         query = query2sqlquery(tags)
 
-        res = Samples.objects.filter(query).values(
-            "project__repoid",
-            "project__title",
-            "locetdiet__country",
-            "platform__platform",
-            "amplicon__amplicon",
-            "assay__assay",
-            "disease__disease",
-            "locetdiet__lon",
-            "locetdiet__lat",
-            "locetdiet__cityvillage",
-            "locetdiet__urbanization",
-            "locetdiet__diets",
-            "locetdiet__ethnicity",
-            "locetdiet__region",
-        )  # .annotate(sample_size=Count("project__repoid")).order_by('project__repoid')
-    # print(read_frame(res))
-    if search_text:
-        broken_tags = set(search_text.split(","))
-        qs = [
-            Q(sampid__icontains=tag)
-            | Q(avspotlen__icontains=tag)
-            | Q(project__title__icontains=tag)
-            | Q(locetdiet__country__icontains=tag)
-            | Q(locetdiet__region__icontains=tag)
-            | Q(locetdiet__urbanization__icontains=tag)
-            | Q(locetdiet__cityvillage__icontains=tag)
-            | Q(locetdiet__ethnicity__icontains=tag)
-            | Q(platform__platform__icontains=tag)
-            | Q(amplicon__amplicon__icontains=tag)
-            | Q(assay__assay__icontains=tag)  # |
-            #   Q(disease__disease__icontains=tag)
-            for tag in broken_tags
-        ]
-        query = qs.pop()
-        for q in qs:
-            query |= q
-        res = res.filter(query)
+        # res = Samples.objects.filter(query).values(
+        # "project__repoid",
+        # "project__title",
+        # "locetdiet__country",
+        # "platform__platform",
+        # "amplicon__amplicon",
+        # "assay__assay",
+        # "disease__disease",
+        # "locetdiet__lon",
+        # "locetdiet__lat",
+        # "locetdiet__cityvillage",
+        # "locetdiet__urbanization",
+        # "locetdiet__diets",
+        # "locetdiet__ethnicity",
+        # "locetdiet__region",
+        # )  # .annotate(sample_size=Count("project__repoid")).order_by('project__repoid')
+    # # print(read_frame(res))
+    # if search_text:
+    # broken_tags = set(search_text.split(","))
+    # qs = [
+    # Q(sampid__icontains=tag)
+    # | Q(avspotlen__icontains=tag)
+    # | Q(project__title__icontains=tag)
+    # | Q(locetdiet__country__icontains=tag)
+    # | Q(locetdiet__region__icontains=tag)
+    # | Q(locetdiet__urbanization__icontains=tag)
+    # | Q(locetdiet__cityvillage__icontains=tag)
+    # | Q(locetdiet__ethnicity__icontains=tag)
+    # | Q(platform__platform__icontains=tag)
+    # | Q(amplicon__amplicon__icontains=tag)
+    # | Q(assay__assay__icontains=tag)  # |
+    # #   Q(disease__disease__icontains=tag)
+    # for tag in broken_tags
+    # ]
+    # query = qs.pop()
+    # for q in qs:
+    # query |= q
+    # res = res.filter(query)
 
     try:
-        df = read_frame(
-            res.values("project__repoid", "project__title")
-            .annotate(samp_size=Count("project__repoid"))
-            .order_by("project__repoid"),
-            fieldnames=["project__repoid", "project__title", "samp_size"],
-        )
-        # print(df)
-        df2 = (
-            read_frame(res)
-            .melt(
-                id_vars=["project__repoid"],
-                value_vars=[
-                    "locetdiet__country",
-                    "locetdiet__cityvillage",
-                    "locetdiet__urbanization",
-                    "locetdiet__diets",
-                    "locetdiet__ethnicity",
-                    "locetdiet__region",
-                    "platform__platform",
-                    "amplicon__amplicon",
-                    "assay__assay",
-                    "disease__disease",
-                ],
+        project_summary = read_frame(
+            res.values(
+                "pubid",
+                "title",
+                "bioproject",
+                "country",
+                "disease",
+                "platform",
+                "assay",
+                "amplicon",
+                "lon",
+                "lat",
             )
-            .groupby(["project__repoid", "variable", "value"])
+            # .annotate(samp_size=Count("sampleid"))
+            # .order_by("pubid", "title", "bioproject", "country", "disease", "platform", "assay", "amplicon"),
+            # fieldnames=["pubid", "title",
+            # "bioproject", "country", "disease", "platform", "assay", "amplicon", "samp_size"],
+        )
+        geo = (
+            project_summary.groupby(["lon", "lat"])
             .size()
             .reset_index()
-            .sort_values(0, ascending=False)
-        )  # .drop_duplicates(["project__repoid", "variable"])
-        df2 = df2[~df2["value"].isin(["-", "nan"])]
-        df2["value"] = df2["value"] + "(" + df2[0].astype(str) + ")"
+            .rename(columns={0: "num_samples"})
+        )  # TODO: Might need to drop dumplcates
+        geo_country = project_summary[[
+            "lon", "lat", "country"]].drop_duplicates()
+        geo_projects = (
+            project_summary[["lon", "lat", "bioproject"]]
+            .drop_duplicates()
+            .groupby(["lon", "lat"])
+            .size()
+            .reset_index()
+            .rename(columns={0: "num_project"})
+        )
+        geo = geo.merge(geo_country, on=["lon", "lat"], how="outer").merge(
+            geo_projects, on=["lon", "lat"], how="outer"
+        )
+        print(geo)
 
-        def add_sub(x):
-            x = list(x)
-            if len(x) > 1:
-                return ",".join(x)
-            else:
-                return x[0].rsplit("(", 1)[0]
+        project_summary = project_summary.melt(id_vars=["pubid", "title"])
 
-        df2 = (
-            df2.groupby(["project__repoid", "variable"])["value"]
-            .apply(add_sub)
+        project_summary = project_summary[~pd.isna(project_summary["value"])]
+        # print(project_summary)
+        # NOTE: Platform pie
+        platform_pie_dict_sample = (
+            project_summary[project_summary["variable"] == "platform"]
+            .groupby("value")
+            .size()
+            .reset_index()
+            .rename(columns={"value": "name", 0: "y"})
+            .to_json(orient="records")
+        )
+
+        disease_pie_dict_sample = (
+            project_summary[project_summary["variable"] == "disease"]
+            .groupby("value")
+            .size()
+            .reset_index()
+            .rename(columns={"value": "name", 0: "y"})
+            .to_json(orient="records")
+        )
+
+        assay_pie_dict_sample = (
+            project_summary[project_summary["variable"] == "assay"]
+            .groupby("value")
+            .size()
+            .reset_index()
+            .rename(columns={"value": "name", 0: "y"})
+            .to_json(orient="records")
+        )
+
+        # print(platform_pie_dict_sample)
+
+        project_summary = (
+            project_summary.groupby(["pubid", "title", "variable", "value"])
+            .size()
             .reset_index()
         )
-        # del df2[0]
-        # df2.to_csv("anmol.csv", index=False)
-        df2 = df2.pivot(
-            index="project__repoid", columns="variable", values="value"
+        # project_summary["value"] = project_summary["value"] + \
+        # "("+project_summary[0].astype(str)+")"
+        project_summary["value"] = project_summary[["value", 0]].apply(
+            lambda x: {x["value"]: x[0]}, axis=1
+        )
+        # TODO: Use dictionary
+        del project_summary[0]
+        # project_summary = project_summary.groupby(["pubid", "title", "variable"])[
+        # "value"].apply(lambda x: ",".join(x.values)).reset_index()
+
+        project_summary = (
+            project_summary.groupby(["pubid", "title", "variable"])["value"]
+            .apply(list)
+            .reset_index()
+        )
+        project_summary["value"] = project_summary["value"].apply(mergedict)
+        # print(project_summary)
+        project_summary = project_summary.pivot(
+            index=["pubid", "title"], columns="variable", values="value"
         ).reset_index()
-        print(df)
-        df = df.merge(df2, on="project__repoid").fillna("")
-        print(df[["amplicon__amplicon"]])
-    except KeyError:
-        df = pd.DataFrame()
 
-    # Paginating the dynamic results
+        # print(project_summary[["pubid", "title", "bioproject"]])
+    except:
+        project_summary = pd.DataFrame()
 
-    paginator = Paginator(df.to_dict(orient="records"),
-                          10)  # 10 information per page
+    paginator = Paginator(
+        project_summary.to_dict(orient="records"), 10
+    )  # 10 information per page
 
     try:
         items = paginator.page(page)
@@ -870,95 +959,8 @@ def results(request):
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    # Platforms
-    platform = read_frame(
-        res.annotate(num=Count("platform__platform")
-                     ).order_by("platform__platform")
-    )
-    platform = platform.groupby("platform__platform")[
-        "num"].apply(np.sum).reset_index()
-
-    platform_pie_dict = [
-        {"name": plts["platform__platform"], "y": plts["num"]}
-        for _, plts in platform.iterrows()
-        if plts["platform__platform"] != "nan"
-    ]
-
-    # ASSAY
-    assay = read_frame(res.annotate(
-        num=Count("assay__assay")).order_by("assay__assay"))
-    assay = assay.groupby("assay__assay")["num"].apply(np.sum).reset_index()
-    print(assay)
-
-    assay_pie_dict = [
-        {"name": plts["assay__assay"], "y": plts["num"]}
-        for _, plts in assay.iterrows()
-        if plts["assay__assay"] != "nan"
-    ]
-
-    # # DISEASES
-    disease = read_frame(
-        res.annotate(num=Count("disease__disease")
-                     ).order_by("disease__disease")
-    )
-    disease = disease.groupby("disease__disease")[
-        "num"].apply(np.sum).reset_index()
-
-    disease_pie_dict = [
-        {"name": plts["disease__disease"], "y": plts["num"]}
-        for _, plts in disease.iterrows()
-        if plts["disease__disease"] != "nan"
-    ]
-    # # GEO LOCATION
-    try:
-        geoloc = pd.DataFrame(
-            res.values(
-                "locetdiet__lon",
-                "locetdiet__lat",
-                "locetdiet__country",
-                "project",
-            )
-            #  LocEthDiet.objects.values(
-            #  "lon", "lat","country").annotate(num_samples=Count("samples__project", distinct=True))
-        )
-        # TODO: Fix country issue with multiple coordinates
-        geoloc = geoloc[
-            ~(pd.isna(geoloc.locetdiet__lon) | pd.isna(geoloc.locetdiet__lat))
-        ].drop_duplicates(["locetdiet__country", "project"])
-        geoloc_country = geoloc.drop_duplicates("locetdiet__country")
-        for _, row in geoloc_country.iterrows():
-            geoloc.loc[
-                geoloc["locetdiet__country"] == row["locetdiet__country"],
-                "locetdiet__lon",
-            ] = row["locetdiet__lon"]
-            geoloc.loc[
-                geoloc["locetdiet__country"] == row["locetdiet__country"],
-                "locetdiet__lat",
-            ] = row["locetdiet__lat"]
-        geoloc = (
-            geoloc.groupby(
-                ["locetdiet__lon", "locetdiet__lat", "locetdiet__country"])
-            .size()
-            .reset_index()
-            .rename(
-                columns={
-                    0: "num_samples",
-                    "locetdiet__lon": "lon",
-                    "locetdiet__lat": "lat",
-                    "locetdiet__country": "country",
-                }
-            )
-        )
-        print(geoloc, "Anmol")
-
-        #  geoloc = pd.DataFrame(res.values("locetdiet__lon", "locetdiet__lat", "locetdiet__country", "platform__platform"))
-        #  geoloc = geoloc[~(pd.isna(geoloc.locetdiet__lat) | pd.isna(geoloc.locetdiet__lon))]
-        #  geoloc = geoloc.groupby(["locetdiet__lon", "locetdiet__lat","locetdiet__country", "platform__platform"]).size(
-        #  ).reset_index().rename(columns={"locetdiet__lon":"lon", "locetdiet__lat":"lat","locetdiet__country":"country", "platform__platform":"samples__platform__platform", 0:"num_samples"})
-    except AttributeError:
-        geoloc = pd.DataFrame()
-
-    print("Anmol Kiran", df)
+    # print("Anmol Kiran", df)
+    print(qt, items)
     if qt == "get":
         return render(
             request,
@@ -967,10 +969,10 @@ def results(request):
                 "results": items,
                 "tags": tags,
                 "qt": qt,
-                "platform_pie_dict": platform_pie_dict,
-                "assay_pie_dict": assay_pie_dict,
-                "disease_pie_dict": disease_pie_dict,
-                "records": geoloc,
+                "platform_pie_dict_sample": platform_pie_dict_sample,
+                "assay_pie_dict_sample": assay_pie_dict_sample,
+                "disease_pie_dict_sample": disease_pie_dict_sample,
+                "records": geo,
                 # Pagination
                 "page_range": page_range,
                 "items": items
@@ -978,7 +980,7 @@ def results(request):
             },
         )
     else:
-        print(disease_pie_dict, "this is test")
+        # print(disease_pie_dict, "this is test")
         # return render_to_response("results_refine.html", {'results': items,
         return render(
             None,
