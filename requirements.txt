@@ -1,0 +1,16 @@
+django==3.2.2
+gunicorn==20.1.0
+python-dotenv==0.18.0
+psycopg2-binary==2.9.1
+django-grappelli==2.15.1
+django-geojson==3.2.0
+pandas==1.2.4
+numpy==1.20.3
+django-taggit==1.4.0
+django-tags-input==5.1.0
+django-pandas==0.6.4
+django-crispy-forms==1.12.0
+django-bootstrap4==3.0.1
+django-widget-tweaks==1.4.8
+django-leaflet==0.28.1
+
