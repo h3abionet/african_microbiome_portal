@@ -358,7 +358,7 @@ def search_form(request):
 
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
-        num_samples=Count("samples__bioproject", distinct=True)
+        num_samples=Count("samples__l2bioproject", distinct=True)
     )
     body_site_sample = BodySite.objects.all().annotate(num_samples=Count("samples"))
     body_site_pie_project = [
@@ -375,7 +375,7 @@ def search_form(request):
     # NOTE: ASSAY
     assay_project = (
         Platform.objects.values("assay")
-        .annotate(num_samples=Count("samples__bioproject", distinct=True))
+        .annotate(num_samples=Count("samples__l2bioproject", distinct=True))
         .order_by("assay")
     )
     assay_sample = (
@@ -395,7 +395,7 @@ def search_form(request):
     # NOTE: PLATFORM
     platforms_project = (
         Platform.objects.values("platform")
-        .annotate(num_samples=Count("samples__bioproject", distinct=True))
+        .annotate(num_samples=Count("samples__l2bioproject", distinct=True))
         .order_by("platform")
     )
     platforms_sample = (
@@ -435,7 +435,7 @@ def search_form(request):
     # NOTE: DISEASES
 
     disease_project = Disease.objects.all().annotate(
-        num_samples=Count("samples__bioproject", distinct=True)
+        num_samples=Count("samples__l2bioproject", distinct=True)
     )
     disease_sample = Disease.objects.all().annotate(num_samples=Count("samples"))
     disease_pie_project = [
@@ -448,7 +448,7 @@ def search_form(request):
     # NOTE: Geographical plotting on map
     geoloc_project = pd.DataFrame(
         Samples.objects.values("longitude", "latitude")
-        .annotate(num_project=Count("bioproject", distinct=True))
+        .annotate(num_project=Count("l2bioproject", distinct=True))
         .order_by("longitude", "latitude")
     )
 
@@ -460,8 +460,8 @@ def search_form(request):
     geoloc_country = pd.DataFrame(
         pd.DataFrame(
             Samples.objects.values(
-                "longitude", "latitude", "loc_diet__country")
-            .order_by("longitude", "latitude", "loc_diet__country")
+                "longitude", "latitude", "l2loc_diet__country")
+            .order_by("longitude", "latitude", "l2loc_diet__country")
             .distinct()
         )
     )
@@ -473,7 +473,7 @@ def search_form(request):
             columns={
                 "longitude": "lon",
                 "latitude": "lat",
-                "loc_diet__country": "country",
+                "l2loc_diet__country": "country",
             }
         )
     )
@@ -748,15 +748,14 @@ def results(request):
 
     res = None
     if not tags:
-        # res = TestProject.objects.all()
         res = Pubmed.objects.annotate(
-            bioproject=F("samples__bioproject__repoid"),
+            bioproject=F("samples__l2bioproject__repoid"),
             sampleid=F("samples__sampid"),
-            country=F("samples__loc_diet__country"),
-            platform=F("samples__platform__platform"),
-            amplicon=F("samples__platform__target_amplicon"),
-            assay=F("samples__platform__assay"),
-            disease=F("samples__disease__disease"),
+            country=F("samples__l2loc_diet__country"),
+            platform=F("samples__l2platform__platform"),
+            amplicon=F("samples__l2platform__target_amplicon"),
+            assay=F("samples__l2platform__assay"),
+            disease=F("samples__l2disease__disease"),
             lon=F("samples__longitude"),
             lat=F("samples__latitude"),
         ).values(
@@ -774,67 +773,38 @@ def results(request):
         )
         # print(res)
     else:
-        # broken_tags = set(tags.split(","))
-        # qs = [
-        #     Q(sampid__icontains=tag)
-        #     | Q(avspotlen__icontains=tag)
-        #     | Q(project__title__icontains=tag)
-        #     | Q(locetdiet__country__icontains=tag)
-        #     | Q(locetdiet__region__icontains=tag)
-        #     | Q(locetdiet__urbanization__icontains=tag)
-        #     | Q(locetdiet__cityvillage__icontains=tag)
-        #     | Q(locetdiet__ethnicity__icontains=tag)
-        #     | Q(platform__platform__icontains=tag)
-        #     | Q(amplicon__amplicon__icontains=tag)
-        #     | Q(assay__assay__icontains=tag)  # |
-        #     #   Q(disease__disease__icontains=tag)
-        #     for tag in broken_tags
-        # ]
-        # query = qs.pop()
-        # for q in qs:
-        #     query |= q
-        print(tags)
+        sql = query2sqlquery(tags)
         query = query2sqlquery(tags)
-
-        # res = Samples.objects.filter(query).values(
-        # "project__repoid",
-        # "project__title",
-        # "locetdiet__country",
-        # "platform__platform",
-        # "amplicon__amplicon",
-        # "assay__assay",
-        # "disease__disease",
-        # "locetdiet__lon",
-        # "locetdiet__lat",
-        # "locetdiet__cityvillage",
-        # "locetdiet__urbanization",
-        # "locetdiet__diets",
-        # "locetdiet__ethnicity",
-        # "locetdiet__region",
-        # )  # .annotate(sample_size=Count("project__repoid")).order_by('project__repoid')
-    # # print(read_frame(res))
-    # if search_text:
-    # broken_tags = set(search_text.split(","))
-    # qs = [
-    # Q(sampid__icontains=tag)
-    # | Q(avspotlen__icontains=tag)
-    # | Q(project__title__icontains=tag)
-    # | Q(locetdiet__country__icontains=tag)
-    # | Q(locetdiet__region__icontains=tag)
-    # | Q(locetdiet__urbanization__icontains=tag)
-    # | Q(locetdiet__cityvillage__icontains=tag)
-    # | Q(locetdiet__ethnicity__icontains=tag)
-    # | Q(platform__platform__icontains=tag)
-    # | Q(amplicon__amplicon__icontains=tag)
-    # | Q(assay__assay__icontains=tag)  # |
-    # #   Q(disease__disease__icontains=tag)
-    # for tag in broken_tags
-    # ]
-    # query = qs.pop()
-    # for q in qs:
-    # query |= q
-    # res = res.filter(query)
-
+        print(query, "Kiran")
+        res = (
+            Samples.objects.filter(query)
+            .annotate(
+                title=F("l2pubmed__title"),
+                pubid=F("l2pubmed__pubid"),
+                sampleid=F("sampid"),
+                bioproject=F("l2bioproject__repoid"),
+                country=F("l2loc_diet__country"),
+                platform=F("l2platform__platform"),
+                assay=F("l2platform__assay"),
+                amplicon=F("l2platform__target_amplicon"),
+                disease=F("l2disease__disease"),
+                lon=F("longitude"),
+                lat=F("latitude"),
+            )
+            .values(
+                "title",
+                "pubid",
+                "bioproject",
+                "sampleid",
+                "country",
+                "platform",
+                "amplicon",
+                "assay",
+                "disease",
+                "lon",
+                "lat",
+            )
+        )
     try:
         project_summary = read_frame(
             res.values(
@@ -849,10 +819,6 @@ def results(request):
                 "lon",
                 "lat",
             )
-            # .annotate(samp_size=Count("sampleid"))
-            # .order_by("pubid", "title", "bioproject", "country", "disease", "platform", "assay", "amplicon"),
-            # fieldnames=["pubid", "title",
-            # "bioproject", "country", "disease", "platform", "assay", "amplicon", "samp_size"],
         )
         geo = (
             project_summary.groupby(["lon", "lat"])
@@ -873,7 +839,6 @@ def results(request):
         geo = geo.merge(geo_country, on=["lon", "lat"], how="outer").merge(
             geo_projects, on=["lon", "lat"], how="outer"
         )
-        print(geo)
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
 

@@ -187,7 +187,7 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
-                query.pubmed.add(pub_dict[pubid])
+                query.l2pubmed.add(pub_dict[pubid])
 
         except:
             query = models.Samples.objects.create(
@@ -205,17 +205,17 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
-                query.pubmed.add(pub_dict[pubid])
+                query.l2pubmed.add(pub_dict[pubid])
                 # print("K", sample["Run ID"], pubid)
 
             # NOTE: Platform information integration
             # print(plt_dict[(sample[6], sample[7], sample[8])],
                 # (sample[6], sample[7], sample[8]))
-            query.platform = plt_dict[(
+            query.l2platform = plt_dict[(
                 sample["PLATFORM"], sample["TECHNOLOGY"], sample["ASSAY TYPE"], sample["TARGET AMPLICON"])]
 
             # NOTE: Body site integration
-            query.bodysite = body_site_dict[sample["BODY SITE"].upper()]
+            query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
 
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
@@ -223,11 +223,11 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
                 diseases = [remove_multiple_spaces(disease)
                             for disease in sample["DISEASE"].split(",")]
                 for disease in diseases:
-                    query.disease.add(disease_dict[disease.upper()])
+                    query.l2disease.add(disease_dict[disease.upper()])
                 if len(diseases) > 1:
                     query.is_mixed = True
             # NOTE: Loc and diets related information integration
-            query.loc_diet = loc_diet_dict[tuple(sample[[
+            query.l2loc_diet = loc_diet_dict[tuple(sample[[
                 "COUNTRY",
                 "REGION",
                 "URBANZATION",
@@ -236,7 +236,7 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
                 "ELO",
                 "DIET",
             ]].values)]
-            query.bioproject = bioproject_dict[sample["REPOSITORY ID"]]
+            query.l2bioproject = bioproject_dict[sample["REPOSITORY ID"]]
 
             query.save()
             # exit(0)

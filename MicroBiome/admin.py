@@ -67,10 +67,10 @@ class DiseaseAdmin(admin.ModelAdmin):
 
 
 class SamplesAdmin(admin.ModelAdmin):
-    filter_horizontal = ('pubmed', 'disease',)
-    list_display = ('sampid', 'avspotlen', 'platform', 'bodysite',)
-    search_fields = ('sampid', 'avspotlen', 'platform',
-                     'bodysite', 'disease', "pubmed",)
+    filter_horizontal = ('l2pubmed', 'l2disease',)
+    list_display = ('sampid', 'avspotlen', 'l2platform', 'l2bodysite',)
+    search_fields = ('sampid', 'avspotlen', 'l2platform',
+                     'l2bodysite', 'l2disease', "l2pubmed",)
     list_per_page = 10
 
 

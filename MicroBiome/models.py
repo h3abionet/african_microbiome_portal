@@ -9,8 +9,11 @@ from taggit.managers import TaggableManager
 date_default = date(1, 1, 1)
 
 
+# NOTE: l2 > link to
+
+
 class Pubmed(models.Model):
-    pubid = models.IntegerField(
+    pubid = models.CharField(
         max_length=20, unique=True, null=False, blank=False)
     # doi = models.CharField(max_length=100, unique=True, blank=False)
     title = models.CharField(
@@ -29,11 +32,12 @@ class Pubmed(models.Model):
 
 class StudyDesign(models.Model):
 
-    """Docstring for StudyDesign. """
+    """Docstring for StudyDesign."""
+
     study_design = models.CharField(max_length=50, unique=True, blank=False)
 
     def __str__(self):
-        """TODO: to be defined. """
+        """TODO: to be defined."""
         return self.study_design
 
 
@@ -85,15 +89,21 @@ class LocEthDiet(models.Model):
         max_length=50, default=None, null=True, blank=False)
     ethnicity = models.CharField(
         max_length=50, default=None, null=True, blank=False)
-    elo = models.CharField(max_length=20, default=None,
-                           null=True, blank=False)
+    elo = models.CharField(max_length=20, default=None, null=True, blank=False)
     # ethno_ling_wiki = models.CharField(max_length=100)
     diets = models.CharField(
         max_length=100, default=None, null=True, blank=False)
 
     class Meta:
-        ordering = ["country", "region", "urbanization",
-                    "cityvillage", "ethnicity", "elo", "diets"]
+        ordering = [
+            "country",
+            "region",
+            "urbanization",
+            "cityvillage",
+            "ethnicity",
+            "elo",
+            "diets",
+        ]
 
     def __str__(self):
         full_res = f"""
@@ -105,6 +115,8 @@ class LocEthDiet(models.Model):
         diet:{self.diets}
         """
         return full_res
+
+
 #
 #
 # #
@@ -119,12 +131,14 @@ class Platform(models.Model):
     assay = models.CharField(
         max_length=100, default=None, null=True, blank=False)
     target_amplicon = models.CharField(
-        max_length=50, default=None, null=True, blank=False)
-#
+        max_length=50, default=None, null=True, blank=False
+    )
+    #
 
     class Meta:
         ordering = ["platform", "technology", "assay", "target_amplicon"]
-#
+
+    #
 
     def __str__(self):
         return f"""
@@ -133,6 +147,8 @@ class Platform(models.Model):
         assay:{self.assay}
         target_amplicon:{self.target_amplicon}
         """
+
+
 #
 #
 
@@ -152,9 +168,13 @@ class BodySite(models.Model):
 
 class Disease(models.Model):
     """Docstring for Disease."""
-    disease = models.CharField(max_length=100, null=False, blank=False,)
-    doid = models.IntegerField(
-        max_length=20, default=None, null=True, blank=False)
+
+    disease = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+    )
+    doid = models.IntegerField(default=None, null=True, blank=False)
 
     class Meta:
         ordering = ["disease"]
@@ -164,6 +184,8 @@ class Disease(models.Model):
         disease: {self.disease}:{self.doid}
         """
         return full_res
+
+
 #
 #
 
@@ -171,34 +193,38 @@ class Disease(models.Model):
 class Samples(models.Model):
     sampid = models.CharField(
         max_length=100, unique=True, null=False, blank=False)
-    avspotlen = models.IntegerField(max_length=5,
-                                    null=False, blank=False
-                                    )  # Average spot length
+    avspotlen = models.IntegerField(
+        max_length=5, null=False, blank=False
+    )  # Average spot length
     # TODO: How to reset to default when date is null??
     # col_date = models.DateField(default=date_default, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
     longitude = models.FloatField(null=True, blank=False, default=None)
     latitude = models.FloatField(null=True, blank=False, default=None)
     capital = models.BooleanField(default=False)
-    pubmed = models.ManyToManyField(Pubmed)
-    platform = models.ForeignKey(
-        Platform, on_delete=models.SET_DEFAULT, default=None, null=True)
-    bodysite = models.ForeignKey(
+    l2pubmed = models.ManyToManyField(Pubmed)
+    l2platform = models.ForeignKey(
+        Platform, on_delete=models.SET_DEFAULT, default=None, null=True
+    )
+    l2bodysite = models.ForeignKey(
         BodySite, on_delete=models.SET_DEFAULT, default=None, null=True
     )
-    disease = models.ManyToManyField(Disease)  # NOTE: One sample one disease
+    l2disease = models.ManyToManyField(Disease)  # NOTE: One sample one disease
     # TODO: Check if sample has mixed disease
     is_mixed = models.BooleanField(default=False, null=False, blank=False)
-    loc_diet = models.ForeignKey(
-        LocEthDiet, on_delete=models.SET_DEFAULT, default=None, null=True)
-    bioproject = models.ForeignKey(
-        BioProject, on_delete=models.SET_DEFAULT, default=None, null=True)
+    l2loc_diet = models.ForeignKey(
+        LocEthDiet, on_delete=models.SET_DEFAULT, default=None, null=True
+    )
+    l2bioproject = models.ForeignKey(
+        BioProject, on_delete=models.SET_DEFAULT, default=None, null=True
+    )
     # TODO: Project should have this key, when current is deleted all the samples should deteleted
 
     class Meta:
         ordering = ["sampid"]
-# # #
-#
+
+    # # #
+    #
 
     def __str__(self):
         full_res = f"""
