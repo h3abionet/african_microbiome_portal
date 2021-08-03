@@ -7,15 +7,17 @@ All the view Related to Microbiome will be will be written herobiome wbe will
 be written here.
 """
 import numpy as np
-from numpy.lib.function_base import select
 import pandas as pd
+import random
+import string
+import os
 
 from .string2query import query2sqlquery
 
 # For pagination
 #  from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django_pandas.io import read_frame
-
+from django.conf import settings
 from django.shortcuts import render
 from django.db.models import Count, Q, F
 from django.db.models.functions import Length
@@ -36,13 +38,15 @@ from .models import (
     Samples,
     StudyDesign,
 )
-from .query_corrector import (
-    amplicon_correct,
-    assay_correct,
-    bodysite_correct,
-    loc_correct,
-    platform_correct,
-)
+
+# from .query_corrector import (
+# amplicon_correct,
+# assay_correct,
+# bodysite_correct,
+# loc_correct,
+# platform_correct,
+# )
+
 
 #  from django_tables2 import RequestConfig
 
@@ -53,6 +57,14 @@ from .query_corrector import (
 # with open("Data/test.csv", "wb+") as fout:
 # for chunk in infile.chunks():
 # fout.write(chunk)
+
+
+def random_alnum(size=6):
+    """Generate random n character alphanumeric string"""
+    # List of characters [a-zA-Z0-9]
+    chars = string.ascii_letters + string.digits
+    code = "".join(random.choice(chars) for _ in range(size))
+    return code
 
 
 # def upload_file(request):
@@ -775,7 +787,6 @@ def results(request):
     else:
         sql = query2sqlquery(tags)
         query = query2sqlquery(tags)
-        print(query, "Kiran")
         res = (
             Samples.objects.filter(query)
             .annotate(
@@ -820,6 +831,17 @@ def results(request):
                 "lat",
             )
         )
+        # TODO: Store information in file to download
+        rand_fold = random_alnum()
+        result_fold = f"{settings.STATIC_ROOT}/downloads/{rand_fold}"
+        if not os.path.exists(result_fold):
+            os.makedirs(result_fold, exist_ok=True)
+        result_file = f"{result_fold}/results.csv"
+        project_summary.to_csv(result_file, index=False)
+        result_file = f"download/{rand_fold}/results.csv"
+        # download_file = f"{}/stat"
+        print(result_file)
+
         geo = (
             project_summary.groupby(["lon", "lat"])
             .size()
@@ -939,7 +961,8 @@ def results(request):
                 "records": geo,
                 # Pagination
                 "page_range": page_range,
-                "items": items
+                "items": items,
+                "result_file": result_file
                 # 'query': query[: -1]
             },
         )
@@ -959,7 +982,8 @@ def results(request):
                 "records": geoloc,
                 # Pagination
                 "page_range": page_range,
-                "items": items
+                "items": items,
+                "result_file": result_file
                 # 'query': query[: -1]
             },
         )
