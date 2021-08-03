@@ -19,17 +19,17 @@ $(function() {
                 type: "POST",
                 url: "/results/",
                 data: {
-                    'tags': $('#search').val(),
-                    'oldsearch': $('#tags').val(),
-                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken").val()
+                    tags: $("#search").val(),
+                    oldsearch: $("#tags").val(),
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken").val(),
                 },
                 success: searchSuccess,
-                dataType: 'html'
+                dataType: "html",
             });
-        }, 1000));
-
+        }, 2000)
+    ); // 2 seconds delay after after typing
 });
 
 function searchSuccess(data, textStatus, jqXHR) {
-    $('#dynamic').html(data)
+    $("#dynamic").html(data);
 }
