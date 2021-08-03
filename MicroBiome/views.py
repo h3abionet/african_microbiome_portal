@@ -838,7 +838,7 @@ def results(request):
             os.makedirs(result_fold, exist_ok=True)
         result_file = f"{result_fold}/results.csv"
         project_summary.to_csv(result_file, index=False)
-        result_file = f"download/{rand_fold}/results.csv"
+        result_file = f"downloads/{rand_fold}/results.csv"
         # download_file = f"{}/stat"
         print(result_file)
 
