@@ -28,11 +28,11 @@
         height: 1px;
         border: none
     }
-    
+
     .noborder {
         border: none
     }
-    
+
     .offscreen {
         height: 1px;
         width: 1px;
@@ -75,12 +75,13 @@
     <tbody>
         {% for result in results%}
         <tr>
-            <td><a href='https://www.ncbi.nlm.nih.gov/sra/?term={{result.sampid}}&tags={{tags}}'>{{result.sampid}}</td>
-					<td>{{result.locetdiet__country|safe}}</td>
-					<td>{{result.disease__disease|safe}}</td>
-					<td>{{result.platform__platform|safe}}</td>
-					<td>{{result.assay__assay|safe}}</td> 
-					<td>{{result.amplicon__amplicon|safe}}</td> 
+            <td><a
+                href='https://www.ncbi.nlm.nih.gov/sra/?term={{result.sampleid}}'>{{result.sampleid}}</td>
+					<td>{{result.country|safe}}</td>
+					<td>{{result.disease|safe}}</td>
+					<td>{{result.platform|safe}}</td>
+					<td>{{result.assay|safe}}</td>
+					<td>{{result.amplicon|safe}}</td>
 					{% comment %} <td>{{result.technology|safe}}</td> {% endcomment %}
 					{% comment %} <td>{{result.disease|safe}}</td> {% endcomment %}
 					{% comment %} <td>{{result.study_design|safe}}</td> {% endcomment %}

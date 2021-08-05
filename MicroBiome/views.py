@@ -275,9 +275,9 @@ def results_sample(request):
                 "lat",
             )
         )
-        samples = read_frame(res)
+        samples = read_frame(res).fillna("")
 
-        # print(df)
+        print(samples)
         paginator = Paginator(
             samples.to_dict(orient="records"), 10
         )  # 10 information per page
@@ -297,107 +297,51 @@ def results_sample(request):
         end_index = index + 5 if index <= max_index - 5 else max_index
         page_range = paginator.page_range[start_index:end_index]
         # Platforms
-        platform = read_frame(res.annotate(
-            num=Count("platform")).order_by("platform"))
-        platform = (
-            platform.groupby("platform__platform")[
-                "num"].apply(np.sum).reset_index()
+        platform_pie_dict = (
+            read_frame(
+                res.values("platform")
+                .annotate(y=Count("platform"))
+                .order_by("platform")
+            )
+            .rename(columns={"platform": "name"})
+            .to_json(orient="records")
+        )
+        assay_pie_dict = (
+            read_frame(res.values("assay").annotate(
+                y=Count("assay")).order_by("assay"))
+            .rename(columns={"assay": "name"})
+            .to_json(orient="records")
         )
 
-        platform_pie_dict = [
-            {"name": plts["platform__platform"], "y": plts["num"]}
-            for _, plts in platform.iterrows()
-            if plts["platform__platform"] != "nan"
-        ]
-
-        # ASSAY
-        assay = read_frame(
-            res.annotate(num=Count("assay__assay")).order_by("assay__assay")
+        disease_pie_dict = (
+            read_frame(
+                res.values("disease").annotate(
+                    y=Count("disease")).order_by("disease")
+            )
+            .rename(columns={"disease": "name"})
+            .to_json(orient="records")
         )
-        assay = assay.groupby("assay__assay")[
-            "num"].apply(np.sum).reset_index()
-        print(assay)
 
-        assay_pie_dict = [
-            {"name": plts["assay__assay"], "y": plts["num"]}
-            for _, plts in assay.iterrows()
-            if plts["assay__assay"] != "nan"
-        ]
-
-        # DISEASES
-        disease = read_frame(
-            res.annotate(num=Count("disease__disease")
-                         ).order_by("disease__disease")
-        )
-        disease = disease.groupby("disease__disease")[
-            "num"].apply(np.sum).reset_index()
-
-        disease_pie_dict = [
-            {"name": plts["disease__disease"], "y": plts["num"]}
-            for _, plts in disease.iterrows()
-            if plts["disease__disease"] != "nan"
-        ]
-        # # GEO LOCATION
+        # GEO LOCATION
         try:
-            geoloc = pd.DataFrame(
+            geoloc = read_frame(
                 res.values(
-                    "locetdiet__lon",
-                    "locetdiet__lat",
-                    "locetdiet__country",
-                    "project",
+                    "lon",
+                    "lat",
+                    "country",
+                    # "project",
                 )
                 #  LocEthDiet.objects.values(
                 #  "lon", "lat","country").annotate(num_samples=Count("samples__project", distinct=True))
             )
             # TODO: Fix country issue with multiple coordinates
-            geoloc = geoloc[
-                ~(pd.isna(geoloc.locetdiet__lon) | pd.isna(geoloc.locetdiet__lat))
-            ].drop_duplicates(["locetdiet__country", "project"])
-            geoloc_country = geoloc.drop_duplicates("locetdiet__country")
-            for _, row in geoloc_country.iterrows():
-                geoloc.loc[
-                    geoloc["locetdiet__country"] == row["locetdiet__country"],
-                    "locetdiet__lon",
-                ] = row["locetdiet__lon"]
-                geoloc.loc[
-                    geoloc["locetdiet__country"] == row["locetdiet__country"],
-                    "locetdiet__lat",
-                ] = row["locetdiet__lat"]
             geoloc = (
-                geoloc.groupby(
-                    ["locetdiet__lon", "locetdiet__lat", "locetdiet__country"]
-                )
+                geoloc[~(pd.isna(geoloc.lon) | pd.isna(geoloc.lat))]
+                .groupby(["lon", "lat", "country"])
                 .size()
                 .reset_index()
-                .rename(
-                    columns={
-                        0: "num_samples",
-                        "locetdiet__lon": "lon",
-                        "locetdiet__lat": "lat",
-                        "locetdiet__country": "country",
-                    }
-                )
+                .rename(columns={0: "num_samples"})
             )
-
-            #  geoloc = pd.DataFrame(res.values("locetdiet__lon", "locetdiet__lat", "locetdiet__country","project")
-            #      #  LocEthDiet.objects.values(
-            #      #  "lon", "lat","country").annotate(num_samples=Count("samples__project", distinct=True))
-            #                        )
-            #  # TODO: Fix country issue with multiple coordinates
-            #  geoloc = geoloc[~(pd.isna(geoloc.locetdiet__lon) | pd.isna(geoloc.locetdiet__lat))].drop_duplicates(["locetdiet__country","project"])
-            #  geoloc_country = geoloc.drop_duplicates()
-            #  for _, row in geoloc_country.iterrows():
-            #      geoloc.loc[geoloc["locetdiet__country"] == row["locetdiet__country"], "locetdiet__lon" ] = row["locetdiet__lon"]
-            #      geoloc.loc[geoloc["locetdiet__country"] == row["locetdiet__country"], "locetdiet__lat" ] = row["locetdiet__lat"]
-            #  geoloc = geoloc.groupby(["locetdiet__lon", "locetdiet__lat","clocetdiet__ountry"])["num_samples"].apply(sum).reset_index()
-            #  print(geoloc, "Anmol")
-            #
-            #
-            #
-            #  geoloc = pd.DataFrame(res.values("locetdiet__lon", "locetdiet__lat"))
-            #  geoloc = geoloc[~(pd.isna(geoloc.locetdiet__lat) | pd.isna(geoloc.locetdiet__lon))]
-            #  geoloc = geoloc.groupby(["locetdiet__lon", "locetdiet__lat"]).size(
-            #  ).reset_index().rename(columns={"locetdiet__lon":"lon", "locetdiet__lat":"lat", 0:"num_samples"})
         except AttributeError:
             geoloc = pd.DataFrame()
         no_data = [{"name": "No Data", "y": 0}]
