@@ -265,6 +265,15 @@ def query_Q(query):
             if query[0].startswith("~")
             else Q(l2disease__disease__icontains=query[0])
         )
+    if (
+        query[1] == "bioproject"
+    ):  # NOTE: This is hidden from rest, as only for sample query
+        return (
+            ~Q(l2disease__disease__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(l2bioproject__repoid__icontains=query[0])
+        )
+
     if not query[0].startswith("~"):
         return (
             Q(sampid__icontains=query[0])
