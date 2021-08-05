@@ -19,24 +19,25 @@ from .string2query import query2sqlquery
 from django_pandas.io import read_frame
 from django.conf import settings
 from django.shortcuts import render
-from django.db.models import Count, Q, F
-from django.db.models.functions import Length
+from django.db.models import Count, F
+
+# from django.db.models.functions import Length
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.decorators.csrf import csrf_exempt
 
 #  from django_tables2.config import RequestConfig
 #  from .djmodel import get_model_repr
 #  from .models import Movie, Person
-from .forms import PostForm, Upload
+from .forms import PostForm
 from .models import (
-    BioProject,
+    # BioProject,
     BodySite,
     Disease,
-    LocEthDiet,
+    # LocEthDiet,
     Platform,
     Pubmed,
     Samples,
-    StudyDesign,
+    # StudyDesign,
 )
 
 
@@ -46,6 +47,24 @@ def random_alnum(size=6):
     chars = string.ascii_letters + string.digits
     code = "".join(random.choice(chars) for _ in range(size))
     return code
+
+
+def pie_json(dataframe, column):
+    """TODO: Return json for give variable for pie chart.
+
+    :dataframe: data table
+    :column: column in table
+    :returns: json text
+
+    """
+    return (
+        dataframe[dataframe["variable"] == column]
+        .groupby("value")
+        .size()
+        .reset_index()
+        .rename(columns={"value": "name", 0: "y"})
+        .to_json(orient="records")
+    )
 
 
 def mergedict(args):
@@ -61,65 +80,68 @@ def search_form(request):
 
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
-        num_samples=Count("samples__l2bioproject", distinct=True)
+        y=Count("samples__l2bioproject", distinct=True)
     )
-    body_site_sample = BodySite.objects.all().annotate(num_samples=Count("samples"))
-    body_site_pie_project = [
-        {"name": plts.bodysite, "y": plts.num_samples}
-        for plts in body_site_project
-        if plts.bodysite != "nan"
-    ]
-    body_site_pie_sample = [
-        {"name": plts.bodysite, "y": plts.num_samples}
-        for plts in body_site_sample
-        if plts.bodysite != "nan"
-    ]
-
+    body_site_pie_project = (
+        read_frame(body_site_project)
+        .rename(columns={"bodysite": "name"})
+        .to_json(orient="records")
+    )
+    body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
+    body_site_pie_sample = (
+        read_frame(body_site_sample)
+        .rename(columns={"bodysite": "name"})
+        .to_json(orient="records")
+    )
     # NOTE: ASSAY
     assay_project = (
         Platform.objects.values("assay")
-        .annotate(num_samples=Count("samples__l2bioproject", distinct=True))
+        .annotate(y=Count("samples__l2bioproject", distinct=True))
         .order_by("assay")
     )
     assay_sample = (
         Platform.objects.values("assay")
-        .annotate(num_samples=Count("samples", distinct=True))
+        .annotate(y=Count("samples", distinct=True))
         .order_by("assay")
     )
 
-    assay_pie_project = [
-        {"name": plts["assay"], "y": plts["num_samples"]} for plts in assay_project
-    ]
-
-    assay_pie_sample = [
-        {"name": plts["assay"], "y": plts["num_samples"]} for plts in assay_sample
-    ]
+    assay_pie_project = (
+        read_frame(assay_project)
+        .rename(columns={"assay": "name"})
+        .to_json(orient="records")
+    )
+    assay_pie_sample = (
+        read_frame(assay_sample)
+        .rename(columns={"assay": "name"})
+        .to_json(orient="records")
+    )
 
     # NOTE: PLATFORM
-    platforms_project = (
+    platform_project = (
         Platform.objects.values("platform")
-        .annotate(num_samples=Count("samples__l2bioproject", distinct=True))
+        .annotate(y=Count("samples__l2bioproject", distinct=True))
         .order_by("platform")
     )
-    platforms_sample = (
+    platform_sample = (
         Platform.objects.values("platform")
-        .annotate(num_samples=Count("samples", distinct=True))
+        .annotate(y=Count("samples", distinct=True))
         .order_by("platform")
     )
 
-    platform_pie_dict_project = [
-        {"name": plts["platform"], "y": plts["num_samples"]}
-        for plts in platforms_project
-    ]
-
-    platform_pie_dict_sample = [
-        {"name": plts["platform"], "y": plts["num_samples"]}
-        for plts in platforms_sample
-    ]
+    platform_pie_project = (
+        read_frame(platform_project)
+        .rename(columns={"platform": "name"})
+        .to_json(orient="records")
+    )
+    platform_pie_sample = (
+        read_frame(platform_sample)
+        .rename(columns={"platform": "name"})
+        .to_json(orient="records")
+    )
 
     # NOTE: This code is for future reference, do not delete
     # Body Site
-    #      bodysites = BodySite.objects.annotate(num_samples=Count("samples"))
+    #      bodysites = BodySite.objects.annotate(y=Count("samples"))
     #      color = {'eye':"#90ED7D",
     #  'genital':"#434348",
     #  'gut':"#70A0CF",
@@ -130,7 +152,7 @@ def search_form(request):
     #  'plasma':"#2B908F",
     #  'skin':"#F45B5B"}
     #      bodysite_pie_dict = [{'name': bs.bodysite,
-    #                            'y': bs.num_samples,
+    #                            'y': bs.y,
     #                            } for bs in bodysites
     #                            #  'color':color[bs.bodysite]} for bs in bodysites
     #                           if not (bs.bodysite in ["Ebola virus",'nan', 'penil,vaginal'] or 'metagenom' in bs.bodysite)]
@@ -138,15 +160,19 @@ def search_form(request):
     # NOTE: DISEASES
 
     disease_project = Disease.objects.all().annotate(
-        num_samples=Count("samples__l2bioproject", distinct=True)
+        y=Count("samples__l2bioproject", distinct=True)
     )
-    disease_sample = Disease.objects.all().annotate(num_samples=Count("samples"))
-    disease_pie_project = [
-        {"name": plts.disease, "y": plts.num_samples} for plts in disease_project
-    ]
-    disease_pie_sample = [
-        {"name": plts.disease, "y": plts.num_samples} for plts in disease_sample
-    ]
+    disease_sample = Disease.objects.all().annotate(y=Count("samples"))
+    disease_pie_project = (
+        read_frame(disease_project)
+        .rename(columns={"disease": "name"})
+        .to_json(orient="records")
+    )
+    disease_pie_sample = (
+        read_frame(disease_sample)
+        .rename(columns={"disease": "name"})
+        .to_json(orient="records")
+    )
 
     # NOTE: Geographical plotting on map
     geoloc_project = pd.DataFrame(
@@ -189,8 +215,8 @@ def search_form(request):
         "assay_pie_dict_sample": assay_pie_sample,
         "disease_pie_dict_project": disease_pie_project,
         "disease_pie_dict_sample": disease_pie_sample,
-        "platform_pie_dict_sample": platform_pie_dict_sample,
-        "platform_pie_dict_project": platform_pie_dict_project,
+        "platform_pie_dict_sample": platform_pie_sample,
+        "platform_pie_dict_project": platform_pie_project,
         "records": geoloc,
     }
     # #  print(all_records.values())
@@ -204,60 +230,56 @@ def results_sample(request):
     if request.method == "GET":
         tags = request.GET.get("tags", None)
         page = request.GET.get("page", 1)
-        project = request.GET.get("project", None)
+        bioproject = request.GET.get("bioproject", None)
         qs = []
         extras = {}
-        if project:
-            qs.append(Q(project__repoid=project))
-            extras["project"] = project
-        query = qs.pop()
-        for q in qs:
-            query &= q
-
-        print(project, tags)
-
         if tags:
-            #             broken_tags = tags.split(",")
-            #             qs = [
-            #                 Q(sampid__icontains=tag)
-            #                 | Q(avspotlen__icontains=tag)
-            #                 | Q(locetdiet__country__icontains=tag)
-            #                 | Q(locetdiet__region__icontains=tag)
-            #                 | Q(locetdiet__urbanization__icontains=tag)
-            #                 | Q(locetdiet__cityvillage__icontains=tag)
-            #                 | Q(locetdiet__ethnicity__icontains=tag)
-            #                 | Q(locetdiet__country__icontains=tag)
-            #                 | Q(platform__platform__icontains=tag)
-            #                 | Q(amplicon__amplicon__icontains=tag)
-            #                 | Q(assay__assay__icontains=tag)
-            #                 | Q(disease__disease__icontains=tag)
-            #                 for tag in broken_tags
-            #             ]
-            #             # print(tags, broken_tags)
-            #             query2 = qs.pop()
-            #             for q in qs:
-            #                 query2 |= q
-            #             query &= query2
-            #
-            #         print(query, "Anmol")
-            query = query2sqlquery(tags)
-            print(query, "anmol kiarn")
+            tags = f"({tags}) & ({bioproject}[bioproject])"
+        else:
+            tags = f"({bioproject}[bioproject])"
+        query = query2sqlquery(tags)
 
-        res = Samples.objects.filter(query).values(
-            "sampid",
-            "locetdiet__country",
-            "platform__platform",
-            "amplicon__amplicon",
-            "assay__assay",
-            "disease__disease",
-            "locetdiet__lon",
-            "locetdiet__lat",
+        # res = Samples.objects.filter(query).values(
+        # "sampid",
+        # "locetdiet__country",
+        # "platform__platform",
+        # "amplicon__amplicon",
+        # "assay__assay",
+        # "disease__disease",
+        # "locetdiet__lon",
+        # "locetdiet__lat",
+        # )
+        res = (
+            Samples.objects.filter(query)
+            .annotate(
+                title=F("l2pubmed__title"),
+                pubid=F("l2pubmed__pubid"),
+                sampleid=F("sampid"),
+                bioproject=F("l2bioproject__repoid"),
+                country=F("l2loc_diet__country"),
+                platform=F("l2platform__platform"),
+                assay=F("l2platform__assay"),
+                amplicon=F("l2platform__target_amplicon"),
+                disease=F("l2disease__disease"),
+                lon=F("longitude"),
+                lat=F("latitude"),
+            )
+            .values(
+                "sampleid",
+                "country",
+                "platform",
+                "amplicon",
+                "assay",
+                "disease",
+                "lon",
+                "lat",
+            )
         )
-        df = read_frame(res).replace("nan", "")
+        samples = read_frame(res)
 
-        print(df)
+        # print(df)
         paginator = Paginator(
-            df.to_dict(orient="records"), 10
+            samples.to_dict(orient="records"), 10
         )  # 10 information per page
 
         try:
@@ -275,10 +297,8 @@ def results_sample(request):
         end_index = index + 5 if index <= max_index - 5 else max_index
         page_range = paginator.page_range[start_index:end_index]
         # Platforms
-        platform = read_frame(
-            res.annotate(num=Count("platform__platform")
-                         ).order_by("platform__platform")
-        )
+        platform = read_frame(res.annotate(
+            num=Count("platform")).order_by("platform"))
         platform = (
             platform.groupby("platform__platform")[
                 "num"].apply(np.sum).reset_index()
@@ -409,16 +429,13 @@ def results_sample(request):
 
 def results(request):
     # Try https://github.com/jamespacileo/django-pure-pagination
+    qt, page, tags = "post", 1, None
     if request.method == "POST":
-        search_text = request.POST["tags"]
         tags = request.POST["oldsearch"]
-        page = 1
-        qt = "post"
 
     if request.method == "GET":
         tags = request.GET.get("tags", None)
         page = request.GET.get("page", 1)
-        search_text = None
         qt = "get"
 
     res = None
@@ -448,7 +465,7 @@ def results(request):
         )
         # print(res)
     else:
-        sql = query2sqlquery(tags)
+        # sql = query2sqlquery(tags)
         query = query2sqlquery(tags)
         res = (
             Samples.objects.filter(query)
@@ -529,33 +546,10 @@ def results(request):
 
         project_summary = project_summary[~pd.isna(project_summary["value"])]
         # print(project_summary)
-        # NOTE: Platform pie
-        platform_pie_dict_sample = (
-            project_summary[project_summary["variable"] == "platform"]
-            .groupby("value")
-            .size()
-            .reset_index()
-            .rename(columns={"value": "name", 0: "y"})
-            .to_json(orient="records")
-        )
-
-        disease_pie_dict_sample = (
-            project_summary[project_summary["variable"] == "disease"]
-            .groupby("value")
-            .size()
-            .reset_index()
-            .rename(columns={"value": "name", 0: "y"})
-            .to_json(orient="records")
-        )
-
-        assay_pie_dict_sample = (
-            project_summary[project_summary["variable"] == "assay"]
-            .groupby("value")
-            .size()
-            .reset_index()
-            .rename(columns={"value": "name", 0: "y"})
-            .to_json(orient="records")
-        )
+        # NOTE: Pie codes
+        platform_pie_dict_sample = pie_json(project_summary, "platform")
+        disease_pie_dict_sample = pie_json(project_summary, "disease")
+        assay_pie_dict_sample = pie_json(project_summary, "assay")
 
         # print(platform_pie_dict_sample)
 
