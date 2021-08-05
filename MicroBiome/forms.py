@@ -6,30 +6,30 @@ from django.urls import reverse
 from .models import Tags
 
 
-class Upload(forms.Form):
-    infile = forms.FileField()
-    separator = forms.ChoiceField(
-        choices=(
-            ("", "Choose ...."),
-            (" ", "Space"),
-            ("\t", "Tab"),
-            (",", "Comma"),
-            (";", "Semi-Comma"),
-        )
-    )
+# class Upload(forms.Form):
+# infile = forms.FileField()
+# separator = forms.ChoiceField(
+# choices=(
+# ("", "Choose ...."),
+# (" ", "Space"),
+# ("\t", "Tab"),
+# (",", "Comma"),
+# (";", "Semi-Comma"),
+# )
+# )
 
-    def __init__(self, *args, **kwargs):
-        super(Upload, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_action = reverse("upload")
-        self.helper.method = "POST"
-        #  self.fields["infile"].label = False
-        #  self.helper.form_show_labels = False
-        #  selff.helper.layout = Layout(
-        #      Row(Column('infile', css_class='form-group col-md-4 mb-0'),
-        #          Column('separator', css_class='form-group col-md-4 mb-0')
-        #          )
-        #  )
+# def __init__(self, *args, **kwargs):
+# super(Upload, self).__init__(*args, **kwargs)
+# self.helper = FormHelper(self)
+# self.helper.form_action = reverse("upload")
+# self.helper.method = "POST"
+#  self.fields["infile"].label = False
+#  self.helper.form_show_labels = False
+#  selff.helper.layout = Layout(
+#      Row(Column('infile', css_class='form-group col-md-4 mb-0'),
+#          Column('separator', css_class='form-group col-md-4 mb-0')
+#          )
+#  )
 
 
 class PostForm(forms.ModelForm):

@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 #  from .djmodel import get_model_repr
 # Create your views here.
 #  from .models import Movie, Person
-from .forms import PostForm, Upload
+from .forms import PostForm  # , Upload
 from .models import (BioProject, BodySite, Disease, LocEthDiet, Platform,
                      Pubmed, Samples, StudyDesign)
 
