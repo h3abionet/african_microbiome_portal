@@ -90,7 +90,7 @@
                       {% endfor %}
                     </td>
                   </tr>
-                  {%endif%} {% if result.platform %}
+                  {%endif%}{% if result.platform %}
                   <tr>
                     <td>Platform</td>
                     <td>
@@ -99,7 +99,15 @@
                       {% endfor %}
                     </td>
                   </tr>
-                  {%endif%}{% if result.locetdiet__diets %}
+                  {%endif%}
+{% if result.col_date %}
+                  <tr>
+                    <td>Collection date</td>
+                    <td>{{result.col_date}}</td>
+                  </tr>
+                {%endif%}
+
+                  {% if result.locetdiet__diets %}
                   <tr>
                     <td>Diet</td>
                     <td>{{result.locetdiet__diets}}</td>
@@ -124,7 +132,7 @@
                     <td>City Village</td>
                     <td>{{result.locetdiet__cityvillage}}</td>
                   </tr>
-                {%endif%}
+                  {%endif%}
           </tbody>
         </table>
     </div>

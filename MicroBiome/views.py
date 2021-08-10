@@ -67,6 +67,18 @@ def pie_json(dataframe, column):
     )
 
 
+def date_range(date_list):
+    """TODO: return date range if possible.
+
+    :date_list: date in list format
+    :returns: range string of date
+
+    """
+    if date_list[("value", "amin")] == date_list[("value", "amax")]:
+        return f'{date_list[("value", "amin")]}'
+    return f'{date_list[("value", "amin")]}:{date_list[("value", "amax")]}'
+
+
 def mergedict(args):
     """Returns merged dictionary."""
     output = {}
@@ -200,8 +212,8 @@ def search_form(request):
         .merge(geoloc_country, on=["longitude", "latitude"], how="outer")
         .rename(
             columns={
-                "longitude": "lon",
                 "latitude": "lat",
+                "longitude": "lon",
                 "l2loc_diet__country": "country",
             }
         )
@@ -394,6 +406,7 @@ def results(request):
             disease=F("samples__l2disease__disease"),
             lon=F("samples__longitude"),
             lat=F("samples__latitude"),
+            col_date=F("samples__col_date"),
         ).values(
             "title",
             "pubid",
@@ -406,6 +419,7 @@ def results(request):
             "disease",
             "lon",
             "lat",
+            "col_date",
         )
         # print(res)
     else:
@@ -438,6 +452,7 @@ def results(request):
                 "disease",
                 "lon",
                 "lat",
+                "col_date",
             )
         )
     try:
@@ -453,6 +468,7 @@ def results(request):
                 "amplicon",
                 "lon",
                 "lat",
+                "col_date",
             )
         )
         # TODO: Store information in file to download
@@ -464,7 +480,6 @@ def results(request):
         project_summary.to_csv(result_file, index=False)
         result_file = f"downloads/{rand_fold}/results.csv"
         # download_file = f"{}/stat"
-        print(result_file)
 
         geo = (
             project_summary.groupby(["lon", "lat"])
@@ -485,6 +500,7 @@ def results(request):
         geo = geo.merge(geo_country, on=["lon", "lat"], how="outer").merge(
             geo_projects, on=["lon", "lat"], how="outer"
         )
+        project_summary = project_summary.drop(["lon", "lat"], axis=1)
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
 
@@ -496,9 +512,21 @@ def results(request):
         assay_pie_dict_sample = pie_json(project_summary, "assay")
 
         # print(platform_pie_dict_sample)
+        project_summary_col_date = project_summary.loc[
+            project_summary["variable"] == "col_date", ["pubid", "value"]
+        ].groupby("pubid")
+        project_summary_col_date = project_summary_col_date.agg(
+            {"value": [np.min, np.max]}
+        )  # .reset_index()
+        project_summary_col_date["col_date"] = project_summary_col_date.apply(
+            date_range, axis=1
+        )
+        project_summary_col_date = project_summary_col_date.reset_index()
+        # print(project_summary_col_date)
 
         project_summary = (
-            project_summary.groupby(["pubid", "title", "variable", "value"])
+            project_summary[project_summary["variable"] != "col_date"]
+            .groupby(["pubid", "title", "variable", "value"])
             .size()
             .reset_index()
         )
@@ -517,11 +545,26 @@ def results(request):
             .apply(list)
             .reset_index()
         )
-        project_summary["value"] = project_summary["value"].apply(mergedict)
+
         # print(project_summary)
+        project_summary["value"] = project_summary["value"].apply(mergedict)
+
+        # NOTE: Calculating date range
+        # project_summary.loc[
+        # project_summary["variable"] == "col_date", "value"
+        # ] = project_summary.loc[
+        # project_summary["variable"] == "col_date", "value"
+        # ].apply(
+        # date_range
+        # )
+        print(project_summary)
         project_summary = project_summary.pivot(
             index=["pubid", "title"], columns="variable", values="value"
         ).reset_index()
+        project_summary = project_summary.merge(
+            project_summary_col_date[["pubid", "col_date"]], on="pubid"
+        ).rename(columns={("col_date", ""): "col_date"})
+        print(project_summary)
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     except:
