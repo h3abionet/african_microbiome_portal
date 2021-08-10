@@ -28,7 +28,8 @@
 		formatter:function(){
                                 var pcnt = this.point.percentage;
                                 pcnt=Highcharts.numberFormat(pcnt)+'%';
-                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                                return '<a href="/microbiome/results/?tags=' +
+          this.point.name +'[disease]"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
                         }
 
 /*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
@@ -95,7 +96,8 @@
 		formatter:function(){
                                 var pcnt = this.point.percentage;
                                 pcnt=Highcharts.numberFormat(pcnt)+'%';
-                                return '<a href="/microbiome/results/?tags=' + this.point.name +'"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
+                                return '<a href="/microbiome/results/?tags=' +
+          this.point.name +'[disease]"/>' + this.point.name + ': ' + pcnt +' ('+this.point.y+')</a>';
                         }
 
 /*     pointFormat:'<a href="/microbiome/results/?tags={point.name}">{point.name}:{point.percentage:.1f}</a>',*/
