@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
 <link rel="stylesheet" href="{% static 'css/search.css'%}">
 <style>
-    .bootstrap-tagsinput {
-        width: 100% !important;
-    }
+.bootstrap-tagsinput {
+  width: 100% !important;
+}
 </style>
 {% endblock %} {% block content %}
 <br />
@@ -19,32 +19,31 @@
 
 <form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
 
-    <div class="input-group">
-        {% comment %} <input type="text" class="form-control" placeholder="Search there"> {% endcomment %} {{ form.tags|add_class:"form-control"}} {% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
-        </div>
+  <div class="input-group">
+    {% comment %} <input type="text" class="form-control" placeholder="Search there"> {% endcomment %} {{ form.tags|add_class:"form-control"}} {% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
     </div>
+  </div>
 
 
 </form>
 <div class="input-group">
-    <p> <i> Examples: <strong>(q1[t1] & q1[t2]) | ~q3[t3] </strong> </i> </p>
+  <p> <i> Examples: <strong>(q1[t1] & q1[t2]) | ~q3[t3] </strong> </i> </p>
 
 
-    <p> <i> In example, <strong>q</strong>s are query terms and <strong>t</strong>s are their type (e.g. country, disease etc). <strong>&</strong>, <strong>|</strong> and <strong>~</strong> represent <strong>AND</strong>, <strong>OR</strong> and <strong>NOT</strong> boolean operations respectively. “<strong>(</strong>“ parentheses defines the query operation order. “<strong>[</strong>“ parentheses for defining the query type. If query type not provided (missing "[]"), the query term will be queried for all the known fields. For the searchable keyword list, please visit <a href="/microbiome/help/">Help</a>.
-</i> </p>
+  <p> <i> In example, <strong>q</strong>s are query terms and <strong>t</strong>s are their type (e.g. country, disease etc). <strong>&</strong>, <strong>|</strong> and <strong>~</strong> represent <strong>AND</strong>, <strong>OR</strong> and <strong>NOT</strong> boolean operations respectively. “<strong>(</strong>“ parentheses defines the query operation order. “<strong>[</strong>“ parentheses for defining the query type. If query type not provided (missing "[]"), the query term will be queried for all the known fields. For the searchable keyword list, please visit <a href="/microbiome/help/">Help</a>.
+  </i> </p>
 
 </div>
 <!-- <H3>SEARCH</H3>
-{% csrf_token %}
-<param id="test" value="100 ">
-<input type='text' id='search' name="search " />
-<div id="results"></div> -->
+  {% csrf_token %}
+  <param id="test" value="100 ">
+  <input type='text' id='search' name="search " />
+  <div id="results"></div> -->
 
-
-<br />
-<br />
+  <br />
+  <br />
 <br /> {% include "dashboard.html" %} {% endblock %}
