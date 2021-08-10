@@ -8,7 +8,7 @@
           data-toggle="collapse"
           data-target="#pub_{{result.pubid}}"
           >
-          <a href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a>
+          <div class="row"><a href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a></div>
       </button>
     </div>
     {% comment %}<div class="col-sm">A</div>{% endcomment %}
@@ -66,7 +66,13 @@
                     <td>Disease</td>
                     <td>
                       {% for key, value in result.disease.items %}
-                        {{key}}:{{value}} {% if not forloop.last %},{% endif %}
+                        {% if key.1 %}
+                          <a href="https://www.ebi.ac.uk/ols/ontologies/doid/terms?iri=http://purl.obolibrary.org/obo/DOID_{{key.1|floatformat}}">{{key.0}}</a>
+                        {% else %}
+                          {{key.0}}
+                        {% endif %}
+                        :{{value}}
+                        {% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
 

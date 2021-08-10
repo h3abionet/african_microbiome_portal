@@ -404,6 +404,7 @@ def results(request):
             amplicon=F("samples__l2platform__target_amplicon"),
             assay=F("samples__l2platform__assay"),
             disease=F("samples__l2disease__disease"),
+            doid=F("samples__l2disease__doid"),
             lon=F("samples__longitude"),
             lat=F("samples__latitude"),
             col_date=F("samples__col_date"),
@@ -417,6 +418,7 @@ def results(request):
             "amplicon",
             "assay",
             "disease",
+            "doid",
             "lon",
             "lat",
             "col_date",
@@ -437,6 +439,7 @@ def results(request):
                 assay=F("l2platform__assay"),
                 amplicon=F("l2platform__target_amplicon"),
                 disease=F("l2disease__disease"),
+                doid=F("l2disease__doid"),
                 lon=F("longitude"),
                 lat=F("latitude"),
             )
@@ -450,6 +453,7 @@ def results(request):
                 "amplicon",
                 "assay",
                 "disease",
+                "doid",
                 "lon",
                 "lat",
                 "col_date",
@@ -463,6 +467,7 @@ def results(request):
                 "bioproject",
                 "country",
                 "disease",
+                "doid",
                 "platform",
                 "assay",
                 "amplicon",
@@ -471,6 +476,11 @@ def results(request):
                 "col_date",
             )
         )
+        doid = project_summary[["disease", "doid"]].drop_duplicates()
+        doid = doid.fillna(0)
+
+        doid = dict(zip(doid.disease, doid.doid))
+        del project_summary["doid"]
         # TODO: Store information in file to download
         rand_fold = random_alnum()
         result_fold = f"{settings.STATIC_ROOT}/downloads/{rand_fold}"
@@ -479,7 +489,6 @@ def results(request):
         result_file = f"{result_fold}/results.csv"
         project_summary.to_csv(result_file, index=False)
         result_file = f"downloads/{rand_fold}/results.csv"
-        # download_file = f"{}/stat"
 
         geo = (
             project_summary.groupby(["lon", "lat"])
@@ -505,7 +514,6 @@ def results(request):
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
 
         project_summary = project_summary[~pd.isna(project_summary["value"])]
-        # print(project_summary)
         # NOTE: Pie codes
         platform_pie_dict_sample = pie_json(project_summary, "platform")
         disease_pie_dict_sample = pie_json(project_summary, "disease")
@@ -529,6 +537,17 @@ def results(request):
             .groupby(["pubid", "title", "variable", "value"])
             .size()
             .reset_index()
+        )
+        # project_summary.loc[project_summary["variable"] == "disease", "value"].apply(
+        # lambda x: print(x, doid[x])
+        # )
+
+        project_summary.loc[project_summary["variable"] == "disease", "value"] = (
+            # print(
+            project_summary.loc[project_summary["variable"]
+                                == "disease", "value"]
+            .apply(lambda x: tuple([x, doid[x]]))
+            .values
         )
         # project_summary["value"] = project_summary["value"] + \
         # "("+project_summary[0].astype(str)+")"
@@ -564,6 +583,7 @@ def results(request):
         project_summary = project_summary.merge(
             project_summary_col_date[["pubid", "col_date"]], on="pubid"
         ).rename(columns={("col_date", ""): "col_date"})
+        # TODO: simplyfy renaming of multilevel columns
         print(project_summary)
 
         # print(project_summary[["pubid", "title", "bioproject"]])
