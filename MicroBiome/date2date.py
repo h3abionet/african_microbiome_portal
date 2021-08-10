@@ -1,5 +1,6 @@
 import pandas as pd
 from pandas.tseries.offsets import MonthEnd, YearEnd
+from .models import date_default
 
 
 def to_date(date_str):
@@ -10,8 +11,16 @@ def to_date(date_str):
 
     """
     # TODO: Check whether month and year are provided
-    date = None
+    date = date_default
+
+    print(pd.isna(date_str), date_str, "Anmol")
+    if pd.isna(date_str) or date_str == "-":
+        return None
     if "-" in date_str:
+        if "/" in date_str:
+            # NOTE: Selecting the last date in the ranege
+            dts = date_str.split("-")[-1]
+            return to_date(dts)
         try:
             date = pd.to_datetime(date_str, format="%d-%m-%Y")
         except:

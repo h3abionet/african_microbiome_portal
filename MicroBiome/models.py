@@ -197,7 +197,7 @@ class Samples(models.Model):
         max_length=5, null=False, blank=False
     )  # Average spot length
     # TODO: How to reset to default when date is null??
-    # col_date = models.DateField(default=date_default, null=True, blank=False)
+    col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
     longitude = models.FloatField(null=True, blank=False, default=None)
     latitude = models.FloatField(null=True, blank=False, default=None)

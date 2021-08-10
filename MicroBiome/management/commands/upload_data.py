@@ -12,6 +12,7 @@ from django_pandas.io import read_frame
 from django.core.management.base import BaseCommand, CommandError
 
 from MicroBiome import models
+from MicroBiome.date2date import to_date
 
 
 def remove_multiple_spaces(txt):
@@ -21,15 +22,27 @@ def remove_multiple_spaces(txt):
 
 # TODO: Create a function for many-to-many relation
 
+
 def multi_value_columns_rows_allowed(dataframe):
     """TODO: Docstring for multi_value_columns_rows_allowed.
     :returns: TODO
 
     """
-    for col in ['DISEASE', 'ELO', 'DOID', 'ETHNICITY',
-                'REGION', 'LAT LON', 'URBANZATION',  'CITYVILLAGE', 'COUNTRY', "TARGET AMPLICON"]:
-        dataframe = dataframe[dataframe[col].apply(
-            lambda x: len(str(x).split("//"))) < 2]
+    for col in [
+        "DISEASE",
+        "ELO",
+        "DOID",
+        "ETHNICITY",
+        "REGION",
+        "LAT LON",
+        "URBANZATION",
+        "CITYVILLAGE",
+        "COUNTRY",
+        "TARGET AMPLICON",
+    ]:
+        dataframe = dataframe[
+            dataframe[col].apply(lambda x: len(str(x).split("//"))) < 2
+        ]
     return dataframe
 
 
@@ -47,8 +60,7 @@ def update_pubmed(pubmed_info):
         try:
             query = models.Pubmed.objects.get(pubid=info[1])
         except:
-            query = models.Pubmed.objects.create(
-                title=info[0], pubid=info[1])
+            query = models.Pubmed.objects.create(title=info[0], pubid=info[1])
         pubmed_dict[info[1]] = query
         # break
     return pubmed_dict
@@ -93,7 +105,8 @@ def update_study_design(study_design_info):
         studies_list = studties_str.split("//")
         for study in studies_list:
             query = models.StudyDesign.objects.get_or_create(
-                study_design=remove_multiple_spaces(study))[0]
+                study_design=remove_multiple_spaces(study)
+            )[0]
             studies_dict[remove_multiple_spaces(study)] = query
     return studies_dict
 
@@ -154,14 +167,26 @@ def update_platform(platform):
     for _, info in platform.iterrows():
         print(info.values)
         query = models.Platform.objects.get_or_create(
-            platform=info["PLATFORM"], technology=info["TECHNOLOGY"], assay=None if info["ASSAY TYPE"] == np.nan else info["ASSAY TYPE"],
-            target_amplicon=None if info["TARGET AMPLICON"] == np.nan else info["TARGET AMPLICON"]
+            platform=info["PLATFORM"],
+            technology=info["TECHNOLOGY"],
+            assay=None if info["ASSAY TYPE"] == np.nan else info["ASSAY TYPE"],
+            target_amplicon=None
+            if info["TARGET AMPLICON"] == np.nan
+            else info["TARGET AMPLICON"],
         )[0]
         platform_dict[tuple(info.values)] = query
     return platform_dict
 
 
-def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, loc_diet_dict, bioproject_dict):
+def update_samples(
+    samples,
+    pub_dict,
+    plt_dict,
+    body_site_dict,
+    disease_dict,
+    loc_diet_dict,
+    bioproject_dict,
+):
     """TODO: Docstring for check_bodysite.
 
     :bodysites: TODO
@@ -178,12 +203,12 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
     for _, sample in samples.iterrows():
         # print(sample)
         try:
-            query = models.Samples.objects.get(
-                sampid=sample["Run ID"]
-            )
+            query = models.Samples.objects.get(sampid=sample["Run ID"])
             # NOTE: Pubid integration
-            pubids = [int(remove_multiple_spaces(pid))
-                      for pid in sample["STUDY LINK"].split("//")]
+            pubids = [
+                int(remove_multiple_spaces(pid))
+                for pid in sample["STUDY LINK"].split("//")
+            ]
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
@@ -193,15 +218,17 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
             query = models.Samples.objects.create(
                 sampid=sample["Run ID"],
                 avspotlen=sample["AVERAGE SPOTLENGTH"],
-                # col_date=sample["COLLECTION DATE"],
+                col_date=sample["COLLECTION DATE"],
                 lib_layout=sample["LIBRARY LAYOUT"],
                 longitude=sample["LON"],
                 latitude=sample["LAT"],
-                capital=sample["CAPITAL"]
+                capital=sample["CAPITAL"],
             )
             # NOTE: Pubid integration
-            pubids = [int(remove_multiple_spaces(pid))
-                      for pid in sample["STUDY LINK"].split("//")]
+            pubids = [
+                int(remove_multiple_spaces(pid))
+                for pid in sample["STUDY LINK"].split("//")
+            ]
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
@@ -210,9 +237,15 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
 
             # NOTE: Platform information integration
             # print(plt_dict[(sample[6], sample[7], sample[8])],
-                # (sample[6], sample[7], sample[8]))
-            query.l2platform = plt_dict[(
-                sample["PLATFORM"], sample["TECHNOLOGY"], sample["ASSAY TYPE"], sample["TARGET AMPLICON"])]
+            # (sample[6], sample[7], sample[8]))
+            query.l2platform = plt_dict[
+                (
+                    sample["PLATFORM"],
+                    sample["TECHNOLOGY"],
+                    sample["ASSAY TYPE"],
+                    sample["TARGET AMPLICON"],
+                )
+            ]
 
             # NOTE: Body site integration
             query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
@@ -220,26 +253,35 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict, lo
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
                 print(type(sample["DISEASE"]), disease_dict)
-                diseases = [remove_multiple_spaces(disease)
-                            for disease in sample["DISEASE"].split(",")]
+                diseases = [
+                    remove_multiple_spaces(disease)
+                    for disease in sample["DISEASE"].split(",")
+                ]
                 for disease in diseases:
                     query.l2disease.add(disease_dict[disease.upper()])
                 if len(diseases) > 1:
                     query.is_mixed = True
             # NOTE: Loc and diets related information integration
-            query.l2loc_diet = loc_diet_dict[tuple(sample[[
-                "COUNTRY",
-                "REGION",
-                "URBANZATION",
-                "CITYVILLAGE",
-                "ETHNICITY",
-                "ELO",
-                "DIET",
-            ]].values)]
+            query.l2loc_diet = loc_diet_dict[
+                tuple(
+                    sample[
+                        [
+                            "COUNTRY",
+                            "REGION",
+                            "URBANZATION",
+                            "CITYVILLAGE",
+                            "ETHNICITY",
+                            "ELO",
+                            "DIET",
+                        ]
+                    ].values
+                )
+            ]
             query.l2bioproject = bioproject_dict[sample["REPOSITORY ID"]]
 
             query.save()
             # exit(0)
+
 
 # Diet and geographical location
 # return
@@ -367,13 +409,13 @@ class Command(BaseCommand):
             "REGION": str,
             "CITYVILLAGE": str,
             "TARGET AMPLICON": str,
-            "DIET": str
+            "DIET": str,
         }
 
         # NOTE: Reporting error if required columns are not in the given file
-        data = pd.read_csv(
-            infile, usecols=usecols, dtype=col_type
-        )
+        data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
+        print(data[["COLLECTION DATE"]].head())
+        data["COLLECTION DATE"] = data["COLLECTION DATE"].apply(to_date)
         # not_found_column = set(usecols) - set(data.columns)
         # if not_found_column:
         # not_found_column = ",".join(not_found_column)
@@ -383,16 +425,18 @@ class Command(BaseCommand):
         # print(len(data))
         # NOTE: Selecting samples where selected columns mut have some value
         # TODO: Add following in test_file
-        index = data[~(
-            pd.isna(data["REPOSITORY ID"]) |
-            pd.isna(data["STUDY TITLE"]) |
-            pd.isna(data["STUDY LINK"]) |
-            pd.isna(data["Run ID"])
-        )].index
+        index = data[
+            ~(
+                pd.isna(data["REPOSITORY ID"])
+                | pd.isna(data["STUDY TITLE"])
+                | pd.isna(data["STUDY LINK"])
+                | pd.isna(data["Run ID"])
+            )
+        ].index
         print(index)
         # TODO: Ask content team what would they like
         if len(index) < len(data):
-            unselected_index = list(set(data.index)-set(index))
+            unselected_index = list(set(data.index) - set(index))
             unselected_index = np.sort(unselected_index)
             print("Please recheck following rows in your data")
             print(data.loc[unselected_index])
@@ -419,8 +463,7 @@ class Command(BaseCommand):
         # NOTE: More than one disease can be associated with one sample
         disease = data.loc[~pd.isna(data["DISEASE"]), ["DISEASE", "DOID"]]
         # disease = data.loc[data["DISEASE"] != 'NAN', ["DISEASE", "DOID"]]
-        disease = disease.applymap(
-            lambda x: np.nan if x == '-' else x)
+        disease = disease.applymap(lambda x: np.nan if x == "-" else x)
         disease = disease[~pd.isna(disease["DISEASE"])].drop_duplicates()
 
         disease = disease.applymap(lambda val: str(val).upper())
@@ -436,6 +479,7 @@ class Command(BaseCommand):
                 return int(val)
             except:
                 return None
+
         for _, row in disease.iterrows():
             for pair in zip(row["DISEASE"], map(doid, row["DOID"])):
                 print(pair, "anmol")
@@ -450,10 +494,9 @@ class Command(BaseCommand):
         bodysite = list(bodysite["BODY SITE"].values)
         body_site_dict = update_bodysite(bodysite)
         # Platform
-        platform = (
-            data[["PLATFORM", "TECHNOLOGY", "ASSAY TYPE", "TARGET AMPLICON"]]
-            .drop_duplicates()
-        )
+        platform = data[
+            ["PLATFORM", "TECHNOLOGY", "ASSAY TYPE", "TARGET AMPLICON"]
+        ].drop_duplicates()
         plt_dict = update_platform(platform)
 
         # # WARNING: I hope Content team do not use multiple coordinates
@@ -471,8 +514,9 @@ class Command(BaseCommand):
         loc_diet_dict = update_loc_diet(loc_diet)
 
         study_design = data[["STUDY DESIGN"]]
-        study_design = study_design[~pd.isna(
-            study_design["STUDY DESIGN"])].drop_duplicates()
+        study_design = study_design[
+            ~pd.isna(study_design["STUDY DESIGN"])
+        ].drop_duplicates()
         print(study_design)
         study_dict = update_study_design(study_design["STUDY DESIGN"].values)
 
@@ -488,8 +532,14 @@ class Command(BaseCommand):
                 "AVERAGE SPOTLENGTH",
                 "COLLECTION DATE",
                 "LIBRARY LAYOUT",
-                "LAT LON"  # TODO: Check where both field are there, else error
-            ] + ["STUDY LINK"]+list(platform.columns)+["BODY SITE"]+["DISEASE"] + list(loc_diet)+["REPOSITORY ID"]
+                "LAT LON",  # TODO: Check where both field are there, else error
+            ]
+            + ["STUDY LINK"]
+            + list(platform.columns)
+            + ["BODY SITE"]
+            + ["DISEASE"]
+            + list(loc_diet)
+            + ["REPOSITORY ID"]
         ]
         # "TARGET AMPLICON",
         # "STUDY LINK", "PLATFORM", "TECHNOLOGY", "ASSAY TYPE"
@@ -503,7 +553,14 @@ class Command(BaseCommand):
         )
         del samples["LAT LON"]
         print(samples.head().values)
-# # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
+        # # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
         # print(samples.head())
-        update_samples(samples, pub_dict, plt_dict,
-                       body_site_dict, disease_dict, loc_diet_dict, bioprojects_dict)
+        update_samples(
+            samples,
+            pub_dict,
+            plt_dict,
+            body_site_dict,
+            disease_dict,
+            loc_diet_dict,
+            bioprojects_dict,
+        )
