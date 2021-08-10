@@ -8,7 +8,7 @@
           data-toggle="collapse"
           data-target="#pub_{{result.pubid}}"
           >
-          {{result.title}}
+          <a href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a>
       </button>
     </div>
     {% comment %}<div class="col-sm">A</div>{% endcomment %}
@@ -99,15 +99,15 @@
                       {% endfor %}
                     </td>
                   </tr>
-                  {%endif%}
-{% if result.col_date %}
+                {%endif%}
+                {% if result.col_date %}
                   <tr>
                     <td>Collection date</td>
                     <td>{{result.col_date}}</td>
                   </tr>
                 {%endif%}
 
-                  {% if result.locetdiet__diets %}
+                {% if result.locetdiet__diets %}
                   <tr>
                     <td>Diet</td>
                     <td>{{result.locetdiet__diets}}</td>
@@ -132,7 +132,7 @@
                     <td>City Village</td>
                     <td>{{result.locetdiet__cityvillage}}</td>
                   </tr>
-                  {%endif%}
+                {%endif%}
           </tbody>
         </table>
     </div>
