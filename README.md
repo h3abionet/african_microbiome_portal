@@ -1,8 +1,11 @@
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8B%20%20%E2%97%8B-orange)](https://fair-software.eu)
+
 # The African microbiome portal
 
 H3Africa initiative to provide a centralized repository for microbiome metadata associated with African populations.
 
 ## Table of Content
+
 - [About](#about)
 - [Technology](#technology)
 - [Setting up the system](#setting)
@@ -15,17 +18,17 @@ H3Africa initiative to provide a centralized repository for microbiome metadata 
 
 The African microbiome portal (AMP) is in development under H3Africa initiative to provide a centralized repository for microbiome metadata associated with African populations, with following aims:
 
-- To provide the most rapid and comprehensive overview of all existing African microbiome metadata.   The metadata includes sequencing details along with repository link hosting that data and  sample details including participant participant demographic details sequences repository links.
-- To continuous inclusion of new newly available data, provided by authors, and acquired by publication reviewing and  other database mining.
+- To provide the most rapid and comprehensive overview of all existing African microbiome metadata. The metadata includes sequencing details along with repository link hosting that data and sample details including participant participant demographic details sequences repository links.
+- To continuous inclusion of new newly available data, provided by authors, and acquired by publication reviewing and other database mining.
 - To establish a free, open and centralised access to harmonized publicly available African microbiome-related metadata that are interactively displayed. The metadata files will also easily downloadable as flat files from the database itself or the github repository.
-- To enables submission of newly published metadata  after assessing and reviewing the submitted files following the instructions in the metadata submission guidelines section.  This will allow researchers with common scientific objectives to contribute to the scientific community by submitting and sharing their new metadata.
-
+- To enables submission of newly published metadata after assessing and reviewing the submitted files following the instructions in the metadata submission guidelines section. This will allow researchers with common scientific objectives to contribute to the scientific community by submitting and sharing their new metadata.
 
 <a name="technology" />
 
 ## Technology
 
 This project is created with :
+
 - Python 3.7
 - Django 2.2.7
 - Liflet
@@ -35,8 +38,6 @@ This project is created with :
 - sqllite3
 
 **Note**: Technology and their version might change in final version of the database.
-
-
 
 <a name="setting"/>
 
@@ -60,11 +61,14 @@ After activating the environment using command `source activate database`
 ### Export dependencies of the enviroment
 
 If you make any change in the conda environment by adding or removing modules.
+
 ```bash
 conda env export --no-builds > environment2.yml
 conda env export -n test-env -f test-env-spec.yml
 ```
+
 ## Docker configuration
+
 - To containerise of Django application, instruction from [Docker](https://docs.docker.com/samples/django/) was followed.
 - Instruction to run the container was followed from [Docker Tip #30: Running Docker Compose from a Different Directory](https://nickjanetakis.com/blog/docker-tip-30-running-docker-compose-from-a-different-directory)
 
@@ -97,4 +101,3 @@ https://github.com/apache/incubator-superset
 - [ ] Cleaning of new datasets
 - [ ] Logo for the portal
 -->
-
