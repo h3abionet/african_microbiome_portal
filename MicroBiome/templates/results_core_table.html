@@ -33,13 +33,13 @@
                   <a
                       href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
                       >{{key}}
-                  </a>:
+                  </a>(
                   <a
                       href="/results_sample/?bioproject={{key}}&tags={{tags}}"
                       >{{value}}
-                  </a>
+                  </a>)
 
-                  {% endfor %}
+                {% endfor %}
               </td>
             </tr>
 
@@ -57,7 +57,7 @@
                     <td>Country</td>
                     <td>
                       {% for key, value in result.country.items %}
-                        {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   </tr>
@@ -71,7 +71,7 @@
                         {% else %}
                           {{key.0}}
                         {% endif %}
-                        :{{value}}
+                        ({{value}})
                         {% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
@@ -89,7 +89,7 @@
                         {% else %}
                           {{key.0}}
                         {% endif %}
-                        :{{value}}
+                        ({{value}})
                         {% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
@@ -104,7 +104,7 @@
                     <td>Assay</td>
                     <td>
                       {% for key, value in result.assay.items %}
-                        {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   </tr>
@@ -113,7 +113,7 @@
                     <td>Amplicons</td>
                     <td>
                       {% for key, value in result.amplicon.items %}
-                        {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   </tr>
@@ -122,7 +122,7 @@
                     <td>Platform</td>
                     <td>
                       {% for key, value in result.platform.items %}
-                        {{key}}:{{value}}{% if not forloop.last %},{% endif %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   </tr>
