@@ -587,63 +587,43 @@ def results(request):
             lon=F("samples__longitude"),
             lat=F("samples__latitude"),
             col_date=F("samples__col_date"),
-        ).values(
-            "title",
-            "pubid",
-            "bioproject",
-            "sampleid",
-            "country",
-            "ethnicity",
-            "ewiki",
-            "platform",
-            "amplicon",
-            "assay",
-            "disease",
-            "doid",
-            "lon",
-            "lat",
-            "col_date",
         )
-        # print(res)
+
     else:
-        # sql = query2sqlquery(tags)
         query = query2sqlquery(tags)
-        res = (
-            Samples.objects.filter(query)
-            .annotate(
-                title=F("l2pubmed__title"),
-                pubid=F("l2pubmed__pubid"),
-                sampleid=F("sampid"),
-                bioproject=F("l2bioproject__repoid"),
-                country=F("l2loc_diet__country"),
-                ethnicity=F("l2loc_diet__ethnicity"),
-                ewiki=F("l2loc_diet__el_wiki"),
-                platform=F("l2platform__platform"),
-                assay=F("l2platform__assay"),
-                amplicon=F("l2platform__target_amplicon"),
-                disease=F("l2disease__disease"),
-                doid=F("l2disease__doid"),
-                lon=F("longitude"),
-                lat=F("latitude"),
-            )
-            .values(
-                "title",
-                "pubid",
-                "bioproject",
-                "sampleid",
-                "country",
-                "ethnicity",
-                "ewiki",
-                "platform",
-                "amplicon",
-                "assay",
-                "disease",
-                "doid",
-                "lon",
-                "lat",
-                "col_date",
-            )
+        res = Samples.objects.filter(query).annotate(
+            title=F("l2pubmed__title"),
+            pubid=F("l2pubmed__pubid"),
+            sampleid=F("sampid"),
+            bioproject=F("l2bioproject__repoid"),
+            country=F("l2loc_diet__country"),
+            ethnicity=F("l2loc_diet__ethnicity"),
+            ewiki=F("l2loc_diet__el_wiki"),
+            platform=F("l2platform__platform"),
+            assay=F("l2platform__assay"),
+            amplicon=F("l2platform__target_amplicon"),
+            disease=F("l2disease__disease"),
+            doid=F("l2disease__doid"),
+            lon=F("longitude"),
+            lat=F("latitude"),
         )
+    res = res.values(
+        "title",
+        "pubid",
+        "bioproject",
+        "sampleid",
+        "country",
+        "ethnicity",
+        "ewiki",
+        "platform",
+        "amplicon",
+        "assay",
+        "disease",
+        "doid",
+        "lon",
+        "lat",
+        "col_date",
+    )
     try:
         project_summary = read_frame(
             res.values(
@@ -715,6 +695,8 @@ def results(request):
             ~(pd.isna(project_summary["value"]) |
               project_summary["value"] == "nan")
         ]
+        # TODO: Add body site, Sample Type, City-Village, Diet, Study design,
+        # participant feattures
         # NOTE: Pie codes
         platform_pie_dict_sample = pie_json(project_summary, "platform")
         disease_pie_dict_sample = pie_json(project_summary, "disease")
@@ -816,7 +798,8 @@ def results(request):
         ).reset_index()
         project_summary = (
             project_summary.merge(
-                project_summary_col_date[["pubid", "col_date"]], on="pubid", how="outer")
+                project_summary_col_date[["pubid", "col_date"]], on="pubid", how="outer"
+            )
             .rename(columns={("col_date", ""): "col_date"})
             .fillna(False)
         )
