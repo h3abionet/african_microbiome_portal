@@ -78,6 +78,27 @@
 
                   </tr>
                 {% endif %}
+
+                {% if result.ethnicity %}
+                  <tr>
+                    <td>Ethnicity</td>
+                    <td>
+                      {% for key, value in result.ethnicity.items %}
+                        {% if key.1 != "nan" %}
+                          <a href="https://en.wikipedia.org/wiki/{{key.1}}">{{key.0}}</a>
+                        {% else %}
+                          {{key.0}}
+                        {% endif %}
+                        :{{value}}
+                        {% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                    </td>
+
+                  </tr>
+                {% endif %}
+
+
+
                 {% if result.assay %}
                   <tr>
                     <td>Assay</td>

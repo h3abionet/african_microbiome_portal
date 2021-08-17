@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File              : models.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : models.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
 from django.db import models
 from datetime import date
 from taggit.managers import TaggableManager
@@ -90,7 +99,8 @@ class LocEthDiet(models.Model):
     ethnicity = models.CharField(
         max_length=50, default=None, null=True, blank=False)
     elo = models.CharField(max_length=20, default=None, null=True, blank=False)
-    # ethno_ling_wiki = models.CharField(max_length=100)
+    el_wiki = models.CharField(max_length=100, default=None, null=True,
+                               blank=False)
     diets = models.CharField(
         max_length=100, default=None, null=True, blank=False)
 

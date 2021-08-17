@@ -1,11 +1,158 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : upload_data.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
 import re
 import sys
 
-from os import path
 
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 
 from geopy.geocoders import Nominatim
 from django_pandas.io import read_frame
@@ -268,10 +415,11 @@ def update_samples(
                         [
                             "COUNTRY",
                             "REGION",
-                            "URBANZATION",
                             "CITYVILLAGE",
+                            "URBANZATION",
                             "ETHNICITY",
                             "ELO",
+                            "WIKI",
                             "DIET",
                         ]
                     ].values
@@ -304,6 +452,7 @@ def update_loc_diet(loc_diet):
             cityvillage=None if info["CITYVILLAGE"] == np.nan else info["CITYVILLAGE"],
             ethnicity=None if info["ETHNICITY"] == np.nan else info["ETHNICITY"],
             elo=None if info["ELO"] == np.nan else info["ELO"],
+            el_wiki=None if info["WIKI"] == np.nan else info["WIKI"],
             diets=None if info["DIET"] == np.nan else info["DIET"],
         )[0]
         loc_diet_info_dict[tuple(info.values)] = query
@@ -442,6 +591,23 @@ class Command(BaseCommand):
             print(data.loc[unselected_index])
             print("Updating rest")
         data = data.loc[index]
+        elo_wiki = pd.read_csv(
+            "/home/devil/Documents/Tools/AMPData/fixed/elo_wiki.csv",
+            usecols=["ELO", "WIKI"],
+        )
+        elo_wiki["ELO"] = elo_wiki["ELO"].apply(str.upper)
+        # TODO: Merge the values where elo is
+        tdata = data[~pd.isna(data["ELO"])]
+
+        tdata["ELO"] = tdata["ELO"].apply(str.upper)
+        print(tdata[pd.isna(tdata["STUDY LINK"])], "Anmol")
+        print(elo_wiki[pd.isna(elo_wiki["ELO"])], "Kiran")
+        data = data[pd.isna(data["ELO"])]
+        tdata = tdata.merge(elo_wiki, on="ELO", how="inner")
+
+        data = pd.concat([data, tdata])
+        data.loc[pd.isna(data["WIKI"]), "WIKI"] = np.nan
+
         data = multi_value_columns_rows_allowed(data)
 
         # NOTE: only BioProject per line
@@ -504,14 +670,16 @@ class Command(BaseCommand):
             [
                 "COUNTRY",
                 "REGION",
-                "URBANZATION",
                 "CITYVILLAGE",
+                "URBANZATION",
                 "ETHNICITY",
                 "ELO",
+                "WIKI",
                 "DIET",
             ]
         ].drop_duplicates()
         loc_diet_dict = update_loc_diet(loc_diet)
+        print(loc_diet.columns)
 
         study_design = data[["STUDY DESIGN"]]
         study_design = study_design[
@@ -538,7 +706,7 @@ class Command(BaseCommand):
             + list(platform.columns)
             + ["BODY SITE"]
             + ["DISEASE"]
-            + list(loc_diet)
+            + list(loc_diet.columns)
             + ["REPOSITORY ID"]
         ]
         # "TARGET AMPLICON",
@@ -555,6 +723,7 @@ class Command(BaseCommand):
         print(samples.head().values)
         # # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
         # print(samples.head())
+        print(loc_diet_dict)
         update_samples(
             samples,
             pub_dict,

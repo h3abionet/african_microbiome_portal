@@ -1,3 +1,136 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 16.08.2021
+# Last Modified Date: 16.08.2021
 #!/usr/bin/env python
 
 
@@ -400,6 +533,8 @@ def results(request):
             bioproject=F("samples__l2bioproject__repoid"),
             sampleid=F("samples__sampid"),
             country=F("samples__l2loc_diet__country"),
+            ethnicity=F("samples__l2loc_diet__ethnicity"),
+            ewiki=F("samples__l2loc_diet__el_wiki"),
             platform=F("samples__l2platform__platform"),
             amplicon=F("samples__l2platform__target_amplicon"),
             assay=F("samples__l2platform__assay"),
@@ -414,6 +549,8 @@ def results(request):
             "bioproject",
             "sampleid",
             "country",
+            "ethnicity",
+            "ewiki",
             "platform",
             "amplicon",
             "assay",
@@ -435,6 +572,8 @@ def results(request):
                 sampleid=F("sampid"),
                 bioproject=F("l2bioproject__repoid"),
                 country=F("l2loc_diet__country"),
+                ethnicity=F("l2loc_diet__ethnicity"),
+                ewiki=F("l2loc_diet__el_wiki"),
                 platform=F("l2platform__platform"),
                 assay=F("l2platform__assay"),
                 amplicon=F("l2platform__target_amplicon"),
@@ -449,6 +588,8 @@ def results(request):
                 "bioproject",
                 "sampleid",
                 "country",
+                "ethnicity",
+                "ewiki",
                 "platform",
                 "amplicon",
                 "assay",
@@ -466,6 +607,8 @@ def results(request):
                 "title",
                 "bioproject",
                 "country",
+                "ethnicity",
+                "ewiki",
                 "disease",
                 "doid",
                 "platform",
@@ -476,11 +619,22 @@ def results(request):
                 "col_date",
             )
         )
+        # print(set(project_summary["ethnicity"]))
+
+        # NOTE: Values with external links
+        # Disease ID
         doid = project_summary[["disease", "doid"]].drop_duplicates()
         doid = doid.fillna(0)
 
         doid = dict(zip(doid.disease, doid.doid))
         del project_summary["doid"]
+        # Ethnicity
+        ewiki = project_summary[["ethnicity", "ewiki"]]
+        ewiki = ewiki[ewiki["ethnicity"] != "nan"].drop_duplicates().fillna(0)
+        print(ewiki, "Kiran")
+        ewiki = dict(zip(ewiki.ethnicity, ewiki.ewiki))
+        del project_summary["ewiki"]
+
         # TODO: Store information in file to download
         rand_fold = random_alnum()
         result_fold = f"{settings.STATIC_ROOT}/downloads/{rand_fold}"
@@ -513,7 +667,10 @@ def results(request):
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
 
-        project_summary = project_summary[~pd.isna(project_summary["value"])]
+        project_summary = project_summary[
+            ~(pd.isna(project_summary["value"]) |
+              project_summary["value"] == "nan")
+        ]
         # NOTE: Pie codes
         platform_pie_dict_sample = pie_json(project_summary, "platform")
         disease_pie_dict_sample = pie_json(project_summary, "disease")
@@ -530,7 +687,7 @@ def results(request):
             date_range, axis=1
         )
         project_summary_col_date = project_summary_col_date.reset_index()
-        # print(project_summary_col_date)
+        print(project_summary_col_date)
 
         project_summary = (
             project_summary[project_summary["variable"] != "col_date"]
@@ -542,6 +699,8 @@ def results(request):
         # lambda x: print(x, doid[x])
         # )
 
+        # NOTE: Adding external link related values
+        # DOID
         project_summary.loc[project_summary["variable"] == "disease", "value"] = (
             # print(
             project_summary.loc[project_summary["variable"]
@@ -549,11 +708,40 @@ def results(request):
             .apply(lambda x: tuple([x, doid[x]]))
             .values
         )
+        # ETHNICITY WIKI
+
+        def ethni(ewiki, key):
+            """TODO: Docstring for ethni.
+
+            :key: TODO
+            :returns: TODO
+
+            """
+            try:
+                return tuple([key, ewiki[key]])
+            except:
+                return False
+
+        project_summary.loc[project_summary["variable"] == "ethnicity", "value"] = (
+            # # print(
+            project_summary.loc[project_summary["variable"]
+                                == "ethnicity", "value"]
+            .apply(lambda x: ethni(ewiki, x))
+            .values
+        )
+        print(
+            set(project_summary["value"]),
+            # project_summary[~project_summary["value"]],
+        )
+        project_summary = project_summary[project_summary["value"] != False]
+        print(project_summary)
+
         # project_summary["value"] = project_summary["value"] + \
         # "("+project_summary[0].astype(str)+")"
         project_summary["value"] = project_summary[["value", 0]].apply(
             lambda x: {x["value"]: x[0]}, axis=1
         )
+        print(project_summary)
         # TODO: Use dictionary
         del project_summary[0]
         # project_summary = project_summary.groupby(["pubid", "title", "variable"])[
@@ -576,15 +764,16 @@ def results(request):
         # ].apply(
         # date_range
         # )
-        print(project_summary)
         project_summary = project_summary.pivot(
             index=["pubid", "title"], columns="variable", values="value"
         ).reset_index()
-        project_summary = project_summary.merge(
-            project_summary_col_date[["pubid", "col_date"]], on="pubid"
-        ).rename(columns={("col_date", ""): "col_date"})
-        # TODO: simplyfy renaming of multilevel columns
-        print(project_summary)
+        project_summary = (
+            project_summary.merge(
+                project_summary_col_date[["pubid", "col_date"]], on="pubid"
+            )
+            .rename(columns={("col_date", ""): "col_date"})
+            .fillna(False)
+        )
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     except:
