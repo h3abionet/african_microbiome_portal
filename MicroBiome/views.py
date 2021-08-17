@@ -57,6 +57,50 @@
 # Last Modified Date: 17.08.2021
 # -*- coding: utf-8 -*-
 # File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
+# Date              : 17.08.2021
+# Last Modified Date: 17.08.2021
+# -*- coding: utf-8 -*-
+# File              : views.py
 # Date              : 16.08.2021
 # Last Modified Date: 16.08.2021
 # -*- coding: utf-8 -*-
@@ -683,6 +727,9 @@ def results(request):
         project_summary_col_date = project_summary_col_date.agg(
             {"value": [np.min, np.max]}
         )  # .reset_index()
+        project_summary_col_date = project_summary_col_date[
+            ~pd.isna(project_summary_col_date[("value", "amin")])
+        ]
         project_summary_col_date["col_date"] = project_summary_col_date.apply(
             date_range, axis=1
         )
@@ -769,11 +816,11 @@ def results(request):
         ).reset_index()
         project_summary = (
             project_summary.merge(
-                project_summary_col_date[["pubid", "col_date"]], on="pubid"
-            )
+                project_summary_col_date[["pubid", "col_date"]], on="pubid", how="outer")
             .rename(columns={("col_date", ""): "col_date"})
             .fillna(False)
         )
+        print(project_summary)
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     except:
