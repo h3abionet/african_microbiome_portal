@@ -1,152 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : upload_data.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
+
 import re
 import sys
 
@@ -228,13 +81,13 @@ def update_bioproject(bioprojects, study_dict):
         except:
             query = models.BioProject.objects.create(
                 repoid=bioproject["REPOSITORY ID"])
-            study_str = bioproject["STUDY DESIGN"]
-            if type(study_str) == str:
-                study_list = study_str.split("//")
-                for study in study_list:
-                    print(study, study_dict)
-                    query.study_design.add(
-                        study_dict[remove_multiple_spaces(study)])
+            # study_str = bioproject["STUDY DESIGN"]
+            # if type(study_str) == str:
+            # study_list = study_str.split("//")
+            # for study in study_list:
+            # print(study, study_dict)
+            # query.study_design.add(
+            # study_dict[remove_multiple_spaces(study)])
             query.save()
         bioproject_dict[bioproject["REPOSITORY ID"]] = query
     return bioproject_dict
@@ -563,6 +416,14 @@ class Command(BaseCommand):
 
         # NOTE: Reporting error if required columns are not in the given file
         data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
+        for col in col_type:
+            if col_type[col] == str:
+                print(col)
+                data.loc[~pd.isna(data[col]), col] = (
+                    data.loc[~pd.isna(data[col]), col].apply(
+                        lambda x: x.strip()).values
+                )
+
         print(data[["COLLECTION DATE"]].head())
         data["COLLECTION DATE"] = data["COLLECTION DATE"].apply(to_date)
         # not_found_column = set(usecols) - set(data.columns)
@@ -681,15 +542,16 @@ class Command(BaseCommand):
         loc_diet_dict = update_loc_diet(loc_diet)
         print(loc_diet.columns)
 
-        study_design = data[["STUDY DESIGN"]]
-        study_design = study_design[
-            ~pd.isna(study_design["STUDY DESIGN"])
-        ].drop_duplicates()
-        print(study_design)
-        study_dict = update_study_design(study_design["STUDY DESIGN"].values)
+        # study_design = data[["STUDY DESIGN"]]
+        # study_design = study_design[
+        # ~pd.isna(study_design["STUDY DESIGN"])
+        # ].drop_duplicates()
+        # print(study_design)
+        # study_dict = update_study_design(study_design["STUDY DESIGN"].values)
 
         bioprojects = data[["REPOSITORY ID", "STUDY DESIGN"]].drop_duplicates()
-        bioprojects_dict = update_bioproject(bioprojects, study_dict)
+        # bioprojects_dict = update_bioproject(bioprojects, study_dict)
+        bioprojects_dict = update_bioproject(bioprojects, None)
 
         # NOTE: Pushing samples in the table and connecting with other tables
         samples = data[
