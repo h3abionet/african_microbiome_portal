@@ -320,6 +320,8 @@ def lan_lot(coor):
 
     """
     capital = False
+    if type(coor) == float:
+        print(coor)
     if coor.endswith("*"):
         capital = True
         coor = coor[:-1]
@@ -578,9 +580,18 @@ class Command(BaseCommand):
         # ) + list(assay.columns
         # )+list(amplicons.columns)
         # ].drop_duplicates("Run ID")
-        samples.loc[:, ["LAT", "LON", "CAPITAL"]] = (
-            samples["LAT LON"].apply(lan_lot).to_list()
-        )
+        # if samples[~pd.isna(samples["LAT LON"])]:
+        if len(samples[~pd.isna(samples["LAT LON"])]):
+            samples.loc[~pd.isna(samples["LAT LON"]), ["LAT", "LON", "CAPITAL"]] = (
+                samples.loc[~pd.isna(samples["LAT LON"]), "LAT LON"]
+                .apply(lan_lot)
+                .to_list()
+            )
+        else:
+            samples["LAT"] = np.nan
+            samples["LON"] = np.nan
+            samples["CAPITAL"] = np.nan
+        # print(xx, "Idiot")
         del samples["LAT LON"]
         print(samples.head().values)
         # # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
