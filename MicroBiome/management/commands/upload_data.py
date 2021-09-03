@@ -420,11 +420,11 @@ class Command(BaseCommand):
         data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
         for col in col_type:
             if col_type[col] == str:
-                print(col)
                 data.loc[~pd.isna(data[col]), col] = (
                     data.loc[~pd.isna(data[col]), col].apply(
                         lambda x: x.strip()).values
                 )
+                data.loc[data[col] == "", col] = np.nan
 
         print(data[["COLLECTION DATE"]].head())
         data["COLLECTION DATE"] = data["COLLECTION DATE"].apply(to_date)
@@ -466,6 +466,7 @@ class Command(BaseCommand):
         print(tdata[pd.isna(tdata["STUDY LINK"])], "Anmol")
         print(elo_wiki[pd.isna(elo_wiki["ELO"])], "Kiran")
         data = data[pd.isna(data["ELO"])]
+        print(data)
         tdata = tdata.merge(elo_wiki, on="ELO", how="inner")
 
         data = pd.concat([data, tdata])
@@ -542,7 +543,6 @@ class Command(BaseCommand):
             ]
         ].drop_duplicates()
         loc_diet_dict = update_loc_diet(loc_diet)
-        print(loc_diet.columns)
 
         # study_design = data[["STUDY DESIGN"]]
         # study_design = study_design[
@@ -591,9 +591,8 @@ class Command(BaseCommand):
             samples["LAT"] = np.nan
             samples["LON"] = np.nan
             samples["CAPITAL"] = np.nan
-        # print(xx, "Idiot")
         del samples["LAT LON"]
-        print(samples.head().values)
+        print(samples.head().values, "test")
         # # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
         # print(samples.head())
         print(loc_diet_dict)
