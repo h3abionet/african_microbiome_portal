@@ -1,182 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 17.08.2021
-# Last Modified Date: 17.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : views.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-#!/usr/bin/env python
-
 
 """MicroBiome Pages.
 
@@ -579,6 +401,8 @@ def results(request):
             country=F("samples__l2loc_diet__country"),
             ethnicity=F("samples__l2loc_diet__ethnicity"),
             ewiki=F("samples__l2loc_diet__el_wiki"),
+            bodysite=F("samples__l2bodysite__bodysite"),
+            cityvillage=F("samples__l2loc_diet__cityvillage"),
             platform=F("samples__l2platform__platform"),
             amplicon=F("samples__l2platform__target_amplicon"),
             assay=F("samples__l2platform__assay"),
@@ -599,6 +423,8 @@ def results(request):
             country=F("l2loc_diet__country"),
             ethnicity=F("l2loc_diet__ethnicity"),
             ewiki=F("l2loc_diet__el_wiki"),
+            bodysite=F("l2bodysite__bodysite"),
+            cityvillage=F("l2loc_diet__cityvillage"),
             platform=F("l2platform__platform"),
             assay=F("l2platform__assay"),
             amplicon=F("l2platform__target_amplicon"),
@@ -611,10 +437,12 @@ def results(request):
         "title",
         "pubid",
         "bioproject",
-        "sampleid",
+        # "sampleid",
         "country",
         "ethnicity",
         "ewiki",
+        "bodysite",
+        "cityvillage",
         "platform",
         "amplicon",
         "assay",
@@ -625,24 +453,7 @@ def results(request):
         "col_date",
     )
     try:
-        project_summary = read_frame(
-            res.values(
-                "pubid",
-                "title",
-                "bioproject",
-                "country",
-                "ethnicity",
-                "ewiki",
-                "disease",
-                "doid",
-                "platform",
-                "assay",
-                "amplicon",
-                "lon",
-                "lat",
-                "col_date",
-            )
-        )
+        project_summary = read_frame(res)
         # print(set(project_summary["ethnicity"]))
 
         # NOTE: Values with external links
@@ -655,7 +466,6 @@ def results(request):
         # Ethnicity
         ewiki = project_summary[["ethnicity", "ewiki"]]
         ewiki = ewiki[ewiki["ethnicity"] != "nan"].drop_duplicates().fillna(0)
-        print(ewiki, "Kiran")
         ewiki = dict(zip(ewiki.ethnicity, ewiki.ewiki))
         del project_summary["ewiki"]
 
@@ -803,7 +613,7 @@ def results(request):
             .rename(columns={("col_date", ""): "col_date"})
             .fillna(False)
         )
-        print(project_summary)
+        print(project_summary[["bodysite", "cityvillage"]])
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     except:

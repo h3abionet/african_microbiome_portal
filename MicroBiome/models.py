@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# File              : models.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
-# -*- coding: utf-8 -*-
-# File              : models.py
-# Date              : 16.08.2021
-# Last Modified Date: 16.08.2021
 from django.db import models
 from datetime import date
 from taggit.managers import TaggableManager
@@ -53,7 +45,7 @@ class StudyDesign(models.Model):
 class BioProject(models.Model):
     repoid = models.CharField(
         max_length=100, unique=True, null=False, blank=False)
-    study_design = models.ManyToManyField(StudyDesign)
+    # l2study_design = models.ManyToManyField(StudyDesign)
     # TODO: Becareful about 0 value
     sample_size = models.IntegerField(default=0, null=False, blank=False)
     # TODO: Make it autoupdate field
@@ -99,8 +91,8 @@ class LocEthDiet(models.Model):
     ethnicity = models.CharField(
         max_length=50, default=None, null=True, blank=False)
     elo = models.CharField(max_length=20, default=None, null=True, blank=False)
-    el_wiki = models.CharField(max_length=100, default=None, null=True,
-                               blank=False)
+    el_wiki = models.CharField(
+        max_length=100, default=None, null=True, blank=False)
     diets = models.CharField(
         max_length=100, default=None, null=True, blank=False)
 

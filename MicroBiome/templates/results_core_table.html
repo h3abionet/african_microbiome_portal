@@ -126,7 +126,27 @@
                       {% endfor %}
                     </td>
                   </tr>
+                  {%endif%}{% if result.bodysite %}
+                  <tr>
+                    <td>Bodysite</td>
+                    <td>
+                      {% for key, value in result.bodysite.items %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                    </td>
+                  </tr>
+                {%endif%}{% if result.cityvillage %}
+                  <tr>
+                    <td>City-Village</td>
+                    <td>
+                      {% for key, value in result.cityvillage.items %}
+                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                    </td>
+                  </tr>
                 {%endif%}
+
+
                 {% if result.col_date %}
                   <tr>
                     <td>Collection date</td>
@@ -134,32 +154,6 @@
                   </tr>
                 {%endif%}
 
-                {% if result.locetdiet__diets %}
-                  <tr>
-                    <td>Diet</td>
-                    <td>{{result.locetdiet__diets}}</td>
-                  </tr>
-                  {%endif%}{% if result.locetdiet__ethnicity %}
-                  <tr>
-                    <td>Ethnicity</td>
-                    <td>{{result.locetdiet__ethnicity}}</td>
-                  </tr>
-                  {%endif%}{% if result.locetdiet__region %}
-                  <tr>
-                    <td>Region</td>
-                    <td>{{result.locetdiet__region}}</td>
-                  </tr>
-                  {%endif%}{% if result.locetdiet__urbanization %}
-                  <tr>
-                    <td>Urbanization</td>
-                    <td>{{result.locetdiet__urbanization}}</td>
-                  </tr>
-                  {%endif%}{% if result.locetdiet__cityvillage %}
-                  <tr>
-                    <td>City Village</td>
-                    <td>{{result.locetdiet__cityvillage}}</td>
-                  </tr>
-                {%endif%}
           </tbody>
         </table>
     </div>

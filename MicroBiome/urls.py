@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from . import views, live_search
+from . import views  # live_search
 
 urlpatterns = [
     #  path('', views.front_main, name="index"),
