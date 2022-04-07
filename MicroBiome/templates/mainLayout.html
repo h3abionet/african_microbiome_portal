@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 {% load static %} {% load leaflet_tags %}
+{% load define_action %}
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-     <link rel = "icon" href = "https://h3abionet.org/images/icons/favicon-96x96.png" type = "image/x-icon">
+    <link rel = "icon" href = "https://h3abionet.org/images/icons/favicon-96x96.png" type = "image/x-icon">
     <title>{% block title %}{% endblock %}</title>
     {% block js_top %} {% endblock %}
     <link
@@ -30,18 +31,21 @@
   </head>
 
   <body>
+    <!--{% define "Edit" as action %}
+      {{action}} Anmol -->
     <div class="container2">
       <nav
           class="navbar navbar-fixed-top navbar-expand-md navbar-light bg-mibio py-md-2"
           >
           <a class="navbar-brand text-white" href="/">
-            <img
+            <i class="fa fa-home"></i>
+            <!--img
                 src="{% static 'img/bionetlogo.png' %} "
                 width="30"
                 height="30"
                 class="d-inline-block align-top"
                 alt=" "
-                /><b>African Microbiome Portal: 06Sep21</b>
+                /--><b>African Microbiome Portal</b>
           </a>
           <button
               class="navbar-toggler navbar-dark"
@@ -70,9 +74,9 @@
                         <li class="nav-item ml-auto py-0">
                           {% endcomment %} {% comment %}
                           <a class="nav-link text-white" href="/microbiome/publication/"
-                                                         >Publication</a
-                                                       >
-                                                       {% endcomment %} {% comment %}
+                            >Publication</a
+                          >
+                          {% endcomment %} {% comment %}
                         </li>
                           {% endcomment %}
                           <li class="nav-item ml-auto py-0">
