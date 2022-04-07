@@ -30,16 +30,21 @@
               <td>Bioproject ID</td>
               <td>
                 {% for key, value in result.bioproject.items %}
-                  <a
-                      href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
-                      >{{key}}
-                  </a>(
-                  <a
-                      href="/results_sample/?bioproject={{key}}&tags={{tags}}"
-                      >{{value}}
-                  </a>)
+                  {% if key|first in 'PRJ' %}
+                    <a
+                        href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
+                        >{{key}}
+                  </a>{%elif key|first in 'MGP' %}<a
+                                                        href="https://www.mg-rast.org/mgmain.html?search={{key}}"
+                                                        >{{key}}
+                </a>{%else%}{%endif%}
+                (
+                <a
+                    href="/results_sample/?bioproject={{key}}&tags={{tags}}"
+                    >{{value}}
+                </a>)
 
-                {% endfor %}
+              {% endfor %}
               </td>
             </tr>
 
@@ -47,112 +52,112 @@
               {% comment %}<td>Sample Count</td>{% endcomment %}
               {% comment %}<td>{% endcomment %}
                 {% comment %}<a{% endcomment %}
-                      {% comment %}href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"{% endcomment %}
-                      {% comment %}>{{result.samp_size}}</a{% endcomment %}
-                    {% comment %}>{% endcomment %}
-                    {% comment %}</td>{% endcomment %}
-                  {% comment %}</tr>{% endcomment %}
-                {% if result.country %}
-                  <tr>
-                    <td>Country</td>
-                    <td>
-                      {% for key, value in result.country.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                  {% endif %} {% if result.disease %}
-                  <tr>
-                    <td>Disease</td>
-                    <td>
-                      {% for key, value in result.disease.items %}
-                        {% if key.1 %}
-                          <a href="https://www.ebi.ac.uk/ols/ontologies/doid/terms?iri=http://purl.obolibrary.org/obo/DOID_{{key.1|floatformat}}">{{key.0}}</a>
-                        {% else %}
-                          {{key.0}}
-                        {% endif %}
-                        ({{value}})
-                        {% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
+                  {% comment %}href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"{% endcomment %}
+                  {% comment %}>{{result.samp_size}}</a{% endcomment %}
+                {% comment %}>{% endcomment %}
+                {% comment %}</td>{% endcomment %}
+              {% comment %}</tr>{% endcomment %}
+            {% if result.country %}
+              <tr>
+                <td>Country</td>
+                <td>
+                  {% for key, value in result.country.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {% endif %} {% if result.disease %}
+              <tr>
+                <td>Disease</td>
+                <td>
+                  {% for key, value in result.disease.items %}
+                    {% if key.1 %}
+                      <a href="https://www.ebi.ac.uk/ols/ontologies/doid/terms?iri=http://purl.obolibrary.org/obo/DOID_{{key.1|floatformat}}">{{key.0}}</a>
+                    {% else %}
+                      {{key.0}}
+                    {% endif %}
+                    ({{value}})
+                    {% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
 
-                  </tr>
-                {% endif %}
+              </tr>
+            {% endif %}
 
-                {% if result.ethnicity %}
-                  <tr>
-                    <td>Ethnicity</td>
-                    <td>
-                      {% for key, value in result.ethnicity.items %}
-                        {% if key.1 != "nan" %}
-                          <a href="https://en.wikipedia.org/wiki/{{key.1}}">{{key.0}}</a>
-                        {% else %}
-                          {{key.0}}
-                        {% endif %}
-                        ({{value}})
-                        {% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
+            {% if result.ethnicity %}
+              <tr>
+                <td>Ethnicity</td>
+                <td>
+                  {% for key, value in result.ethnicity.items %}
+                    {% if key.1 != "nan" %}
+                      <a href="https://en.wikipedia.org/wiki/{{key.1}}">{{key.0}}</a>
+                    {% else %}
+                      {{key.0}}
+                    {% endif %}
+                    ({{value}})
+                    {% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
 
-                  </tr>
-                {% endif %}
-
-
-
-                {% if result.assay %}
-                  <tr>
-                    <td>Assay</td>
-                    <td>
-                      {% for key, value in result.assay.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                  {%endif%} {% if result.amplicon %}
-                  <tr>
-                    <td>Amplicons</td>
-                    <td>
-                      {% for key, value in result.amplicon.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                  {%endif%}{% if result.platform %}
-                  <tr>
-                    <td>Platform</td>
-                    <td>
-                      {% for key, value in result.platform.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                  {%endif%}{% if result.bodysite %}
-                  <tr>
-                    <td>Bodysite</td>
-                    <td>
-                      {% for key, value in result.bodysite.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                {%endif%}{% if result.cityvillage %}
-                  <tr>
-                    <td>City-Village</td>
-                    <td>
-                      {% for key, value in result.cityvillage.items %}
-                        {{key}}({{value}}){% if not forloop.last %},{% endif %}
-                      {% endfor %}
-                    </td>
-                  </tr>
-                {%endif%}
+              </tr>
+            {% endif %}
 
 
-                {% if result.col_date %}
-                  <tr>
-                    <td>Collection date</td>
-                    <td>{{result.col_date}}</td>
-                  </tr>
-                {%endif%}
+
+            {% if result.assay %}
+              <tr>
+                <td>Assay</td>
+                <td>
+                  {% for key, value in result.assay.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {%endif%} {% if result.amplicon %}
+              <tr>
+                <td>Amplicons</td>
+                <td>
+                  {% for key, value in result.amplicon.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {%endif%}{% if result.platform %}
+              <tr>
+                <td>Platform</td>
+                <td>
+                  {% for key, value in result.platform.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {%endif%}{% if result.bodysite %}
+              <tr>
+                <td>Bodysite</td>
+                <td>
+                  {% for key, value in result.bodysite.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {%endif%}{% if result.cityvillage %}
+              <tr>
+                <td>City-Village</td>
+                <td>
+                  {% for key, value in result.cityvillage.items %}
+                    {{key}}({{value}}){% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+            {%endif%}
+
+
+            {% if result.col_date %}
+              <tr>
+                <td>Collection date</td>
+                <td>{{result.col_date}}</td>
+              </tr>
+            {%endif%}
 
           </tbody>
         </table>
