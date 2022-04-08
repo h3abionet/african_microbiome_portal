@@ -48,6 +48,9 @@ class BioProject(models.Model):
     # l2study_design = models.ManyToManyField(StudyDesign)
     # TODO: Becareful about 0 value
     sample_size = models.IntegerField(default=0, null=False, blank=False)
+    participants_summary = models.TextField(
+        max_length=1000, null=True, blank=True)
+
     # TODO: Make it autoupdate field
     # TODO : Auto update using signal feature in Django
     # date_start = models.DateField(
