@@ -211,6 +211,12 @@ def query_Q(query):
             if query[0].startswith("~")
             else Q(l2loc_diet__country__icontains=query[0])
         )
+    if query[1] == "project":
+        return (
+            ~Q(l2bioproject__repoid__icontains=query[0][1:])
+            if query[0].startswith("~")
+            else Q(l2bioproject__repoid__icontains=query[0])
+        )
     if query[1] == "bodysite":
         return (
             ~Q(l2bodysite__bodysite__icontains=query[0][1:])
