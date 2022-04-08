@@ -340,6 +340,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--infile", type=str,
                             help="Input csv file to be tested")
+        parser.add_argument(
+            "--elo_wiki_file", type=str, help="File containing ELO wiki information"
+        )
+        parser.add_argument(
+            "--participant_summary_file",
+            type=str,
+            help="File containing summary of participants in the project",
+        )
 
     def handle(self, *args, **options):
         """TODO: Docstring for function.
@@ -349,6 +357,8 @@ class Command(BaseCommand):
 
         """
         infile = options["infile"]
+        elo_wiki = options["elo_wiki_file"]
+        participant_summary = pd.read_csv(options["participant_summary_file"])
         if not infile:
             print("Infput file not given. Exiting . . . . .")
             sys.exit(0)
@@ -455,7 +465,7 @@ class Command(BaseCommand):
             print("Updating rest")
         data = data.loc[index]
         elo_wiki = pd.read_csv(
-            "/home/devil/Documents/Tools/AMPData/fixed/elo_wiki.csv",
+            elo_wiki,
             usecols=["ELO", "WIKI"],
         )
         elo_wiki["ELO"] = elo_wiki["ELO"].apply(str.upper)
@@ -552,6 +562,9 @@ class Command(BaseCommand):
         # study_dict = update_study_design(study_design["STUDY DESIGN"].values)
 
         bioprojects = data[["REPOSITORY ID", "STUDY DESIGN"]].drop_duplicates()
+        bioprojects = bioprojects.merge(
+            participant_summary, on="REPOSITORY ID", how="inner"
+        )
         # bioprojects_dict = update_bioproject(bioprojects, study_dict)
         bioprojects_dict = update_bioproject(bioprojects, None)
 
