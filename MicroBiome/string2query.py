@@ -286,6 +286,8 @@ def query_Q(query):
             else Q(l2bioproject__repoid__icontains=query[0])
         )
 
+    # TODO: Work on and (&) conditions
+
     if not query[0].startswith("~"):
         return (
             Q(sampid__icontains=query[0])
@@ -331,8 +333,10 @@ def eq2query(postfix, diction):
                 first = to_calculate.pop()
                 second = to_calculate.pop()
                 operator = to_operate.pop()
-                if operator == "*":
+                if operator == "+":
                     query = first | second
+                if operator == "*":
+                    query = first & second
                 to_calculate.append(query)
     if len(to_calculate) > 1:
         print("Something worng.")
