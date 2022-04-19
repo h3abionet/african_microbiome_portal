@@ -44,7 +44,7 @@
         <nav
             class="navbar navbar-fixed-top navbar-expand-md navbar-light bg-mibio py-md-2"
             >
-            <a class="navbar-brand text-white" href="/">
+            <a class="navbar-brand" href="/">
               <i class="fa fa-home"></i>
               <!--img
                 src="{% static 'img/bionetlogo.png' %} "
@@ -62,37 +62,38 @@
                 >
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="main-navigation">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item ml-auto py-0 sp-menu-item">
-                  <a class="nav-link dropdown text-white {% active_link 'about'%}" href="{%url 'about' %}"
+                  <a class="nav-link dropdown {% active_link 'about'%}" href="{%url 'about' %}"
                                                                                    >About</a
                                                                                  >
                 </li>
                     <!--li class="nav-item ml-auto py-0">
-                      <a class="nav-link text-white" href="/">Search</a>
+                      <a class="nav-link" href="/">Search</a>
                       </li>
                       <li class="nav-item ml-auto py-0">
-                      <a class="nav-link text-white" href="/microbiome/contributor/"
+                      <a class="nav-link" href="/microbiome/contributor/"
                       >Contributor</a
                       >
                       </li-->
                         {% comment %}
                           <li class="nav-item ml-auto py-0">
                             {% endcomment %} {% comment %}
-                            <a class="nav-link text-white" href="/microbiome/publication/"
+                            <a class="nav-link" href="/microbiome/publication/"
                               >Publication</a
                             >
                             {% endcomment %} {% comment %}
                           </li>
                             {% endcomment %}
                             <li class="nav-item ml-auto py-0">
-                              <a class="nav-link text-white {% active_link 'resource'%}" href="{% url 'resource' %}"
+                              <a class="nav-link {% active_link 'resource'%}" href="{% url 'resource' %}"
                                                                                          >Resources</a
                                                                                        >
                             </li>
                                 <li class="nav-item ml-auto py-0">
-                                  <a class="nav-link text-white {% active_link 'help'%}" href="{% url 'help' %}">Help</a>
+                                  <a class="nav-link {% active_link 'help'%}" href="{% url 'help' %}">Help</a>
                                 </li>
               </ul>
             </div>

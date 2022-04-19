@@ -1546,12 +1546,11 @@ div#klixoSlider_166 div.textContent {
 }
 
 /*For highlighting current page in nav bar*/
-.active {
-  background-color: #337ab7;
+.navbar-brand,
+.nav-link {
+  color: #ffffff !important;
 }
 
-.nav-link a:hover {
-  background-color: red;
-  text-decoration: none;
-  outline: none;
+.active {
+  background-color: #337ab7;
 }
