@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # 'dal_select2',
     'grappelli',
     #  'bootstrap_admin', # always before django.contrib.admin
+    'active_link',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

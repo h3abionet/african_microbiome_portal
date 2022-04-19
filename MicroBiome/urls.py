@@ -14,13 +14,14 @@ urlpatterns = [
     # path("upload/", views.upload_file, name="upload"),
     #  path('download/', views.results_download, name="download"),
     # Mostly statics pages
-    path("about/", TemplateView.as_view(template_name="about.html")),
+    path("about/", TemplateView.as_view(template_name="about.html"), name='about'),
     path("test/", TemplateView.as_view(template_name="slides.html")),
-    path(
-        "contributor/", TemplateView.as_view(template_name="contributors.html")
-    ),
-    path("resource/", TemplateView.as_view(template_name="resouces.html")),
-    path("help/", TemplateView.as_view(template_name="help.html")),
+    # path(
+    # "contributor/", TemplateView.as_view(template_name="contributors.html")
+    # ),
+    path("resource/", TemplateView.as_view(template_name="resouces.html"),
+         name='resource'),
+    path("help/", TemplateView.as_view(template_name="help.html"), name='help'),
     path(
         "publication/", TemplateView.as_view(template_name="publications.html")
     ),
