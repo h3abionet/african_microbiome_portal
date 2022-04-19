@@ -2,6 +2,7 @@
 {% load static %} {% load leaflet_tags %}
 {% load define_action %}
 {% load active_link_tags %}
+{% load cache_bust %}
 
 <html>
   <head>
@@ -28,13 +29,13 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-    <style>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}?{% cache_bust %}" />
+      <style>
 .navbar-nav > a.nav-link {
   background-color: #0f0;
 }
-    </style>
-    {% block css %} {% endblock %}
+      </style>
+      {% block css %} {% endblock %}
   </head>
 
   <body>
@@ -67,8 +68,8 @@
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item ml-auto py-0 sp-menu-item">
                   <a class="nav-link dropdown {% active_link 'about'%}" href="{%url 'about' %}"
-                                                                                   >About</a
-                                                                                 >
+                                                                        >About</a
+                                                                      >
                 </li>
                     <!--li class="nav-item ml-auto py-0">
                       <a class="nav-link" href="/">Search</a>
@@ -89,8 +90,8 @@
                             {% endcomment %}
                             <li class="nav-item ml-auto py-0">
                               <a class="nav-link {% active_link 'resource'%}" href="{% url 'resource' %}"
-                                                                                         >Resources</a
-                                                                                       >
+                                                                              >Resources</a
+                                                                            >
                             </li>
                                 <li class="nav-item ml-auto py-0">
                                   <a class="nav-link {% active_link 'help'%}" href="{% url 'help' %}">Help</a>
