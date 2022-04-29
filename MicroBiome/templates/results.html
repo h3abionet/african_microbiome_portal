@@ -63,7 +63,7 @@
   <br />
   <br />
   <div class="row">
-    <div class={% if not results.empty %}"col-10"{% else %} "col-12" {% endif %}>
+    <div class={% if res_len %}"col-10"{% else %} "col-12" {% endif %}>
       {% csrf_token %}
       <param id="tags" value="{{tags}}" />
       <input
@@ -73,24 +73,24 @@
           placeholder="Refine your search (Currently inactive)"
           />
     </div>
-    {% if not results.empty %}
+    {% if res_len %}
       <div class="col-2">
         <a class="btn btn-primary" href="{% static result_file %}" role="button">Download Results</a>
       </div>
     {% endif %}
   </div>
   <div id="dynamic">
-    {% if qt == "get" %} {%if not results.empty%}
+    {% if qt == "get" %} {%if res_len%}
       <div class="items" id="accordion">
         {% include "results_core_table.html" %}
-                <div>{% include "pagination.html" %}</div>
+        <div>{% include "pagination.html" %}</div>
       </div>
     {% else %}
       <div class="col-sm btn btn-danger">
         No result found. Please search different keyword(s). Redirecting to search
         page in 3 seconds.
       </div>
-    <meta http-equiv="refresh" content="3;url=/search/" /> {%endif%}
+    <meta http-equiv="refresh" content="3;url=/" /> {%endif%}
 
     <br />
     <br />

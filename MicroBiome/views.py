@@ -48,6 +48,14 @@ def random_alnum(size=6):
     return code
 
 
+def downloal_all(request):
+    """
+    Send link to pre arrange dataset.
+
+    """
+    pass
+
+
 def pie_json(dataframe, column):
     """TODO: Return json for give variable for pie chart.
 
@@ -475,6 +483,7 @@ def results(request):
         if not os.path.exists(result_fold):
             os.makedirs(result_fold, exist_ok=True)
         result_file = f"{result_fold}/results.csv"
+        # TODO: Extend to other columns
         project_summary.to_csv(result_file, index=False)
         result_file = f"downloads/{rand_fold}/results.csv"
 
@@ -640,11 +649,13 @@ def results(request):
 
     # print("Anmol Kiran", df)
     print(qt, items)
+    print(type(items), "Anmol")
     if qt == "get":
         return render(
             request,
             "results.html",
             {
+                "res_len": len(project_summary),
                 "results": items,
                 "tags": tags,
                 "qt": qt,
