@@ -20,8 +20,11 @@ def is_balanced(strng):
         if s_g in open_list:
             if i != 0 and strng[i - 1] != "\\":
                 stck.append(s_g)
+                continue
+            stck.append(s_g)
         elif s_g in close_list:
             if i != 0 and strng[i - 1] != "\\":
+                # TODO: Might need some fixing here
                 pos = close_list.index(s_g)
                 if (len(stck) > 0) and (open_list[pos] == stck[len(stck) - 1]):
                     stck.pop()
@@ -351,6 +354,7 @@ def query2sqlquery(qry):
 
     """
     infix_equation, diction = str2eq(qry)
+    print(qry, infix_equation, diction)
     blnc = is_balanced(infix_equation)
     if not blnc:
         print("Given query is not balanced")
