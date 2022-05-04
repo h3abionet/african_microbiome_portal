@@ -81,9 +81,12 @@
     {% comment %}</div>{% endcomment %}
   <div id="dynamic">
     {% if qt == "get" %} {%if res_len%}
-      <div class="card mt-4 text-center">
-        <H1>RESULT AND OVERVIEW</H1>
-      </div>
+      {{randv}}
+      <a href="/download_r/?randv={{randv}}">
+        <div class="card mt-4 text-center">
+          <H1>RESULT AND OVERVIEW</H1>
+        </div>
+      </a>
 
       <div>
         <div class="items" id="accordion">

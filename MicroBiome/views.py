@@ -8,8 +8,11 @@ be written here.
 import numpy as np
 import pandas as pd
 import random
+import mimetypes
+from django.conf import settings
 import string
 import os
+from django.http.response import HttpResponse
 
 from .string2query import query2sqlquery
 
@@ -54,6 +57,23 @@ def downloal_all(request):
 
     """
     pass
+
+
+def download_res(request):
+    """
+    Provide download link for the results
+
+    """
+    randv = None
+    if request.method == "GET":
+        randv = request.GET.get("randv", None)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filepath = BASE_DIR + f"/static/downloads/{randv}/results.csv"
+    path = open(filepath, "r")
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    response["Content-Disposition"] = "attachment; filename=results.csv"
+    return response
 
 
 def pie_json(dataframe, column):
@@ -257,6 +277,8 @@ def results_sample(request):
         else:
             tags = f"({bioproject}[bioproject])"
         query = query2sqlquery(tags)
+        print(tags)
+        print(query)
 
         # res = Samples.objects.filter(query).values(
         # "sampid",
@@ -479,13 +501,14 @@ def results(request):
 
         # TODO: Store information in file to download
         rand_fold = random_alnum()
-        result_fold = f"{settings.STATIC_ROOT}/downloads/{rand_fold}"
+        result_fold = f"downloads/{rand_fold}"
         if not os.path.exists(result_fold):
-            os.makedirs(result_fold, exist_ok=True)
-        result_file = f"{result_fold}/results.csv"
+            os.makedirs(f"{settings.STATIC_ROOT}/{result_fold}", exist_ok=True)
         # TODO: Extend to other columns
+        # Change this to static root later
+        result_file = f"{settings.STATIC_ROOT}/downloads/{rand_fold}/results.csv"
         project_summary.to_csv(result_file, index=False)
-        result_file = f"downloads/{rand_fold}/results.csv"
+        result_file = f"{result_fold}/results.csv"
 
         geo = (
             project_summary.groupby(["lon", "lat"])
@@ -649,7 +672,6 @@ def results(request):
 
     # print("Anmol Kiran", df)
     print(qt, items)
-    print(type(items), "Anmol")
     if qt == "get":
         return render(
             request,
@@ -666,7 +688,7 @@ def results(request):
                 # Pagination
                 "page_range": page_range,
                 "items": items,
-                "result_file": result_file
+                "randv": rand_fold
                 # 'query': query[: -1]
             },
         )
@@ -687,7 +709,7 @@ def results(request):
                 # Pagination
                 "page_range": page_range,
                 "items": items,
-                "result_file": result_file
+                "randv": rand_fold
                 # 'query': query[: -1]
             },
         )
