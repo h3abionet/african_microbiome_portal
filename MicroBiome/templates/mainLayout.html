@@ -71,31 +71,31 @@
                                                                         ><b>About</b></a
                                                                       >
                 </li>
-                    <!--li class="nav-item ml-auto py-0">
-                      <a class="nav-link" href="/">Search</a>
-                      </li>
+                <!--li class="nav-item ml-auto py-0">
+                  <a class="nav-link" href="/">Search</a>
+                  </li>
+                  <li class="nav-item ml-auto py-0">
+                  <a class="nav-link" href="/microbiome/contributor/"
+                  >Contributor</a
+                  >
+                  </li-->
+                    {% comment %}
                       <li class="nav-item ml-auto py-0">
-                      <a class="nav-link" href="/microbiome/contributor/"
-                      >Contributor</a
-                      >
-                      </li-->
-                        {% comment %}
-                          <li class="nav-item ml-auto py-0">
-                            {% endcomment %} {% comment %}
-                            <a class="nav-link" href="/microbiome/publication/"
-                              >Publication</a
-                            >
-                            {% endcomment %} {% comment %}
-                          </li>
-                            {% endcomment %}
+                        {% endcomment %} {% comment %}
+                        <a class="nav-link" href="/microbiome/publication/"
+                          >Publication</a
+                        >
+                        {% endcomment %} {% comment %}
+                      </li>
+                        {% endcomment %}
+                        <li class="nav-item ml-auto py-0">
+                          <a class="nav-link {% active_link 'resource'%}" href="{% url 'resource' %}"
+                                                                          ><b>Resources</b></a
+                                                                        >
+                        </li>
                             <li class="nav-item ml-auto py-0">
-                              <a class="nav-link {% active_link 'resource'%}" href="{% url 'resource' %}"
-                                                                              >Resources</a
-                                                                            >
+                              <a class="nav-link {% active_link 'help'%}" href="{% url 'help' %}"><b>Help</b></a>
                             </li>
-                                <li class="nav-item ml-auto py-0">
-                                  <a class="nav-link {% active_link 'help'%}" href="{% url 'help' %}">Help</a>
-                                </li>
               </ul>
             </div>
         </nav>
