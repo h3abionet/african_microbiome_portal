@@ -8,7 +8,7 @@
           data-toggle="collapse"
           data-target="#pub_{{result.pubid}}"
           >
-          <div class="row"><a href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a></div>
+          <div class="row"><a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a></div>
       </button>
     </div>
     {% comment %}<div class="col-sm">A</div>{% endcomment %}
@@ -17,7 +17,8 @@
         class="collapse"
         data-parent="#accordion"
         >
-        <table class="table col-sm">
+      <div class="col-12">
+        <table class="table">
           <thead>
             <tr>
               <th>Variable</th>
@@ -34,7 +35,7 @@
                     <a
                         href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
                         >{{key}}
-                  </a>{%elif key|first in 'MGP' %}<a
+                  </a>{%elif key|first in 'mgp' %}<a
                                                         href="https://www.mg-rast.org/mgmain.html?search={{key}}"
                                                         >{{key}}
                 </a>{%else%}{%endif%}
@@ -161,6 +162,7 @@
 
           </tbody>
         </table>
+        </div>
     </div>
   </div>
 {% endfor %}
