@@ -316,7 +316,7 @@ def results_sample(request):
                 "lat",
             )
         )
-        samples = read_frame(res).fillna("")
+        samples = read_frame(res).fillna("").drop_duplicates()
 
         print(samples)
         paginator = Paginator(
