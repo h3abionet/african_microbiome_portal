@@ -9,16 +9,100 @@ from taggit.managers import TaggableManager
 
 date_default = date(1, 1, 1)
 
-
 # NOTE: l2 > link to
 
 
-class Pubmed(models.Model):
-    pubid = models.CharField(
-        max_length=20, unique=True, null=False, blank=False)
+class RawData(models.Model):
+    """This class is to store data in raw format and allowing people to
+    download the query result. Data is complex that why this class has been
+    created. In future, it might be remove"""
+
+    repoid = models.CharField(max_length=100,
+                              unique=False,
+                              null=False,
+                              blank=False)
+    sample_size = models.IntegerField(default=0, null=False, blank=False)
+    pubid = models.CharField(max_length=20,
+                             unique=False,
+                             null=False,
+                             blank=False)
     # doi = models.CharField(max_length=100, unique=True, blank=False)
-    title = models.CharField(
-        max_length=1000, unique=True, null=False, blank=False)
+    title = models.CharField(max_length=2000,
+                             unique=False,
+                             null=False,
+                             blank=False)
+
+    study_design = models.CharField(max_length=50, unique=False, blank=False)
+
+    country = models.CharField(max_length=100, null=False, blank=False)
+    region = models.CharField(max_length=100,
+                              default=None,
+                              null=True,
+                              blank=False)
+    urbanization = models.CharField(max_length=50,
+                                    default=None,
+                                    null=True,
+                                    blank=False)
+    cityvillage = models.CharField(max_length=50,
+                                   default=None,
+                                   null=True,
+                                   blank=False)
+    ethnicity = models.CharField(max_length=50,
+                                 default=None,
+                                 null=True,
+                                 blank=False)
+    elo = models.CharField(max_length=20, default=None, null=True, blank=False)
+
+    diets = models.CharField(max_length=100,
+                             default=None,
+                             null=True,
+                             blank=False)
+    platform = models.CharField(max_length=100, null=False, blank=False)
+    technology = models.CharField(max_length=100, null=False, blank=False)
+    assay = models.CharField(max_length=100,
+                             default=None,
+                             null=True,
+                             blank=False)
+    target_amplicon = models.CharField(max_length=50,
+                                       default=None,
+                                       null=True,
+                                       blank=False)
+    bodysite = models.CharField(max_length=100, null=False, blank=False)
+
+    disease = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+    )
+    doid = models.CharField(max_length=100,
+                            default=None,
+                            null=True,
+                            blank=False)
+    sampid = models.CharField(max_length=100,
+                              unique=False,
+                              null=False,
+                              blank=False)
+    avspotlen = models.IntegerField(max_length=5, null=False,
+                                    blank=False)  # Average spot length
+    # TODO: How to reset to default when date is null??
+    col_date = models.DateField(default=None, null=False, blank=False)
+    lib_layout = models.CharField(max_length=20)
+    coordinate = models.CharField(max_length=50,
+                                  null=True,
+                                  blank=False,
+                                  default=None)
+
+
+class Pubmed(models.Model):
+    pubid = models.CharField(max_length=20,
+                             unique=True,
+                             null=False,
+                             blank=False)
+    # doi = models.CharField(max_length=100, unique=True, blank=False)
+    title = models.CharField(max_length=1000,
+                             unique=True,
+                             null=False,
+                             blank=False)
 
     class Meta:
         ordering = ["pubid", "title"]  # "doi",
@@ -32,7 +116,6 @@ class Pubmed(models.Model):
 
 
 class StudyDesign(models.Model):
-
     """Docstring for StudyDesign."""
 
     study_design = models.CharField(max_length=50, unique=True, blank=False)
@@ -43,13 +126,16 @@ class StudyDesign(models.Model):
 
 
 class BioProject(models.Model):
-    repoid = models.CharField(
-        max_length=100, unique=True, null=False, blank=False)
+    repoid = models.CharField(max_length=100,
+                              unique=True,
+                              null=False,
+                              blank=False)
     # l2study_design = models.ManyToManyField(StudyDesign)
     # TODO: Becareful about 0 value
     sample_size = models.IntegerField(default=0, null=False, blank=False)
-    participants_summary = models.TextField(
-        max_length=1000, null=True, blank=True)
+    participants_summary = models.TextField(max_length=1000,
+                                            null=True,
+                                            blank=True)
 
     # TODO: Make it autoupdate field
     # TODO : Auto update using signal feature in Django
@@ -85,19 +171,31 @@ class BioProject(models.Model):
 #
 class LocEthDiet(models.Model):
     country = models.CharField(max_length=100, null=False, blank=False)
-    region = models.CharField(
-        max_length=100, default=None, null=True, blank=False)
-    urbanization = models.CharField(
-        max_length=50, default=None, null=True, blank=False)
-    cityvillage = models.CharField(
-        max_length=50, default=None, null=True, blank=False)
-    ethnicity = models.CharField(
-        max_length=50, default=None, null=True, blank=False)
+    region = models.CharField(max_length=100,
+                              default=None,
+                              null=True,
+                              blank=False)
+    urbanization = models.CharField(max_length=50,
+                                    default=None,
+                                    null=True,
+                                    blank=False)
+    cityvillage = models.CharField(max_length=50,
+                                   default=None,
+                                   null=True,
+                                   blank=False)
+    ethnicity = models.CharField(max_length=50,
+                                 default=None,
+                                 null=True,
+                                 blank=False)
     elo = models.CharField(max_length=20, default=None, null=True, blank=False)
-    el_wiki = models.CharField(
-        max_length=100, default=None, null=True, blank=False)
-    diets = models.CharField(
-        max_length=100, default=None, null=True, blank=False)
+    el_wiki = models.CharField(max_length=100,
+                               default=None,
+                               null=True,
+                               blank=False)
+    diets = models.CharField(max_length=100,
+                             default=None,
+                             null=True,
+                             blank=False)
 
     class Meta:
         ordering = [
@@ -133,11 +231,15 @@ class LocEthDiet(models.Model):
 class Platform(models.Model):
     platform = models.CharField(max_length=100, null=False, blank=False)
     technology = models.CharField(max_length=100, null=False, blank=False)
-    assay = models.CharField(
-        max_length=100, default=None, null=True, blank=False)
-    target_amplicon = models.CharField(
-        max_length=50, default=None, null=True, blank=False
-    )
+    assay = models.CharField(max_length=100,
+                             default=None,
+                             null=True,
+                             blank=False)
+    target_amplicon = models.CharField(max_length=50,
+                                       default=None,
+                                       null=True,
+                                       blank=False)
+
     #
 
     class Meta:
@@ -196,11 +298,12 @@ class Disease(models.Model):
 
 
 class Samples(models.Model):
-    sampid = models.CharField(
-        max_length=100, unique=True, null=False, blank=False)
-    avspotlen = models.IntegerField(
-        max_length=5, null=False, blank=False
-    )  # Average spot length
+    sampid = models.CharField(max_length=100,
+                              unique=True,
+                              null=False,
+                              blank=False)
+    avspotlen = models.IntegerField(max_length=5, null=False,
+                                    blank=False)  # Average spot length
     # TODO: How to reset to default when date is null??
     col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
@@ -208,21 +311,26 @@ class Samples(models.Model):
     latitude = models.FloatField(null=True, blank=False, default=None)
     capital = models.BooleanField(default=False)
     l2pubmed = models.ManyToManyField(Pubmed)
-    l2platform = models.ForeignKey(
-        Platform, on_delete=models.SET_DEFAULT, default=None, null=True
-    )
-    l2bodysite = models.ForeignKey(
-        BodySite, on_delete=models.SET_DEFAULT, default=None, null=True
-    )
+    l2platform = models.ForeignKey(Platform,
+                                   on_delete=models.SET_DEFAULT,
+                                   default=None,
+                                   null=True)
+    l2bodysite = models.ForeignKey(BodySite,
+                                   on_delete=models.SET_DEFAULT,
+                                   default=None,
+                                   null=True)
     l2disease = models.ManyToManyField(Disease)  # NOTE: One sample one disease
     # TODO: Check if sample has mixed disease
     is_mixed = models.BooleanField(default=False, null=False, blank=False)
-    l2loc_diet = models.ForeignKey(
-        LocEthDiet, on_delete=models.SET_DEFAULT, default=None, null=True
-    )
-    l2bioproject = models.ForeignKey(
-        BioProject, on_delete=models.SET_DEFAULT, default=None, null=True
-    )
+    l2loc_diet = models.ForeignKey(LocEthDiet,
+                                   on_delete=models.SET_DEFAULT,
+                                   default=None,
+                                   null=True)
+    l2bioproject = models.ForeignKey(BioProject,
+                                     on_delete=models.SET_DEFAULT,
+                                     default=None,
+                                     null=True)
+
     # TODO: Project should have this key, when current is deleted all the samples should deteleted
 
     class Meta:

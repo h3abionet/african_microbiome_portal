@@ -3,7 +3,6 @@
 import re
 import sys
 
-
 import numpy as np
 import pandas as pd
 
@@ -29,21 +28,51 @@ def multi_value_columns_rows_allowed(dataframe):
 
     """
     for col in [
-        "DISEASE",
-        "ELO",
-        "DOID",
-        "ETHNICITY",
-        "REGION",
-        "LAT LON",
-        "URBANZATION",
-        "CITYVILLAGE",
-        "COUNTRY",
-        "TARGET AMPLICON",
+            "DISEASE",
+            "ELO",
+            "DOID",
+            "ETHNICITY",
+            "REGION",
+            "LAT LON",
+            "URBANZATION",
+            "CITYVILLAGE",
+            "COUNTRY",
+            "TARGET AMPLICON",
     ]:
         dataframe = dataframe[
-            dataframe[col].apply(lambda x: len(str(x).split("//"))) < 2
-        ]
+            dataframe[col].apply(lambda x: len(str(x).split("//"))) < 2]
     return dataframe
+
+
+def raw_table_update(dataframe):
+    for _, row in dataframe.iterrows():
+
+        query = models.RawData.objects.get_or_create(
+            repoid=row['REPOSITORY ID'],
+            sample_size=row['SAMPLE NUMBER'],
+            pubid=row['STUDY LINK'],
+            title=row['STUDY TITLE'],
+            study_design=row['STUDY DESIGN'],
+            country=row['COUNTRY'],
+            region=row['REGION'],
+            urbanization=row['URBANZATION'],
+            cityvillage=row['CITYVILLAGE'],
+            ethnicity=row['ETHNICITY'],
+            elo=row['ELO'],
+            diets=row['DIET'],
+            platform=row['PLATFORM'],
+            technology=row['TECHNOLOGY'],
+            assay=row['ASSAY TYPE'],
+            target_amplicon=row['TARGET AMPLICON'],
+            bodysite=row['BODY SITE'],
+            disease=row['DISEASE'],
+            doid=row['DOID'],
+            sampid=row['RUN ID'],
+            avspotlen=row['AVERAGE SPOTLENGTH'],
+            col_date=row['COLLECTION DATE'],
+            lib_layout=row['LIBRARY LAYOUT'],
+            coordinate=row['LAT LON'],
+        )
 
 
 def update_pubmed(pubmed_info):
@@ -105,8 +134,7 @@ def update_study_design(study_design_info):
         studies_list = studties_str.split("//")
         for study in studies_list:
             query = models.StudyDesign.objects.get_or_create(
-                study_design=remove_multiple_spaces(study)
-            )[0]
+                study_design=remove_multiple_spaces(study))[0]
             studies_dict[remove_multiple_spaces(study)] = query
     return studies_dict
 
@@ -121,8 +149,8 @@ def upate_disease(disease_info):
     disease_dict = {}
     for info in disease_info:
         # print(i, info)
-        query = models.Disease.objects.get_or_create(
-            disease=info[0], doid=info[1])[0]
+        query = models.Disease.objects.get_or_create(disease=info[0],
+                                                     doid=info[1])[0]
         disease_dict[info[0]] = query
     return disease_dict
 
@@ -171,8 +199,7 @@ def update_platform(platform):
             technology=info["TECHNOLOGY"],
             assay=None if info["ASSAY TYPE"] == np.nan else info["ASSAY TYPE"],
             target_amplicon=None
-            if info["TARGET AMPLICON"] == np.nan
-            else info["TARGET AMPLICON"],
+            if info["TARGET AMPLICON"] == np.nan else info["TARGET AMPLICON"],
         )[0]
         platform_dict[tuple(info.values)] = query
     return platform_dict
@@ -194,7 +221,7 @@ def update_samples(
 
     """
     # NOTE: In case of duplication of samples, first occurance information will
-    "Run ID"
+    "RUN ID"
     "AVERAGE SPOTLENGTH"
     "COLLECTION DATE"
     "LIBRARY LAYOUT"
@@ -203,10 +230,10 @@ def update_samples(
     for _, sample in samples.iterrows():
         # print(sample)
         try:
-            query = models.Samples.objects.get(sampid=sample["Run ID"])
+            query = models.Samples.objects.get(sampid=sample["RUN ID"])
             # NOTE: Pubid integration
             pubids = [
-                int(remove_multiple_spaces(pid))
+                remove_multiple_spaces(pid)
                 for pid in sample["STUDY LINK"].split("//")
             ]
             # print(pubids, "Alpha", pub_dict[pubids[0]])
@@ -216,7 +243,7 @@ def update_samples(
 
         except:
             query = models.Samples.objects.create(
-                sampid=sample["Run ID"],
+                sampid=sample["RUN ID"],
                 avspotlen=sample["AVERAGE SPOTLENGTH"],
                 col_date=sample["COLLECTION DATE"],
                 lib_layout=sample["LIBRARY LAYOUT"],
@@ -233,19 +260,17 @@ def update_samples(
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
                 query.l2pubmed.add(pub_dict[pubid])
-                # print("K", sample["Run ID"], pubid)
+                # print("K", sample["RUN ID"], pubid)
 
             # NOTE: Platform information integration
             # print(plt_dict[(sample[6], sample[7], sample[8])],
             # (sample[6], sample[7], sample[8]))
-            query.l2platform = plt_dict[
-                (
-                    sample["PLATFORM"],
-                    sample["TECHNOLOGY"],
-                    sample["ASSAY TYPE"],
-                    sample["TARGET AMPLICON"],
-                )
-            ]
+            query.l2platform = plt_dict[(
+                sample["PLATFORM"],
+                sample["TECHNOLOGY"],
+                sample["ASSAY TYPE"],
+                sample["TARGET AMPLICON"],
+            )]
 
             # NOTE: Body site integration
             query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
@@ -262,22 +287,16 @@ def update_samples(
                 if len(diseases) > 1:
                     query.is_mixed = True
             # NOTE: Loc and diets related information integration
-            query.l2loc_diet = loc_diet_dict[
-                tuple(
-                    sample[
-                        [
-                            "COUNTRY",
-                            "REGION",
-                            "CITYVILLAGE",
-                            "URBANZATION",
-                            "ETHNICITY",
-                            "ELO",
-                            "WIKI",
-                            "DIET",
-                        ]
-                    ].values
-                )
-            ]
+            query.l2loc_diet = loc_diet_dict[tuple(sample[[
+                "COUNTRY",
+                "REGION",
+                "CITYVILLAGE",
+                "URBANZATION",
+                "ETHNICITY",
+                "ELO",
+                "WIKI",
+                "DIET",
+            ]].values)]
             query.l2bioproject = bioproject_dict[sample["REPOSITORY ID"]]
 
             query.save()
@@ -301,9 +320,12 @@ def update_loc_diet(loc_diet):
         query = models.LocEthDiet.objects.get_or_create(
             country=info["COUNTRY"],
             region=None if info["REGION"] == np.nan else info["REGION"],
-            urbanization=None if info["URBANZATION"] == np.nan else info["URBANZATION"],
-            cityvillage=None if info["CITYVILLAGE"] == np.nan else info["CITYVILLAGE"],
-            ethnicity=None if info["ETHNICITY"] == np.nan else info["ETHNICITY"],
+            urbanization=None
+            if info["URBANZATION"] == np.nan else info["URBANZATION"],
+            cityvillage=None
+            if info["CITYVILLAGE"] == np.nan else info["CITYVILLAGE"],
+            ethnicity=None
+            if info["ETHNICITY"] == np.nan else info["ETHNICITY"],
             elo=None if info["ELO"] == np.nan else info["ELO"],
             el_wiki=None if info["WIKI"] == np.nan else info["WIKI"],
             diets=None if info["DIET"] == np.nan else info["DIET"],
@@ -330,7 +352,6 @@ def lan_lot(coor):
 
 
 class Command(BaseCommand):
-
     """Docstring for Command."""
 
     def __init__(self):
@@ -338,11 +359,12 @@ class Command(BaseCommand):
         BaseCommand.__init__(self)
 
     def add_arguments(self, parser):
-        parser.add_argument("--infile", type=str,
+        parser.add_argument("--infile",
+                            type=str,
                             help="Input csv file to be tested")
-        parser.add_argument(
-            "--elo_wiki_file", type=str, help="File containing ELO wiki information"
-        )
+        parser.add_argument("--elo_wiki_file",
+                            type=str,
+                            help="File containing ELO wiki information")
         parser.add_argument(
             "--participant_summary_file",
             type=str,
@@ -365,7 +387,6 @@ class Command(BaseCommand):
         # NOTE: Columns to be used
         usecols = [
             "REPOSITORY ID",
-            # "REPOSITORY LINK",
             "SAMPLE NUMBER",
             "STUDY TITLE",
             "STUDY LINK",
@@ -379,9 +400,7 @@ class Command(BaseCommand):
             "PLATFORM",
             "PARTICIPANT FEATURES",
             "AVERAGE SPOTLENGTH",
-            "Run ID",
-            # "Sample ID",
-            # "Sample Name",
+            "RUN ID",
             "COLLECTION DATE",
             "LIBRARY LAYOUT",
             "LAT LON",
@@ -410,7 +429,7 @@ class Command(BaseCommand):
             "PLATFORM": str,
             "PARTICIPANT FEATURES": str,
             "AVERAGE SPOTLENGTH": int,
-            "Run ID": str,
+            "RUN ID": str,
             # "Sample ID",
             # "Sample Name",
             "COLLECTION DATE": str,
@@ -431,12 +450,11 @@ class Command(BaseCommand):
         for col in col_type:
             if col_type[col] == str:
                 data.loc[~pd.isna(data[col]), col] = (
-                    data.loc[~pd.isna(data[col]), col].apply(
-                        lambda x: x.strip()).values
-                )
+                    data.loc[~pd.isna(data[col]),
+                             col].apply(lambda x: x.strip()).values)
                 data.loc[data[col] == "", col] = np.nan
 
-        print(data[["COLLECTION DATE"]].head())
+        # print(data[["COLLECTION DATE"]].head())
         data["COLLECTION DATE"] = data["COLLECTION DATE"].apply(to_date)
         # not_found_column = set(usecols) - set(data.columns)
         # if not_found_column:
@@ -447,15 +465,11 @@ class Command(BaseCommand):
         # print(len(data))
         # NOTE: Selecting samples where selected columns mut have some value
         # TODO: Add following in test_file
-        index = data[
-            ~(
-                pd.isna(data["REPOSITORY ID"])
-                | pd.isna(data["STUDY TITLE"])
-                | pd.isna(data["STUDY LINK"])
-                | pd.isna(data["Run ID"])
-            )
-        ].index
-        print(index)
+        index = data[~(pd.isna(data["REPOSITORY ID"])
+                       | pd.isna(data["STUDY TITLE"])
+                       | pd.isna(data["STUDY LINK"])
+                       | pd.isna(data["RUN ID"]))].index
+        # print(index)
         # TODO: Ask content team what would they like
         if len(index) < len(data):
             unselected_index = list(set(data.index) - set(index))
@@ -464,6 +478,12 @@ class Command(BaseCommand):
             print(data.loc[unselected_index])
             print("Updating rest")
         data = data.loc[index]
+
+        # NOTE: Inserting in raw table
+        print(data)
+        raw_table_update(data)
+        return None
+
         elo_wiki = pd.read_csv(
             elo_wiki,
             usecols=["ELO", "WIKI"],
@@ -489,13 +509,11 @@ class Command(BaseCommand):
         pubmed = data[["STUDY TITLE", "STUDY LINK"]].drop_duplicates()
         pubmed = pubmed.applymap(lambda val: str(val).upper())
         pubmed = pubmed.applymap(
-            lambda values: [
-                remove_multiple_spaces(value) for value in values.split("//")
-            ]
-        )
+            lambda values:
+            [remove_multiple_spaces(value) for value in values.split("//")])
         pubmed_pair = []
         for _, row in pubmed.iterrows():
-            for pair in zip(row["STUDY TITLE"], map(int, row["STUDY LINK"])):
+            for pair in zip(row["STUDY TITLE"], row["STUDY LINK"]):
                 if pair not in pubmed_pair:
                     pubmed_pair.append(pair)
         pub_dict = update_pubmed(pubmed_pair)
@@ -508,10 +526,8 @@ class Command(BaseCommand):
 
         disease = disease.applymap(lambda val: str(val).upper())
         disease = disease.applymap(
-            lambda values: [
-                remove_multiple_spaces(value) for value in values.split(",")
-            ]
-        )
+            lambda values:
+            [remove_multiple_spaces(value) for value in values.split(",")])
         disease_pair = []
 
         def doid(val):
@@ -534,24 +550,22 @@ class Command(BaseCommand):
         bodysite = list(bodysite["BODY SITE"].values)
         body_site_dict = update_bodysite(bodysite)
         # Platform
-        platform = data[
-            ["PLATFORM", "TECHNOLOGY", "ASSAY TYPE", "TARGET AMPLICON"]
-        ].drop_duplicates()
+        platform = data[[
+            "PLATFORM", "TECHNOLOGY", "ASSAY TYPE", "TARGET AMPLICON"
+        ]].drop_duplicates()
         plt_dict = update_platform(platform)
 
         # # WARNING: I hope Content team do not use multiple coordinates
-        loc_diet = data[
-            [
-                "COUNTRY",
-                "REGION",
-                "CITYVILLAGE",
-                "URBANZATION",
-                "ETHNICITY",
-                "ELO",
-                "WIKI",
-                "DIET",
-            ]
-        ].drop_duplicates()
+        loc_diet = data[[
+            "COUNTRY",
+            "REGION",
+            "CITYVILLAGE",
+            "URBANZATION",
+            "ETHNICITY",
+            "ELO",
+            "WIKI",
+            "DIET",
+        ]].drop_duplicates()
         loc_diet_dict = update_loc_diet(loc_diet)
 
         # study_design = data[["STUDY DESIGN"]]
@@ -562,44 +576,37 @@ class Command(BaseCommand):
         # study_dict = update_study_design(study_design["STUDY DESIGN"].values)
 
         bioprojects = data[["REPOSITORY ID", "STUDY DESIGN"]].drop_duplicates()
-        bioprojects = bioprojects.merge(
-            participant_summary, on="REPOSITORY ID", how="inner"
-        )
+        bioprojects = bioprojects.merge(participant_summary,
+                                        on="REPOSITORY ID",
+                                        how="inner")
         # bioprojects_dict = update_bioproject(bioprojects, study_dict)
         bioprojects_dict = update_bioproject(bioprojects, None)
 
         # NOTE: Pushing samples in the table and connecting with other tables
-        samples = data[
-            [
-                # # "STUDY DESIGN",
-                "Run ID",
-                # # "PARTICIPANT FEATURES",
-                "AVERAGE SPOTLENGTH",
-                "COLLECTION DATE",
-                "LIBRARY LAYOUT",
-                "LAT LON",  # TODO: Check where both field are there, else error
-            ]
-            + ["STUDY LINK"]
-            + list(platform.columns)
-            + ["BODY SITE"]
-            + ["DISEASE"]
-            + list(loc_diet.columns)
-            + ["REPOSITORY ID"]
-        ]
+        samples = data[[
+            # # "STUDY DESIGN",
+            "RUN ID",
+            # # "PARTICIPANT FEATURES",
+            "AVERAGE SPOTLENGTH",
+            "COLLECTION DATE",
+            "LIBRARY LAYOUT",
+            "LAT LON",  # TODO: Check where both field are there, else error
+        ] + ["STUDY LINK"] + list(platform.columns) + ["BODY SITE"] +
+                       ["DISEASE"] + list(loc_diet.columns) +
+                       ["REPOSITORY ID"]]
         # "TARGET AMPLICON",
         # "STUDY LINK", "PLATFORM", "TECHNOLOGY", "ASSAY TYPE"
         # ] + list(loc_diet.columns
         # ) + list(disease.columns
         # ) + list(assay.columns
         # )+list(amplicons.columns)
-        # ].drop_duplicates("Run ID")
+        # ].drop_duplicates("RUN ID")
         # if samples[~pd.isna(samples["LAT LON"])]:
         if len(samples[~pd.isna(samples["LAT LON"])]):
-            samples.loc[~pd.isna(samples["LAT LON"]), ["LAT", "LON", "CAPITAL"]] = (
-                samples.loc[~pd.isna(samples["LAT LON"]), "LAT LON"]
-                .apply(lan_lot)
-                .to_list()
-            )
+            samples.loc[~pd.isna(samples["LAT LON"]),
+                        ["LAT", "LON", "CAPITAL"]] = (
+                            samples.loc[~pd.isna(samples["LAT LON"]),
+                                        "LAT LON"].apply(lan_lot).to_list())
         else:
             samples["LAT"] = np.nan
             samples["LON"] = np.nan
