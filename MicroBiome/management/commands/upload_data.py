@@ -27,6 +27,7 @@ def multi_value_columns_rows_allowed(dataframe):
     :returns: TODO
 
     """
+    print(dataframe)
     for col in [
             "DISEASE",
             "ELO",
@@ -87,10 +88,12 @@ def update_pubmed(pubmed_info):
     pubmed_dict = {}
     for i, info in enumerate(pubmed_info):
         try:
-            query = models.Pubmed.objects.get(pubid=info[1])
+            query = models.Pubmed.objects.get(pubid=str(int(float(info[1]))))
         except:
-            query = models.Pubmed.objects.create(title=info[0], pubid=info[1])
-        pubmed_dict[info[1]] = query
+            query = models.Pubmed.objects.create(title=info[0],
+                                                 pubid=str(int(float(
+                                                     info[1]))))
+        pubmed_dict[str(int(float(info[1])))] = query
         # break
     return pubmed_dict
 
@@ -239,7 +242,7 @@ def update_samples(
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
-                query.l2pubmed.add(pub_dict[pubid])
+                query.l2pubmed.add(pub_dict[str(int(float(pubid)))])
 
         except:
             query = models.Samples.objects.create(
@@ -253,13 +256,13 @@ def update_samples(
             )
             # NOTE: Pubid integration
             pubids = [
-                int(remove_multiple_spaces(pid))
+                remove_multiple_spaces(pid)
                 for pid in sample["STUDY LINK"].split("//")
             ]
             # print(pubids, "Alpha", pub_dict[pubids[0]])
             # print(read_frame(query), "Anmol")
             for pubid in pubids:
-                query.l2pubmed.add(pub_dict[pubid])
+                query.l2pubmed.add(pub_dict[str(int(float(pubid)))])
                 # print("K", sample["RUN ID"], pubid)
 
             # NOTE: Platform information integration
@@ -446,7 +449,12 @@ class Command(BaseCommand):
         }
 
         # NOTE: Reporting error if required columns are not in the given file
-        data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
+        try:
+            data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
+        except:
+            print(infile, "Anmol")
+        # exit(0)
+
         for col in col_type:
             if col_type[col] == str:
                 data.loc[~pd.isna(data[col]), col] = (
@@ -480,9 +488,10 @@ class Command(BaseCommand):
         data = data.loc[index]
 
         # NOTE: Inserting in raw table
-        print(data)
+        # print(infile, "Anmol")
+        # exit(0)
         raw_table_update(data)
-        return None
+        # return None
 
         elo_wiki = pd.read_csv(
             elo_wiki,
@@ -493,16 +502,16 @@ class Command(BaseCommand):
         tdata = data[~pd.isna(data["ELO"])]
 
         tdata["ELO"] = tdata["ELO"].apply(str.upper)
-        print(tdata[pd.isna(tdata["STUDY LINK"])], "Anmol")
-        print(elo_wiki[pd.isna(elo_wiki["ELO"])], "Kiran")
+        # print(tdata[pd.isna(tdata["STUDY LINK"])], "Anmol")
+        # print(elo_wiki[pd.isna(elo_wiki["ELO"])], "Kiran")
         data = data[pd.isna(data["ELO"])]
-        print(data)
-        tdata = tdata.merge(elo_wiki, on="ELO", how="inner")
+        tdata = tdata.merge(elo_wiki, on="ELO", how="left")
+        print(set(tdata["ELO"]), "Kiran")
 
         data = pd.concat([data, tdata])
         data.loc[pd.isna(data["WIKI"]), "WIKI"] = np.nan
 
-        data = multi_value_columns_rows_allowed(data)
+        # data = multi_value_columns_rows_allowed(data)
 
         # NOTE: only BioProject per line
         # NOTE: One sample/bioproject can be connected to multiple publications
@@ -602,6 +611,7 @@ class Command(BaseCommand):
         # )+list(amplicons.columns)
         # ].drop_duplicates("RUN ID")
         # if samples[~pd.isna(samples["LAT LON"])]:
+        print(samples)
         if len(samples[~pd.isna(samples["LAT LON"])]):
             samples.loc[~pd.isna(samples["LAT LON"]),
                         ["LAT", "LON", "CAPITAL"]] = (
