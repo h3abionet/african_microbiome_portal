@@ -433,7 +433,8 @@ def results(request):
         "lat",
         "col_date",
     )
-    try:
+    if True:
+        # try:
         project_summary = read_frame(res)
         # print(set(project_summary["ethnicity"]))
 
@@ -492,16 +493,22 @@ def results(request):
 
         # print(platform_pie_dict_sample)
         project_summary_col_date = project_summary.loc[
-            project_summary["variable"] == "col_date",
-            ["pubid", "value"]].groupby("pubid")
-        project_summary_col_date = project_summary_col_date.agg(
-            {"value": [np.min, np.max]})  # .reset_index()
-        project_summary_col_date = project_summary_col_date[
-            ~pd.isna(project_summary_col_date[("value", "amin")])]
-        project_summary_col_date["col_date"] = project_summary_col_date.apply(
-            date_range, axis=1)
-        project_summary_col_date = project_summary_col_date.reset_index()
-        print(project_summary_col_date)
+            (project_summary["variable"] == "col_date") &
+            (~pd.isna(project_summary["value"])), ["pubid", "value"]]
+        if project_summary_col_date.empty:
+            project_summary_col_date["col_date"] = None
+        else:
+            project_summary_col_date = project_summary_col_date.groupby(
+                "pubid")
+            project_summary_col_date = project_summary_col_date.agg(
+                {"value": [np.min, np.max]})  # .reset_index()
+            project_summary_col_date = project_summary_col_date[
+                ~pd.isna(project_summary_col_date[("value", "amin")])]
+            project_summary_col_date[
+                "col_date"] = project_summary_col_date.apply(date_range,
+                                                             axis=1)
+            project_summary_col_date = project_summary_col_date.reset_index()
+            print(project_summary_col_date)
 
         project_summary = (
             project_summary[project_summary["variable"] != "col_date"].groupby(
@@ -581,7 +588,8 @@ def results(request):
         print(project_summary[["bodysite", "cityvillage"]])
 
         # print(project_summary[["pubid", "title", "bioproject"]])
-    except:
+    else:
+        # except:
         project_summary = pd.DataFrame()
     print(project_summary.columns, project_summary.values, "Anmol")
 
