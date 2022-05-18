@@ -82,10 +82,10 @@ class RawData(models.Model):
                               unique=False,
                               null=False,
                               blank=False)
-    avspotlen = models.IntegerField(max_length=5, null=False,
+    avspotlen = models.IntegerField(null=False,
                                     blank=False)  # Average spot length
     # TODO: How to reset to default when date is null??
-    col_date = models.DateField(default=None, null=False, blank=False)
+    col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
     coordinate = models.CharField(max_length=50,
                                   null=True,
@@ -302,8 +302,8 @@ class Samples(models.Model):
                               unique=True,
                               null=False,
                               blank=False)
-    avspotlen = models.IntegerField(max_length=5, null=False,
-                                    blank=False)  # Average spot length
+    avspotlen = models.IntegerField(null=True,
+                                    blank=True)  # Average spot length
     # TODO: How to reset to default when date is null??
     col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
