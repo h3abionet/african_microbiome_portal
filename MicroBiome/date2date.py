@@ -28,11 +28,11 @@ def to_date(date_str):
                 date = pd.to_datetime(date_str, format="%m-%Y") + MonthEnd(1)
             except:
                 try:
-                    date = pd.to_datetime(
-                        date_str.split("-")[-1], format="%Y"
-                    ) + YearEnd(1)
+                    date = pd.to_datetime(date_str.split("-")[-1],
+                                          format="%Y") + YearEnd(1)
                 except:
                     pass
+        print(date_str)
         return date.date()
     if "/" in date_str:
         try:
@@ -42,12 +42,12 @@ def to_date(date_str):
                 date = pd.to_datetime(date_str, format="%m/%Y") + MonthEnd(1)
             except:
                 try:
-                    date = pd.to_datetime(
-                        date_str.split("/")[-1], format="%Y"
-                    ) + YearEnd(1)
+                    date = pd.to_datetime(date_str.split("/")[-1],
+                                          format="%Y") + YearEnd(1)
                 except:
                     pass
         return date.date()
     else:
-        date = pd.to_datetime(date_str, format="%Y") + YearEnd(1)
+        date = pd.to_datetime(str(int(float(date_str))),
+                              format="%Y") + YearEnd(1)
         return date.date()
