@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """MicroBiome Pages.
 
 All the view Related to Microbiome will be will be written herobiome wbe will
@@ -84,14 +83,11 @@ def pie_json(dataframe, column):
     :returns: json text
 
     """
-    return (
-        dataframe[dataframe["variable"] == column]
-        .groupby("value")
-        .size()
-        .reset_index()
-        .rename(columns={"value": "name", 0: "y"})
-        .to_json(orient="records")
-    )
+    return (dataframe[dataframe["variable"] == column].groupby(
+        "value").size().reset_index().rename(columns={
+            "value": "name",
+            0: "y"
+        }).to_json(orient="records"))
 
 
 def date_range(date_list):
@@ -119,64 +115,43 @@ def search_form(request):
 
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
-        y=Count("samples__l2bioproject", distinct=True)
-    )
-    body_site_pie_project = (
-        read_frame(body_site_project)
-        .rename(columns={"bodysite": "name"})
-        .to_json(orient="records")
-    )
+        y=Count("samples__l2bioproject", distinct=True))
+    body_site_pie_project = (read_frame(body_site_project).rename(
+        columns={
+            "bodysite": "name"
+        }).to_json(orient="records"))
     body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
-    body_site_pie_sample = (
-        read_frame(body_site_sample)
-        .rename(columns={"bodysite": "name"})
-        .to_json(orient="records")
-    )
+    body_site_pie_sample = (read_frame(body_site_sample).rename(
+        columns={
+            "bodysite": "name"
+        }).to_json(orient="records"))
     # NOTE: ASSAY
-    assay_project = (
-        Platform.objects.values("assay")
-        .annotate(y=Count("samples__l2bioproject", distinct=True))
-        .order_by("assay")
-    )
-    assay_sample = (
-        Platform.objects.values("assay")
-        .annotate(y=Count("samples", distinct=True))
-        .order_by("assay")
-    )
+    assay_project = (Platform.objects.values("assay").annotate(
+        y=Count("samples__l2bioproject", distinct=True)).order_by("assay"))
+    assay_sample = (Platform.objects.values("assay").annotate(
+        y=Count("samples", distinct=True)).order_by("assay"))
 
-    assay_pie_project = (
-        read_frame(assay_project)
-        .rename(columns={"assay": "name"})
-        .to_json(orient="records")
-    )
-    assay_pie_sample = (
-        read_frame(assay_sample)
-        .rename(columns={"assay": "name"})
-        .to_json(orient="records")
-    )
+    assay_pie_project = (read_frame(assay_project).rename(columns={
+        "assay": "name"
+    }).to_json(orient="records"))
+    assay_pie_sample = (read_frame(assay_sample).rename(columns={
+        "assay": "name"
+    }).to_json(orient="records"))
 
     # NOTE: PLATFORM
-    platform_project = (
-        Platform.objects.values("platform")
-        .annotate(y=Count("samples__l2bioproject", distinct=True))
-        .order_by("platform")
-    )
-    platform_sample = (
-        Platform.objects.values("platform")
-        .annotate(y=Count("samples", distinct=True))
-        .order_by("platform")
-    )
+    platform_project = (Platform.objects.values("platform").annotate(
+        y=Count("samples__l2bioproject", distinct=True)).order_by("platform"))
+    platform_sample = (Platform.objects.values("platform").annotate(
+        y=Count("samples", distinct=True)).order_by("platform"))
 
-    platform_pie_project = (
-        read_frame(platform_project)
-        .rename(columns={"platform": "name"})
-        .to_json(orient="records")
-    )
-    platform_pie_sample = (
-        read_frame(platform_sample)
-        .rename(columns={"platform": "name"})
-        .to_json(orient="records")
-    )
+    platform_pie_project = (read_frame(platform_project).rename(
+        columns={
+            "platform": "name"
+        }).to_json(orient="records"))
+    platform_pie_sample = (read_frame(platform_sample).rename(
+        columns={
+            "platform": "name"
+        }).to_json(orient="records"))
 
     # NOTE: This code is for future reference, do not delete
     # Body Site
@@ -199,52 +174,41 @@ def search_form(request):
     # NOTE: DISEASES
 
     disease_project = Disease.objects.all().annotate(
-        y=Count("samples__l2bioproject", distinct=True)
-    )
+        y=Count("samples__l2bioproject", distinct=True))
     disease_sample = Disease.objects.all().annotate(y=Count("samples"))
-    disease_pie_project = (
-        read_frame(disease_project)
-        .rename(columns={"disease": "name"})
-        .to_json(orient="records")
-    )
-    disease_pie_sample = (
-        read_frame(disease_sample)
-        .rename(columns={"disease": "name"})
-        .to_json(orient="records")
-    )
+    disease_pie_project = (read_frame(disease_project).rename(columns={
+        "disease": "name"
+    }).to_json(orient="records"))
+    disease_pie_sample = (read_frame(disease_sample).rename(columns={
+        "disease": "name"
+    }).to_json(orient="records"))
 
     # NOTE: Geographical plotting on map
     geoloc_project = pd.DataFrame(
-        Samples.objects.values("longitude", "latitude")
-        .annotate(num_project=Count("l2bioproject", distinct=True))
-        .order_by("longitude", "latitude")
-    )
+        Samples.objects.values("longitude", "latitude").annotate(
+            num_project=Count("l2bioproject", distinct=True)).order_by(
+                "longitude", "latitude"))
 
     geoloc_sample = pd.DataFrame(
-        Samples.objects.values("longitude", "latitude")
-        .order_by()
-        .annotate(num_samples=Count("longitude"))
-    )
+        Samples.objects.values(
+            "longitude",
+            "latitude").order_by().annotate(num_samples=Count("longitude")))
     geoloc_country = pd.DataFrame(
         pd.DataFrame(
-            Samples.objects.values(
-                "longitude", "latitude", "l2loc_diet__country")
-            .order_by("longitude", "latitude", "l2loc_diet__country")
-            .distinct()
-        )
-    )
-    geoloc = (
-        geoloc_project.merge(geoloc_sample, on=[
-                             "longitude", "latitude"], how="outer")
-        .merge(geoloc_country, on=["longitude", "latitude"], how="outer")
-        .rename(
-            columns={
-                "latitude": "lat",
-                "longitude": "lon",
-                "l2loc_diet__country": "country",
-            }
-        )
-    )
+            Samples.objects.values("longitude", "latitude",
+                                   "l2loc_diet__country").order_by(
+                                       "longitude", "latitude",
+                                       "l2loc_diet__country").distinct()))
+    geoloc = (geoloc_project.merge(
+        geoloc_sample, on=["longitude", "latitude"],
+        how="outer").merge(geoloc_country,
+                           on=["longitude", "latitude"],
+                           how="outer").rename(
+                               columns={
+                                   "latitude": "lat",
+                                   "longitude": "lon",
+                                   "l2loc_diet__country": "country",
+                               }))
 
     context = {
         "form": form,
@@ -272,10 +236,8 @@ def results_sample(request):
         bioproject = request.GET.get("bioproject", None)
         qs = []
         extras = {}
-        if tags:
-            tags = f"({tags}) & ({bioproject}[bioproject])"
-        else:
-            tags = f"({bioproject}[bioproject])"
+        if not tags:
+            tags = ""
         query = query2sqlquery(tags)
         print(tags)
         print(query)
@@ -290,38 +252,33 @@ def results_sample(request):
         # "locetdiet__lon",
         # "locetdiet__lat",
         # )
-        res = (
-            Samples.objects.filter(query)
-            .annotate(
-                title=F("l2pubmed__title"),
-                pubid=F("l2pubmed__pubid"),
-                sampleid=F("sampid"),
-                bioproject=F("l2bioproject__repoid"),
-                country=F("l2loc_diet__country"),
-                platform=F("l2platform__platform"),
-                assay=F("l2platform__assay"),
-                amplicon=F("l2platform__target_amplicon"),
-                disease=F("l2disease__disease"),
-                lon=F("longitude"),
-                lat=F("latitude"),
-            )
-            .values(
-                "sampleid",
-                "country",
-                "platform",
-                "amplicon",
-                "assay",
-                "disease",
-                "lon",
-                "lat",
-            )
-        )
+        res = (Samples.objects.filter(query).annotate(
+            title=F("l2pubmed__title"),
+            pubid=F("l2pubmed__pubid"),
+            sampleid=F("sampid"),
+            bioproject=F("l2bioproject__repoid"),
+            country=F("l2loc_diet__country"),
+            platform=F("l2platform__platform"),
+            assay=F("l2platform__assay"),
+            amplicon=F("l2platform__target_amplicon"),
+            disease=F("l2disease__disease"),
+            lon=F("longitude"),
+            lat=F("latitude"),
+        ).values(
+            "sampleid",
+            "country",
+            "platform",
+            "amplicon",
+            "assay",
+            "disease",
+            "lon",
+            "lat",
+        ))
         samples = read_frame(res).fillna("").drop_duplicates()
 
         print(samples)
-        paginator = Paginator(
-            samples.to_dict(orient="records"), 10
-        )  # 10 information per page
+        paginator = Paginator(samples.to_dict(orient="records"),
+                              10)  # 10 information per page
 
         try:
             items = paginator.page(page)
@@ -338,30 +295,24 @@ def results_sample(request):
         end_index = index + 5 if index <= max_index - 5 else max_index
         page_range = paginator.page_range[start_index:end_index]
         # Platforms
-        platform_pie_dict = (
-            read_frame(
-                res.values("platform")
-                .annotate(y=Count("platform"))
-                .order_by("platform")
-            )
-            .rename(columns={"platform": "name"})
-            .to_json(orient="records")
-        )
-        assay_pie_dict = (
-            read_frame(res.values("assay").annotate(
-                y=Count("assay")).order_by("assay"))
-            .rename(columns={"assay": "name"})
-            .to_json(orient="records")
-        )
+        platform_pie_dict = (read_frame(
+            res.values("platform").annotate(
+                y=Count("platform")).order_by("platform")).rename(
+                    columns={
+                        "platform": "name"
+                    }).to_json(orient="records"))
+        assay_pie_dict = (read_frame(
+            res.values("assay").annotate(
+                y=Count("assay")).order_by("assay")).rename(columns={
+                    "assay": "name"
+                }).to_json(orient="records"))
 
-        disease_pie_dict = (
-            read_frame(
-                res.values("disease").annotate(
-                    y=Count("disease")).order_by("disease")
-            )
-            .rename(columns={"disease": "name"})
-            .to_json(orient="records")
-        )
+        disease_pie_dict = (read_frame(
+            res.values("disease").annotate(
+                y=Count("disease")).order_by("disease")).rename(
+                    columns={
+                        "disease": "name"
+                    }).to_json(orient="records"))
 
         # GEO LOCATION
         try:
@@ -377,12 +328,9 @@ def results_sample(request):
             )
             # TODO: Fix country issue with multiple coordinates
             geoloc = (
-                geoloc[~(pd.isna(geoloc.lon) | pd.isna(geoloc.lat))]
-                .groupby(["lon", "lat", "country"])
-                .size()
-                .reset_index()
-                .rename(columns={0: "num_samples"})
-            )
+                geoloc[~(pd.isna(geoloc.lon) | pd.isna(geoloc.lat))].groupby([
+                    "lon", "lat", "country"
+                ]).size().reset_index().rename(columns={0: "num_samples"}))
         except AttributeError:
             geoloc = pd.DataFrame()
         no_data = [{"name": "No Data", "y": 0}]
@@ -391,22 +339,25 @@ def results_sample(request):
             request,
             "sample_results.html",
             {
-                "results": items,  # "results_samples.html"
-                "tags": tags,
-                "extras": extras,
-                "platform_pie_dict_sample": platform_pie_dict
-                if platform_pie_dict
-                else no_data,
-                "assay_pie_dict_sample": (
-                    assay_pie_dict if assay_pie_dict else no_data
-                ),
-                "disease_pie_dict_sample": disease_pie_dict
-                if disease_pie_dict
-                else no_data,
-                "records": geoloc,
+                "results":
+                items,  # "results_samples.html"
+                "tags":
+                tags,
+                "extras":
+                extras,
+                "platform_pie_dict_sample":
+                platform_pie_dict if platform_pie_dict else no_data,
+                "assay_pie_dict_sample":
+                (assay_pie_dict if assay_pie_dict else no_data),
+                "disease_pie_dict_sample":
+                disease_pie_dict if disease_pie_dict else no_data,
+                "records":
+                geoloc,
                 # Pagination
-                "page_range": page_range,
-                "items": items
+                "page_range":
+                page_range,
+                "items":
+                items
                 # 'query': query[: -1]
             },
         )
@@ -510,33 +461,28 @@ def results(request):
         project_summary.to_csv(result_file, index=False)
         result_file = f"{result_fold}/results.csv"
 
-        geo = (
-            project_summary.groupby(["lon", "lat"])
-            .size()
-            .reset_index()
-            .rename(columns={0: "num_samples"})
-        )  # TODO: Might need to drop dumplcates
-        geo_country = project_summary[[
-            "lon", "lat", "country"]].drop_duplicates()
-        geo_projects = (
-            project_summary[["lon", "lat", "bioproject"]]
-            .drop_duplicates()
-            .groupby(["lon", "lat"])
-            .size()
-            .reset_index()
-            .rename(columns={0: "num_project"})
-        )
-        geo = geo.merge(geo_country, on=["lon", "lat"], how="outer").merge(
-            geo_projects, on=["lon", "lat"], how="outer"
-        )
+        geo = (project_summary.groupby(
+            ["lon",
+             "lat"]).size().reset_index().rename(columns={0: "num_samples"})
+               )  # TODO: Might need to drop dumplcates
+        geo_country = project_summary[["lon", "lat",
+                                       "country"]].drop_duplicates()
+        geo_projects = (project_summary[[
+            "lon", "lat", "bioproject"
+        ]].drop_duplicates().groupby(
+            ["lon",
+             "lat"]).size().reset_index().rename(columns={0: "num_project"}))
+        geo = geo.merge(geo_country, on=["lon", "lat"],
+                        how="outer").merge(geo_projects,
+                                           on=["lon", "lat"],
+                                           how="outer")
         project_summary = project_summary.drop(["lon", "lat"], axis=1)
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
 
-        project_summary = project_summary[
-            ~(pd.isna(project_summary["value"]) |
-              project_summary["value"] == "nan")
-        ]
+        project_summary = project_summary[~(
+            pd.isna(project_summary["value"])
+            | project_summary["value"] == "nan")]
         # TODO: Add body site, Sample Type, City-Village, Diet, Study design,
         # participant feattures
         # NOTE: Pie codes
@@ -546,39 +492,33 @@ def results(request):
 
         # print(platform_pie_dict_sample)
         project_summary_col_date = project_summary.loc[
-            project_summary["variable"] == "col_date", ["pubid", "value"]
-        ].groupby("pubid")
+            project_summary["variable"] == "col_date",
+            ["pubid", "value"]].groupby("pubid")
         project_summary_col_date = project_summary_col_date.agg(
-            {"value": [np.min, np.max]}
-        )  # .reset_index()
+            {"value": [np.min, np.max]})  # .reset_index()
         project_summary_col_date = project_summary_col_date[
-            ~pd.isna(project_summary_col_date[("value", "amin")])
-        ]
+            ~pd.isna(project_summary_col_date[("value", "amin")])]
         project_summary_col_date["col_date"] = project_summary_col_date.apply(
-            date_range, axis=1
-        )
+            date_range, axis=1)
         project_summary_col_date = project_summary_col_date.reset_index()
         print(project_summary_col_date)
 
         project_summary = (
-            project_summary[project_summary["variable"] != "col_date"]
-            .groupby(["pubid", "title", "variable", "value"])
-            .size()
-            .reset_index()
-        )
+            project_summary[project_summary["variable"] != "col_date"].groupby(
+                ["pubid", "title", "variable", "value"]).size().reset_index())
         # project_summary.loc[project_summary["variable"] == "disease", "value"].apply(
         # lambda x: print(x, doid[x])
         # )
 
         # NOTE: Adding external link related values
         # DOID
-        project_summary.loc[project_summary["variable"] == "disease", "value"] = (
-            # print(
-            project_summary.loc[project_summary["variable"]
-                                == "disease", "value"]
-            .apply(lambda x: tuple([x, doid[x]]))
-            .values
-        )
+        project_summary.loc[
+            project_summary["variable"] == "disease", "value"] = (
+                # print(
+                project_summary.loc[
+                    project_summary["variable"] == "disease",
+                    "value"].apply(lambda x: tuple([x, doid[x]])).values)
+
         # ETHNICITY WIKI
 
         def ethni(ewiki, key):
@@ -593,36 +533,30 @@ def results(request):
             except:
                 return False
 
-        project_summary.loc[project_summary["variable"] == "ethnicity", "value"] = (
-            # # print(
-            project_summary.loc[project_summary["variable"]
-                                == "ethnicity", "value"]
-            .apply(lambda x: ethni(ewiki, x))
-            .values
-        )
-        print(
-            set(project_summary["value"]),
-            # project_summary[~project_summary["value"]],
-        )
+        project_summary.loc[
+            project_summary["variable"] == "ethnicity", "value"] = (
+                # # print(
+                project_summary.loc[
+                    project_summary["variable"] == "ethnicity",
+                    "value"].apply(lambda x: ethni(ewiki, x)).values)
+        print(set(project_summary["value"]),
+              # project_summary[~project_summary["value"]],
+              )
         project_summary = project_summary[project_summary["value"] != False]
         print(project_summary)
 
         # project_summary["value"] = project_summary["value"] + \
         # "("+project_summary[0].astype(str)+")"
         project_summary["value"] = project_summary[["value", 0]].apply(
-            lambda x: {x["value"]: x[0]}, axis=1
-        )
+            lambda x: {x["value"]: x[0]}, axis=1)
         print(project_summary)
         # TODO: Use dictionary
         del project_summary[0]
         # project_summary = project_summary.groupby(["pubid", "title", "variable"])[
         # "value"].apply(lambda x: ",".join(x.values)).reset_index()
 
-        project_summary = (
-            project_summary.groupby(["pubid", "title", "variable"])["value"]
-            .apply(list)
-            .reset_index()
-        )
+        project_summary = (project_summary.groupby(
+            ["pubid", "title", "variable"])["value"].apply(list).reset_index())
 
         # print(project_summary)
         project_summary["value"] = project_summary["value"].apply(mergedict)
@@ -635,25 +569,24 @@ def results(request):
         # ].apply(
         # date_range
         # )
-        project_summary = project_summary.pivot(
-            index=["pubid", "title"], columns="variable", values="value"
-        ).reset_index()
-        project_summary = (
-            project_summary.merge(
-                project_summary_col_date[["pubid", "col_date"]], on="pubid", how="outer"
-            )
-            .rename(columns={("col_date", ""): "col_date"})
-            .fillna(False)
-        )
+        project_summary = project_summary.pivot(index=["pubid", "title"],
+                                                columns="variable",
+                                                values="value").reset_index()
+        project_summary = (project_summary.merge(
+            project_summary_col_date[["pubid", "col_date"]],
+            on="pubid",
+            how="outer").rename(columns={
+                ("col_date", ""): "col_date"
+            }).fillna(False))
         print(project_summary[["bodysite", "cityvillage"]])
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     except:
         project_summary = pd.DataFrame()
+    print(project_summary.columns, project_summary.values, "Anmol")
 
-    paginator = Paginator(
-        project_summary.to_dict(orient="records"), 10
-    )  # 10 information per page
+    paginator = Paginator(project_summary.to_dict(orient="records"),
+                          10)  # 10 information per page
 
     try:
         items = paginator.page(page)
