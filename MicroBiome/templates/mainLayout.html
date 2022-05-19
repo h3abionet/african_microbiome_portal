@@ -5,207 +5,207 @@
 {% load cache_bust %}
 
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <link rel = "icon" href = "https://h3abionet.org/images/icons/favicon-96x96.png" type = "image/x-icon">
-    <title>{% block title %}{% endblock %}</title>
-    {% block js_top %} {% endblock %}
-    <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous"
-        />
-    <link
-        rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-        crossorigin="anonymous"
-        />
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<link rel = "icon" href = "https://h3abionet.org/images/icons/favicon-96x96.png" type = "image/x-icon">
+<title>{% block title %}{% endblock %}</title>
+{% block js_top %} {% endblock %}
+<link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+crossorigin="anonymous"
+/>
+<link
+rel="stylesheet"
+href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+crossorigin="anonymous"
+/>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}?{% cache_bust %}" />
-      <style>
+<link rel="stylesheet" href="{% static 'css/custom.css' %}?{% cache_bust %}" />
+<style>
 .navbar-nav > a.nav-link {
-  background-color: #0f0;
+	background-color: #0f0;
 }
-      </style>
-      {% block css %} {% endblock %}
-  </head>
+</style>
+{% block css %} {% endblock %}
+</head>
 
-  <body>
-    <!--{% define "Edit" as action %}
-      {{action}} Anmol -->
-      <div class="container2">
-        <nav
-            class="navbar navbar-fixed-top navbar-expand-md navbar-light bg-mibio py-md-2"
-            >
-            <a class="navbar-brand" href="/">
-              <i class="fa fa-home"></i>
-              <!--img
-                src="{% static 'img/bionetlogo.png' %} "
-                width="30"
-                height="30"
-                class="d-inline-block align-top"
-                alt=" "
-                /--><b>African Microbiome Portal</b>
-            </a>
-            <button
-                class="navbar-toggler navbar-dark"
-                type="button"
-                data-toggle="collapse"
-                data-target="#main-navigation"
-                >
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body>
+<!--{% define "Edit" as action %}
+{{action}} Anmol -->
+<div class="container2">
+<nav
+class="navbar navbar-fixed-top navbar-expand-md navbar-light bg-mibio py-md-2"
+>
+<a class="navbar-brand" href="/">
+<i class="fa fa-home"></i>
+<!--img
+src="{% static 'img/bionetlogo.png' %} "
+width="30"
+height="30"
+class="d-inline-block align-top"
+alt=" "
+/--><b>African Microbiome Portal</b>
+</a>
+<button
+class="navbar-toggler navbar-dark"
+type="button"
+data-toggle="collapse"
+data-target="#main-navigation"
+>
+<span class="navbar-toggler-icon"></span>
+</button>
 
-            <div class="collapse navbar-collapse" id="main-navigation">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item ml-auto py-0 sp-menu-item">
-                  <a class="nav-link dropdown {% active_link 'about'%}" href="{%url 'about' %}"
-                                                                        ><b>About</b></a
-                                                                      >
-                </li>
-                <!--li class="nav-item ml-auto py-0">
-                  <a class="nav-link" href="/">Search</a>
-                  </li>
-                  <li class="nav-item ml-auto py-0">
-                  <a class="nav-link" href="/microbiome/contributor/"
-                  >Contributor</a
-                  >
-                  </li-->
-                    {% comment %}
-                      <li class="nav-item ml-auto py-0">
-                        {% endcomment %} {% comment %}
-                        <a class="nav-link" href="/microbiome/publication/"
-                          >Publication</a
-                        >
-                        {% endcomment %} {% comment %}
-                      </li>
-                        {% endcomment %}
-                        <li class="nav-item ml-auto py-0">
-                          <a class="nav-link {% active_link 'resource'%}" href="{% url 'resource' %}"
-                                                                          ><b>Resources</b></a
-                                                                        >
-                        </li>
-                            <li class="nav-item ml-auto py-0">
-                              <a class="nav-link {% active_link 'help'%}" href="{% url 'help' %}"><b>Help</b></a>
-                            </li>
-              </ul>
-            </div>
-        </nav>
-      </div>
-      {% block slides %}
-        <div class="container">{% block content %} {% endblock %}</div>
-      {% endblock %}
-      <div>
-        <p></p>
-        <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js "
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
-            crossorigin="anonymous "
-            ></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
-            crossorigin="anonymous "
-            ></script>
-        <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
-            crossorigin="anonymous "
-            ></script>
-        <script src="/static/js/tagsinut.js "></script>
+<div class="collapse navbar-collapse" id="main-navigation">
+<ul class="navbar-nav ml-auto">
+<li class="nav-item ml-auto py-0 sp-menu-item">
+<a class="nav-link dropdown {% active_link 'about' 'active_link'%}" href="{%url 'about' %}"
+><b>About</b></a
+>
+</li>
+<!--li class="nav-item ml-auto py-0">
+<a class="nav-link" href="/">Search</a>
+</li>
+<li class="nav-item ml-auto py-0">
+<a class="nav-link" href="/microbiome/contributor/"
+>Contributor</a
+>
+</li-->
+{% comment %}
+<li class="nav-item ml-auto py-0">
+{% endcomment %} {% comment %}
+<a class="nav-link" href="/microbiome/publication/"
+>Publication</a
+>
+{% endcomment %} {% comment %}
+</li>
+{% endcomment %}
+<li class="nav-item ml-auto py-0">
+<a class="nav-link {% active_link 'resource' 'active_link'%}" href="{% url 'resource' %}"
+><b>Resources</b></a
+>
+</li>
+<li class="nav-item ml-auto py-0">
+<a class="nav-link {% active_link 'help' 'active_link'%}" href="{% url 'help' %}"><b>Help</b></a>
+</li>
+</ul>
+</div>
+</nav>
+</div>
+{% block slides %}
+<div class="container">{% block content %} {% endblock %}</div>
+{% endblock %}
+<div>
+<p></p>
+<script
+src="https://code.jquery.com/jquery-3.3.1.min.js "
+integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+crossorigin="anonymous "
+></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+crossorigin="anonymous "
+></script>
+<script
+src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+crossorigin="anonymous "
+></script>
+<script src="/static/js/tagsinut.js "></script>
 
-        <script src="{% static 'js/ajax.js' %} "></script>
-        <script>
-          $("#post-form ").submit(function (e) {
-                      e.preventDefault();
-                    });
-        </script>
-        {% block js%} {% endblock %} {% block content2 %} {% endblock %}
-      </div>
+<script src="{% static 'js/ajax.js' %} "></script>
+<script>
+$("#post-form ").submit(function (e) {
+		e.preventDefault();
+		});
+</script>
+{% block js%} {% endblock %} {% block content2 %} {% endblock %}
+</div>
 
-      <!-- Footer -->
-      <div class="page-footer">
-        <!-- Footer Links -->
-        <div class="container-fluid text-center text-md-left">
-          <div class="row">
-            <div class="col-md-3">
-              <p>
-              H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
-              U41HG006941
-              </p>
-            </div>
-            <div class="col-md-2">
-              <img
-                  src="{% static 'img/NHGRI-logo_footer.png' %} "
-                  class="img-responsive"
-                  />
-            </div>
-            <div class="col-md-2">
-              <img
-                  src="{% static 'img/NIH-logo_footer.png' %} "
-                  class="img-responsive"
-                  />
-            </div>
-            <div class="col-md-2">
-              <a href="https://h3africa.org/"
-                 ><img
-                      src="{% static 'img/h3africa-_partner.png' %} "
-                      class="img-responsive"
-                      /></a>
-            </div>
-            <!-- <div class="col-md-2 "><img src="{% static "img/idm_uct_logo.png" %} " class="img-responsive "></div> -->
-            <div class="col-md-2" style="font-size: 22px">
-              <a
-                  target="_blank "
-                  href="https://www.facebook.com/H3ABioNet"
-                  style="padding: 5px"
-                  ><i class="fab fa-facebook-square icon-large"></i
-                  ></a>
-              <a
-                  target="_blank "
-                  href="https://twitter.com/H3ABioNet"
-                  style="padding: 5px"
-                  ><i class="fab fa-twitter-square"></i
-                  ></a>
-              <a
-                  target="_blank "
-                  href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw"
-                  style="padding: 5px"
-                  ><i class="fab fa-youtube-square"></i
-                  ></a>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <p>
-            © {% now "Y " %} Copyright:<a href="https://h3abionet.org">
-              H3ABioNet</a
-            >
-            </p>
-          </div>
-          <div class="col-md-2">
-            <a href="https://helpdesk.h3abionet.org"> Helpdesk</a>
-          </div>
-          <div class="col-md-2">
-            <a href="# ">Github Repository</a>
-          </div>
-          <div class="col-md-2">
-            <a href="/disclaimer ">Disclaimer</a>
-          </div>
-          <div class="col-md-2">
-            <a target="_blank " href="https://h3abionet.org">H3ABioNet</a>
-          </div>
-        </div>
-      </div>
-      <!-- Footer -->
-  </body>
+<!-- Footer -->
+<div class="page-footer">
+<!-- Footer Links -->
+<div class="container-fluid text-center text-md-left">
+<div class="row">
+<div class="col-md-3">
+<p>
+H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
+U41HG006941
+</p>
+</div>
+<div class="col-md-2">
+<img
+src="{% static 'img/NHGRI-logo_footer.png' %} "
+class="img-responsive"
+/>
+</div>
+<div class="col-md-2">
+<img
+src="{% static 'img/NIH-logo_footer.png' %} "
+class="img-responsive"
+/>
+</div>
+<div class="col-md-2">
+<a href="https://h3africa.org/"
+><img
+src="{% static 'img/h3africa-_partner.png' %} "
+class="img-responsive"
+/></a>
+</div>
+<!-- <div class="col-md-2 "><img src="{% static "img/idm_uct_logo.png" %} " class="img-responsive "></div> -->
+<div class="col-md-2" style="font-size: 22px">
+<a
+target="_blank "
+href="https://www.facebook.com/H3ABioNet"
+style="padding: 5px"
+><i class="fab fa-facebook-square icon-large"></i
+></a>
+<a
+target="_blank "
+href="https://twitter.com/H3ABioNet"
+style="padding: 5px"
+><i class="fab fa-twitter-square"></i
+></a>
+<a
+target="_blank "
+href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw"
+style="padding: 5px"
+><i class="fab fa-youtube-square"></i
+></a>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<p>
+© {% now "Y " %} Copyright:<a href="https://h3abionet.org">
+H3ABioNet</a
+>
+</p>
+</div>
+<div class="col-md-2">
+<a href="https://helpdesk.h3abionet.org"> Helpdesk</a>
+</div>
+<div class="col-md-2">
+<a href="# ">Github Repository</a>
+</div>
+<div class="col-md-2">
+<a href="/disclaimer ">Disclaimer</a>
+</div>
+<div class="col-md-2">
+<a target="_blank " href="https://h3abionet.org">H3ABioNet</a>
+</div>
+</div>
+</div>
+<!-- Footer -->
+</body>
 </html>

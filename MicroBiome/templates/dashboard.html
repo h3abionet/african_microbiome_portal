@@ -18,21 +18,21 @@
 {% leaflet_css %}
 <style>
 .leaflet-container {  /* all maps */
-		width:  100%;
-		height: 120px;
+width:  100%;
+height: 120px;
 }
 /* Resize the "display_raw" textbox */
 .django-leaflet-raw-textarea {
-		width: 100%;
+width: 100%;
 }
 
 <link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />
 
 
 .item {
-	color: white;
-	padding: 0.5em 0;
-	font-size: 2em;
+color: white;
+padding: 0.5em 0;
+				 font-size: 2em;
 }
 
 .map_div {
@@ -48,125 +48,125 @@
 {% comment %} https://medium.com/wdstack/bootstrap-4-chart-js-39006427f08f {% endcomment %}
 {% comment %} TODO: Need to change it to mobile friendly {% endcomment %}
 {% comment %} <div class="container"> {% endcomment %}
-	<div class="card mt-4 text-center"><H1>PORTAL DATA OVERVIEW</H1></div>
-	<br />
+<div class="card mt-4 text-center"><H1>PORTAL DATA OVERVIEW</H1></div>
+<br />
 
-	<div class="container">
-    <div class="row">
-        <div class="col-sm-6 pr-0">
-            <div class="card">
-                <div class="card-body">
-                <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#project_body_site_pie">Project body_site Pie</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#sample_body_site_pie">Sample body_site Pie</a>
-  </li>
+<div class="container">
+<div class="row">
+<div class="col-sm-6 pr-0">
+<div class="card">
+<div class="card-body">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+<a class="nav-link plot active" data-toggle="tab" href="#project_body_site_pie">Project Body Site</a>
+</li>
+<li class="nav-item">
+<a class="nav-link plot" data-toggle="tab" href="#sample_body_site_pie">Sample Body Site</a>
+</li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane container active" id="project_body_site_pie"><div id="body_site_pie_project"></div></div>
-  <div class="tab-pane container fade" id="sample_body_site_pie"><div id="body_site_pie_sample"></div></div>
+<div class="tab-pane container active" id="project_body_site_pie"><div id="body_site_pie_project"></div></div>
+<div class="tab-pane container fade" id="sample_body_site_pie"><div id="body_site_pie_sample"></div></div>
 </div>
 
-                    {% comment %} <div id="body_site"></div> {% endcomment %}
-                </div>
-            </div>
-        </div>
-				<div class="col-sm-6 pl-0">
-            <div class="card">
-                <div class="card-body">
-                <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#project_assay_pie">Project assay Pie</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#sample_assay_pie">Sample assay Pie</a>
-  </li>
+{% comment %} <div id="body_site"></div> {% endcomment %}
+</div>
+</div>
+</div>
+<div class="col-sm-6 pl-0">
+<div class="card">
+<div class="card-body">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+<a class="nav-link plot active" data-toggle="tab" href="#project_assay_pie">Project Assay</a>
+</li>
+<li class="nav-item">
+<a class="nav-link plot" data-toggle="tab" href="#sample_assay_pie">Sample Assay</a>
+</li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane container active" id="project_assay_pie"><div id="assay_pie_project"></div></div>
-  <div class="tab-pane container fade" id="sample_assay_pie"><div id="assay_pie_sample"></div></div>
+<div class="tab-pane container active" id="project_assay_pie"><div id="assay_pie_project"></div></div>
+<div class="tab-pane container fade" id="sample_assay_pie"><div id="assay_pie_sample"></div></div>
 </div>
 
-                    {% comment %} <div id="assay"></div> {% endcomment %}
-                </div>
-            </div>
-        </div>
-     </div>
+{% comment %} <div id="assay"></div> {% endcomment %}
+</div>
+</div>
+</div>
+</div>
 
-		<div class="row">
-        <div class="col-sm-6 pr-0">
-            <div class="card">
-                <div class="card-body">
-                <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#project_disease_pie">Project disease Pie</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#sample_disease_pie">Sample disease Pie</a>
-  </li>
+<div class="row">
+<div class="col-sm-6 pr-0">
+<div class="card">
+<div class="card-body">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+<a class="nav-link plot active" data-toggle="tab" href="#project_disease_pie">Project Disease</a>
+</li>
+<li class="nav-item">
+<a class="nav-link plot" data-toggle="tab" href="#sample_disease_pie">Sample Disease</a>
+</li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane container active" id="project_disease_pie"><div id="disease_pie_project"></div></div>
-  <div class="tab-pane container fade" id="sample_disease_pie"><div id="disease_pie_sample"></div></div>
+<div class="tab-pane container active" id="project_disease_pie"><div id="disease_pie_project"></div></div>
+<div class="tab-pane container fade" id="sample_disease_pie"><div id="disease_pie_sample"></div></div>
 </div>
 
-                    {% comment %} <div id="disease"></div> {% endcomment %}
-                </div>
-            </div>
-        </div>
-				<div class="col-sm-6 pl-0">
-            <div class="card">
-                <div class="card-body">
-                <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#project_platform_pie">Project Platform Pie</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#sample_platform_pie">Sample Platform Pie</a>
-  </li>
+{% comment %} <div id="disease"></div> {% endcomment %}
+</div>
+</div>
+</div>
+<div class="col-sm-6 pl-0">
+<div class="card">
+<div class="card-body">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+<a class="nav-link plot active" data-toggle="tab" href="#project_platform_pie">Project Platform</a>
+</li>
+<li class="nav-item">
+<a class="nav-link plot" data-toggle="tab" href="#sample_platform_pie">Sample Platform</a>
+</li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane container active" id="project_platform_pie"><div id="platform_pie_project"></div></div>
-  <div class="tab-pane container fade" id="sample_platform_pie"><div id="platform_pie_sample"></div></div>
+<div class="tab-pane container active" id="project_platform_pie"><div id="platform_pie_project"></div></div>
+<div class="tab-pane container fade" id="sample_platform_pie"><div id="platform_pie_sample"></div></div>
 </div>
 
-                    {% comment %} <div id="platform"></div> {% endcomment %}
-                </div>
-            </div>
-        </div>
-     </div>
+{% comment %} <div id="platform"></div> {% endcomment %}
+</div>
+</div>
+</div>
+</div>
 
-		<div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-									<h4 align="center">Sample collection locations</h4>
-									 {% leaflet_map "mapd" callback="map_init" %}
-                                     <h3 class="right-down-txt"><strong>Disclaimer:</strong> the boundaries and names shown on this map do not imply the expression of any opinion by our team.</h3>
-                    {% comment %} <div id="disease"></div> {% endcomment %}
-                </div>
-            </div>
-				</div>
-		 </div>
+<div class="row">
+<div class="col-12">
+<div class="card">
+<div class="card-body">
+<h4 align="center">Sample collection locations</h4>
+{% leaflet_map "mapd" callback="map_init" %}
+<h3 class="right-down-txt"><strong>Disclaimer:</strong> the boundaries and names shown on this map do not imply the expression of any opinion by our team.</h3>
+{% comment %} <div id="disease"></div> {% endcomment %}
+</div>
+</div>
+</div>
+</div>
 
-	</div>
+</div>
 
 
 {% comment %} BODY SITE {% endcomment %}
 {% include "bodysite.html" %}
 
 
- {% comment %} DISEASE {% endcomment %}
+{% comment %} DISEASE {% endcomment %}
 {% include "disease.html" %}
 
 {% comment %} ASSAY {% endcomment %}

@@ -1554,12 +1554,21 @@ div#klixoSlider_166 div.textContent {
 
 .navbar-brand:hover,
 .nav-link:hover,
+.plot:hover,
 .doubleclick:hover {
   color: #ff7700 !important;
 }
 
-.active {
+.active_link {
   background-color: #337ab7;
+}
+
+.plot {
+  color: #5aa1e3 !important;
+}
+
+.active {
+  color: #000 !important;
 }
 
 /* To change the color of open accordion*/
