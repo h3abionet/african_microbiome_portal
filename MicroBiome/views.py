@@ -4,6 +4,7 @@
 All the view Related to Microbiome will be will be written herobiome wbe will
 be written here.
 """
+
 import numpy as np
 import pandas as pd
 import random
@@ -38,6 +39,7 @@ from .models import (
     Platform,
     Pubmed,
     Samples,
+    RawData
     # StudyDesign,
 )
 
@@ -236,10 +238,14 @@ def results_sample(request):
         bioproject = request.GET.get("bioproject", None)
         qs = []
         extras = {}
+
         if not tags:
             tags = ""
         if bioproject:
-            tags += f"& {bioproject}[bioproject]"
+            if tags:
+                tags += f"& {bioproject}[bioproject]"
+            else:
+                tags = f"{bioproject}[bioproject]"
         query = query2sqlquery(tags)
         print(tags)
         print(query)
@@ -420,7 +426,7 @@ def results(request):
         "title",
         "pubid",
         "bioproject",
-        # "sampleid",
+        "sampleid",
         "country",
         "ethnicity",
         "ewiki",
@@ -438,6 +444,8 @@ def results(request):
     if True:
         # try:
         project_summary = read_frame(res)
+        # print(project_summary.columns)
+        sampleids = project_summary.sampleid.unique()
         # print(set(project_summary["ethnicity"]))
 
         # NOTE: Values with external links
@@ -461,7 +469,36 @@ def results(request):
         # TODO: Extend to other columns
         # Change this to static root later
         result_file = f"{settings.STATIC_ROOT}/downloads/{rand_fold}/results.csv"
-        project_summary.to_csv(result_file, index=False)
+        raw_data = read_frame(RawData.objects.filter(sampid__in=sampleids))
+        raw_data = raw_data.rename(
+            columns={
+                # REPOSITORY ID,REPOSITORY LINK,SAMPLE NUMBER,STUDY TITLE,STUDY LINK,ASSAY TYPE,TECHNOLOGY,COUNTRY,DISEASE,DOID,STUDY DESIGN,BODY SITE,PLATFORM,PARTICIPANT FEATURES,AVERAGE SPOTLENGTH,RUN ID,Sample ID,Sample Name,COLLECTION DATE,LIBRARY LAYOUT,LAT LON,SAMPLE TYPE,ETHNICITY,ELO,URBANZATION,REGION,CITYVILLAGE,TARGET AMPLICON,DI
+                'repoid': 'REPOSITORY ID',
+                'sample_size': 'SAMPLE NUMER',
+                'pubid': 'STUDY LINK',
+                'title': 'STUDY TITLE',
+                'study_design': 'STUDY DESIGN',
+                'country': 'COUNTRY',
+                'region': 'REGION',
+                'urbanization': 'URBANZATION',
+                'cityvillage': 'CITYVILLAGE',
+                'ethnicity': 'ETHNICITY',
+                'elo': 'ELO',
+                'diets': 'DIET',
+                'platform': 'PLATFORM',
+                'technology': 'TECHNOLOGY',
+                'assay': 'ASSAY TYPE',
+                'target_amplicon': 'TARGET AMPLICON',
+                'bodysite': 'BODY SITE',
+                'disease': 'DISEASE',
+                'doid': 'DOID',
+                'sampid': 'SAMPLE ID',
+                'avspotlen': 'AVERAGE SPOTLENGTH',
+                'col_date': 'COLLECTION DATE',
+                'lib_layout': 'LIBRARY LAYOUT',
+                'coordinate': 'LAT LON',
+            })
+        raw_data.to_csv(result_file, index=False)
         result_file = f"{result_fold}/results.csv"
 
         geo = (project_summary.groupby(
