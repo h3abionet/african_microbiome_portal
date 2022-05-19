@@ -1547,10 +1547,33 @@ div#klixoSlider_166 div.textContent {
 
 /*For highlighting current page in nav bar*/
 .navbar-brand,
-.nav-link {
+.nav-link,
+.doubleclick {
   color: #ffffff !important;
+}
+
+.navbar-brand:hover,
+.nav-link:hover,
+.doubleclick:hover {
+  color: #ff7700 !important;
 }
 
 .active {
   background-color: #337ab7;
+}
+
+/* To change the color of open accordion*/
+/*#accordion:not(.collapsed) {*/
+/*color: #0c63e4;*/
+/*background-color: #feb7ee;*/
+/*}*/
+
+/*thead tr {*/
+/*background-color: #5aa1e3;*/
+/*color: #fff;*/
+/*}*/
+
+tr:hover td {
+  background: #7288a5;
+  color: #fff;
 }
