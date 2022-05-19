@@ -34,6 +34,7 @@
 $(function () {
   $(".doubleclick")
     .click(function () {
+      //window. = this.button;
       return false;
     })
     .dblclick(function () {
