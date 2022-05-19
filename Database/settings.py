@@ -19,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'anmolyouareanidiot'
+SECRET_KEY = "anmolyouareanidiot"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # For neo4J database connections
@@ -41,42 +41,45 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
-    'grappelli',
+    "django_crontab",
+    "grappelli",
     #  'bootstrap_admin', # always before django.contrib.admin
-    'active_link',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-
+    "active_link",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     #  'django_neomodel',
-    'MicroBiome',
-    'leaflet',
-    'djgeojson',
+    "MicroBiome",
+    "leaflet",
+    "djgeojson",
     # 'django_nvd3',
-    'bootstrap4',
-    'crispy_forms',  # TODO: Clean it
-    'tags_input',  # TODO: REmove this while cleaning the code
+    "bootstrap4",
+    "crispy_forms",  # TODO: Clean it
+    "tags_input",  # TODO: REmove this while cleaning the code
     # 'django_tables2',
     "taggit",  # TODO: Remove it during cleaning
-    'widget_tweaks',
+    "widget_tweaks",
     #  'djide',
     #  'rooms',
 ]
 
+
+CRONJOBS = [("0 0 * * 0", "django.core.management.clean_old")]
+
+
 TAGGIT_CASE_INSENSITIVE = True
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 # For cached sesson management [Anmol]
@@ -85,37 +88,37 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
 
-ROOT_URLCONF = 'Database.urls'
+ROOT_URLCONF = "Database.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # 'html', added by Anmol #os.path.abspath("../html")
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],  # 'html', added by Anmol #os.path.abspath("../html")
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'Database.wsgi.application'
+WSGI_APPLICATION = "Database.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -124,30 +127,26 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME':
-        'django.contrib.auth.password_validation.'
-        'UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator",
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -164,9 +163,9 @@ GRAPPELLI_SWITCH_USER = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 # os.path.abspath("static")  # added by Anmol
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # print(BASE_DIR)
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static')
