@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """Convert string to tree which could be used for queries."""
 from django.db.models import Q
 
@@ -197,127 +196,90 @@ def str2eq(strng):
 def query_Q(query):
     """Converts query and query type (i.e. ("Malawi","country")) to Django Q object."""
     if query[1] == "sampid":
-        return (
-            ~Q(sampid__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(sampid__icontains=query[0])
-        )
+        return (~Q(sampid__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(sampid__icontains=query[0]))
     if query[1] == "avspotlen":
-        return (
-            ~Q(avspotlen__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(avspotlen__icontains=query[0])
-        )
+        return (~Q(avspotlen__icontains=query[0][1:]) if
+                query[0].startswith("~") else Q(avspotlen__icontains=query[0]))
     if query[1] == "country":
-        return (
-            ~Q(l2loc_diet__country__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__country__icontains=query[0])
-        )
-    if query[1] == "project":
-        return (
-            ~Q(l2bioproject__repoid__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2bioproject__repoid__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__country__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__country__icontains=query[0]))
+    if query[1] == "bioproject":
+        return (~Q(l2bioproject__repoid__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2bioproject__repoid__icontains=query[0]))
     if query[1] == "bodysite":
-        return (
-            ~Q(l2bodysite__bodysite__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2bodysite__bodysite__icontains=query[0])
-        )
+        return (~Q(l2bodysite__bodysite__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2bodysite__bodysite__icontains=query[0]))
     if query[1] == "region":
-        return (
-            ~Q(l2loc_diet__region__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__region__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__region__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__region__icontains=query[0]))
     if query[1] == "urbanization":
-        return (
-            ~Q(l2loc_diet__urbanization__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__urbanization__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__urbanization__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__urbanization__icontains=query[0]))
     if query[1] == "cityvillage":
-        return (
-            ~Q(l2loc_diet__cityvillage__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__cityvillage__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__cityvillage__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__cityvillage__icontains=query[0]))
     if query[1] == "urbanization":
-        return (
-            ~Q(l2loc_diet__urbanization__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__urbanization__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__urbanization__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__urbanization__icontains=query[0]))
     if query[1] == "platform":
-        return (
-            ~Q(l2platform__platform__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2platform__platform__icontains=query[0])
-        )
+        return (~Q(l2platform__platform__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2platform__platform__icontains=query[0]))
     if query[1] == "amplicon":
-        return (
-            ~Q(l2platform__target_amplicon__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2platform__target_amplicon__icontains=query[0])
-        )
+        return (~Q(l2platform__target_amplicon__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2platform__target_amplicon__icontains=query[0]))
     if query[1] == "assay":
-        return (
-            ~Q(l2platform__assay__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2platform__assay__icontains=query[0])
-        )
+        return (~Q(l2platform__assay__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2platform__assay__icontains=query[0]))
     if query[1] == "ethinicity":
-        return (
-            ~Q(l2loc_diet__ethnicity__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2loc_diet__ethnicity__icontains=query[0])
-        )
+        return (~Q(l2loc_diet__ethnicity__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2loc_diet__ethnicity__icontains=query[0]))
     if query[1] == "disease":
-        return (
-            ~Q(l2disease__disease__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2disease__disease__icontains=query[0])
-        )
-    if (
-        query[1] == "bioproject"
-    ):  # NOTE: This is hidden from rest, as only for sample query
-        return (
-            ~Q(l2bioproject__repoid__icontains=query[0][1:])
-            if query[0].startswith("~")
-            else Q(l2bioproject__repoid__icontains=query[0])
-        )
+        return (~Q(l2disease__disease__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2disease__disease__icontains=query[0]))
+    if (query[1] == "bioproject"
+        ):  # NOTE: This is hidden from rest, as only for sample query
+        return (~Q(l2bioproject__repoid__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2bioproject__repoid__icontains=query[0]))
 
     # TODO: Work on and (&) conditions
 
     if not query[0].startswith("~"):
-        return (
-            Q(sampid__icontains=query[0])
-            | Q(avspotlen__icontains=query[0])
-            | Q(l2loc_diet__country__icontains=query[0])
-            | Q(l2loc_diet__region__icontains=query[0])
-            | Q(l2loc_diet__urbanization__icontains=query[0])
-            | Q(l2loc_diet__cityvillage__icontains=query[0])
-            | Q(l2loc_diet__ethnicity__icontains=query[0])
-            | Q(l2platform__platform__icontains=query[0])
-            | Q(l2platform__target_amplicon__icontains=query[0])
-            | Q(l2platform__assay__icontains=query[0])
-            | Q(l2disease__disease__icontains=query[0])
-        )
-    return ~(
-        Q(sampid__icontains=query[0][1:])
-        | Q(avspotlen__icontains=query[0][1:])
-        | Q(l2loc_diet__country__icontains=query[0][1:])
-        | Q(l2loc_diet__region__icontains=query[0][1:])
-        | Q(l2loc_diet__urbanization__icontains=query[0][1:])
-        | Q(l2loc_diet__cityvillage__icontains=query[0][1:])
-        | Q(l2loc_diet__ethnicity__icontains=query[0][1:])
-        | Q(l2platform__platform__icontains=query[0][1:])
-        | Q(l2platform__target_amplicon__icontains=query[0][1:])
-        | Q(l2platform__assay__icontains=query[0][1:])
-        | Q(l2disease__disease__icontains=query[0][1:])
-    )
+        return (Q(sampid__icontains=query[0])
+                | Q(avspotlen__icontains=query[0])
+                | Q(l2loc_diet__country__icontains=query[0])
+                | Q(l2loc_diet__region__icontains=query[0])
+                | Q(l2loc_diet__urbanization__icontains=query[0])
+                | Q(l2loc_diet__cityvillage__icontains=query[0])
+                | Q(l2loc_diet__ethnicity__icontains=query[0])
+                | Q(l2platform__platform__icontains=query[0])
+                | Q(l2platform__target_amplicon__icontains=query[0])
+                | Q(l2platform__assay__icontains=query[0])
+                | Q(l2disease__disease__icontains=query[0]))
+    return ~(Q(sampid__icontains=query[0][1:])
+             | Q(avspotlen__icontains=query[0][1:])
+             | Q(l2loc_diet__country__icontains=query[0][1:])
+             | Q(l2loc_diet__region__icontains=query[0][1:])
+             | Q(l2loc_diet__urbanization__icontains=query[0][1:])
+             | Q(l2loc_diet__cityvillage__icontains=query[0][1:])
+             | Q(l2loc_diet__ethnicity__icontains=query[0][1:])
+             | Q(l2platform__platform__icontains=query[0][1:])
+             | Q(l2platform__target_amplicon__icontains=query[0][1:])
+             | Q(l2platform__assay__icontains=query[0][1:])
+             | Q(l2disease__disease__icontains=query[0][1:]))
 
 
 def eq2query(postfix, diction):
@@ -343,6 +305,7 @@ def eq2query(postfix, diction):
                 to_calculate.append(query)
     if len(to_calculate) > 1:
         print("Something worng.")
+    print(to_calculate)
     return to_calculate[0]
 
 

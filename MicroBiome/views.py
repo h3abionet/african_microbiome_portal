@@ -238,6 +238,8 @@ def results_sample(request):
         extras = {}
         if not tags:
             tags = ""
+        if bioproject:
+            tags += f"& {bioproject}[bioproject]"
         query = query2sqlquery(tags)
         print(tags)
         print(query)
