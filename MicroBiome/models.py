@@ -68,6 +68,10 @@ class RawData(models.Model):
                                        null=True,
                                        blank=False)
     bodysite = models.CharField(max_length=100, null=False, blank=False)
+    participant_feature = models.CharField(max_length=1000,
+                                           null=True,
+                                           blank=True)
+    sample_type = models.CharField(max_length=100, null=True, blank=True)
 
     disease = models.CharField(
         max_length=100,
@@ -263,6 +267,8 @@ class Platform(models.Model):
 class BodySite(models.Model):
     bodysite = models.CharField(max_length=100, null=False, blank=False)
 
+    # sampletype = models.CharField(max_length=100, null=False, black=False)
+
     class Meta:
         ordering = ["bodysite"]
 
@@ -304,6 +310,11 @@ class Samples(models.Model):
                               blank=False)
     avspotlen = models.IntegerField(null=True,
                                     blank=True)  # Average spot length
+    participant_feature = models.CharField(max_length=1000,
+                                           null=True,
+                                           blank=True)
+    sampletype = models.CharField(max_length=100, null=True, blank=True)
+    bodysite = models.CharField(max_length=100, null=False, blank=False)
     # TODO: How to reset to default when date is null??
     col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
@@ -321,6 +332,7 @@ class Samples(models.Model):
                                    null=True)
     l2disease = models.ManyToManyField(Disease)  # NOTE: One sample one disease
     # TODO: Check if sample has mixed disease
+    # TODO: Add Participant summary
     is_mixed = models.BooleanField(default=False, null=False, blank=False)
     l2loc_diet = models.ForeignKey(LocEthDiet,
                                    on_delete=models.SET_DEFAULT,
