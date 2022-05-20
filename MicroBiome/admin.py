@@ -2,19 +2,19 @@ from django.contrib import admin
 
 from .models import Pubmed, Samples, Platform, LocEthDiet, Disease, BodySite, BioProject
 
-
 # Register your models here.
-
 
 #  Use https://github.com/yourlabs/django-autocomplete-light for autocomplete of admin forms
 
 
 # Fields to show from models
 class BioProjectAdmin(admin.ModelAdmin):
-    list_display = ('repoid',)
+    list_display = ('repoid', )
     #  list_display_links = ('id', 'title')
-    search_fields = ('repoid',)
+    search_fields = ('repoid', )
     list_per_page = 10
+
+
 #
 
 
@@ -25,8 +25,8 @@ class PubmedAdmin(admin.ModelAdmin):
 
 
 class BodySiteAdmin(admin.ModelAdmin):
-    list_display = ('bodysite',)
-    search_fields = ('bodysite',)
+    list_display = ('bodysite', )
+    search_fields = ('bodysite', )
     list_per_page = 10
 
 
@@ -37,6 +37,8 @@ class LocEthDietAdmin(admin.ModelAdmin):
     search_fields = ('country', 'region', 'urbanization', 'cityvillage',
                      'ethnicity', 'diets')
     list_per_page = 10
+
+
 #
 #
 
@@ -49,8 +51,10 @@ class PlatformAdmin(admin.ModelAdmin):
 
 class DiseaseAdmin(admin.ModelAdmin):
     list_display = ('disease', "doid")
-    search_fields = ('disease',)
+    search_fields = ('disease', )
     list_per_page = 10
+
+
 #
 #
 # class AmpliconAdmin(admin.ModelAdmin):
@@ -67,10 +71,22 @@ class DiseaseAdmin(admin.ModelAdmin):
 
 
 class SamplesAdmin(admin.ModelAdmin):
-    filter_horizontal = ('l2pubmed', 'l2disease',)
-    list_display = ('sampid', 'avspotlen', 'l2platform', 'l2bodysite',)
-    search_fields = ('sampid', 'avspotlen', 'l2platform',
-                     'l2bodysite', 'l2disease', "l2pubmed",)
+    filter_horizontal = (
+        'l2pubmed',
+        'l2disease',
+    )
+    list_display = (
+        'sampid',
+        'avspotlen',
+        'l2platform',
+    )
+    search_fields = (
+        'sampid',
+        'avspotlen',
+        'l2platform',
+        'l2disease',
+        "l2pubmed",
+    )
     list_per_page = 10
 
 
