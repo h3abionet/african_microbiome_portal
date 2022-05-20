@@ -260,29 +260,94 @@ def results_sample(request):
         # "locetdiet__lon",
         # "locetdiet__lat",
         # )
-        res = (Samples.objects.filter(query).annotate(
-            title=F("l2pubmed__title"),
-            pubid=F("l2pubmed__pubid"),
-            sampleid=F("sampid"),
-            bioproject=F("l2bioproject__repoid"),
-            country=F("l2loc_diet__country"),
-            platform=F("l2platform__platform"),
-            assay=F("l2platform__assay"),
-            amplicon=F("l2platform__target_amplicon"),
-            disease=F("l2disease__disease"),
-            lon=F("longitude"),
-            lat=F("latitude"),
-        ).values(
-            "sampleid",
-            "country",
-            "platform",
-            "amplicon",
-            "assay",
-            "disease",
-            "lon",
-            "lat",
-        ))
+        res = (
+            Samples.objects.filter(query).annotate(
+                # title=F("l2pubmed__title"),
+                # pubid=F("l2pubmed__pubid"),
+                # Top bar
+                sampleid=F("sampid"),
+                # col_date=F('col_date'),
+                # lib_layout=F('lib_layout'),
+                # TODO: Add Sample type
+
+                # Hidden
+                assay=F("l2platform__assay"),
+                platform=F("l2platform__platform"),
+                technology=F("l2platform__technology"),
+                country=F("l2loc_diet__country"),
+                disease=F("l2disease__disease"),
+                doid=F("l2disease__doid"),
+                # bodysite=F('l2bodysite__bodysite'),
+                # avspotlen=F('avspotlen'),
+                diet=F('l2loc_diet__diets'),
+                ethnicity=F('l2loc_diet__ethnicity'),
+                urbanization=F('l2loc_diet__urbanization'),
+                cityvillage=F('l2loc_diet__cityvillage'),
+                region=F('l2loc_diet__region'),
+
+                # bioproject=F("l2bioproject__repoid"),
+                amplicon=F("l2platform__target_amplicon"),
+                lon=F("longitude"),
+                lat=F("latitude"),
+            ).values(
+                "sampleid",
+                "country",
+                "platform",
+                "technology",
+                "amplicon",
+                "sampletype",
+                "bodysite",
+                'ethnicity',
+                'urbanization',
+                'cityvillage',
+                'diet',
+                'region',
+                "participant_feature",
+                "assay",
+                "disease",
+                "lon",
+                "lat",
+            ))
         samples = read_frame(res).fillna("").drop_duplicates()
+        rand_fold = random_alnum()
+        result_fold = f"downloads/{rand_fold}"
+        if not os.path.exists(result_fold):
+            os.makedirs(f"{settings.STATIC_ROOT}/{result_fold}", exist_ok=True)
+        # TODO: Extend to other columns
+        # Change this to static root later
+        result_file = f"{settings.STATIC_ROOT}/downloads/{rand_fold}/results.csv"
+        raw_data = read_frame(
+            RawData.objects.filter(sampid__in=samples["sampleid"].values))
+        raw_data = raw_data.rename(
+            columns={
+                # REPOSITORY ID,REPOSITORY LINK,SAMPLE NUMBER,STUDY TITLE,STUDY LINK,ASSAY TYPE,TECHNOLOGY,COUNTRY,DISEASE,DOID,STUDY DESIGN,BODY SITE,PLATFORM,PARTICIPANT FEATURES,AVERAGE SPOTLENGTH,RUN ID,Sample ID,Sample Name,COLLECTION DATE,LIBRARY LAYOUT,LAT LON,SAMPLE TYPE,ETHNICITY,ELO,URBANZATION,REGION,CITYVILLAGE,TARGET AMPLICON,DI
+                'repoid': 'REPOSITORY ID',
+                'sample_size': 'SAMPLE NUMER',
+                'pubid': 'STUDY LINK',
+                'title': 'STUDY TITLE',
+                'study_design': 'STUDY DESIGN',
+                'country': 'COUNTRY',
+                'region': 'REGION',
+                'urbanization': 'URBANZATION',
+                'cityvillage': 'CITYVILLAGE',
+                'ethnicity': 'ETHNICITY',
+                'elo': 'ELO',
+                'diets': 'DIET',
+                'platform': 'PLATFORM',
+                'technology': 'TECHNOLOGY',
+                'assay': 'ASSAY TYPE',
+                'target_amplicon': 'TARGET AMPLICON',
+                'bodysite': 'BODY SITE',
+                'disease': 'DISEASE',
+                'doid': 'DOID',
+                'sampid': 'SAMPLE ID',
+                'avspotlen': 'AVERAGE SPOTLENGTH',
+                'col_date': 'COLLECTION DATE',
+                'lib_layout': 'LIBRARY LAYOUT',
+                'coordinate': 'LAT LON',
+            })
+        raw_data.to_csv(result_file, index=False)
+        result_file = f"{result_fold}/results.csv"
 
         print(samples)
         paginator = Paginator(samples.to_dict(orient="records"),
@@ -342,7 +407,7 @@ def results_sample(request):
         except AttributeError:
             geoloc = pd.DataFrame()
         no_data = [{"name": "No Data", "y": 0}]
-        print(assay_pie_dict)
+        # print(assay_pie_dict)
         return render(
             request,
             "sample_results.html",
@@ -365,7 +430,9 @@ def results_sample(request):
                 "page_range":
                 page_range,
                 "items":
-                items
+                items,
+                "randv":
+                rand_fold
                 # 'query': query[: -1]
             },
         )
@@ -412,7 +479,6 @@ def results(request):
             country=F("l2loc_diet__country"),
             ethnicity=F("l2loc_diet__ethnicity"),
             ewiki=F("l2loc_diet__el_wiki"),
-            bodysite=F("l2bodysite__bodysite"),
             cityvillage=F("l2loc_diet__cityvillage"),
             platform=F("l2platform__platform"),
             assay=F("l2platform__assay"),
@@ -430,7 +496,6 @@ def results(request):
         "country",
         "ethnicity",
         "ewiki",
-        "bodysite",
         "cityvillage",
         "platform",
         "amplicon",
@@ -624,7 +689,7 @@ def results(request):
             how="outer").rename(columns={
                 ("col_date", ""): "col_date"
             }).fillna(False))
-        print(project_summary[["bodysite", "cityvillage"]])
+        # print(project_summary[["bodysite", "cityvillage"]])
 
         # print(project_summary[["pubid", "title", "bioproject"]])
     else:
