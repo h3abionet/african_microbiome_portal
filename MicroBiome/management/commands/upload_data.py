@@ -66,6 +66,8 @@ def raw_table_update(dataframe):
             assay=row['ASSAY TYPE'],
             target_amplicon=row['TARGET AMPLICON'],
             bodysite=row['BODY SITE'],
+            participant_feature=row['PARTICIPANT FEATURES'],
+            sample_type=row['SAMPLE TYPE'],
             disease=row['DISEASE'],
             doid=row['DOID'],
             sampid=row['RUN ID'],
@@ -73,6 +75,7 @@ def raw_table_update(dataframe):
             col_date=row['COLLECTION DATE'],
             lib_layout=row['LIBRARY LAYOUT'],
             coordinate=row['LAT LON'],
+            # TODO: Add SAMPLE TYPE in the list
         )
 
 
@@ -212,7 +215,7 @@ def update_samples(
     samples,
     pub_dict,
     plt_dict,
-    body_site_dict,
+    # body_site_dict,
     disease_dict,
     loc_diet_dict,
     bioproject_dict,
@@ -247,6 +250,9 @@ def update_samples(
         except:
             query = models.Samples.objects.create(
                 sampid=sample["RUN ID"],
+                bodysite=sample['BODY SITE'],
+                participant_feature=sample['PARTICIPANT FEATURES'],
+                sampletype=sample["SAMPLE TYPE"],
                 avspotlen=sample["AVERAGE SPOTLENGTH"],
                 col_date=sample["COLLECTION DATE"],
                 lib_layout=sample["LIBRARY LAYOUT"],
@@ -276,7 +282,7 @@ def update_samples(
             )]
 
             # NOTE: Body site integration
-            query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
+            # query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
 
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
@@ -600,9 +606,10 @@ class Command(BaseCommand):
             "COLLECTION DATE",
             "LIBRARY LAYOUT",
             "LAT LON",  # TODO: Check where both field are there, else error
-        ] + ["STUDY LINK"] + list(platform.columns) + ["BODY SITE"] +
-                       ["DISEASE"] + list(loc_diet.columns) +
-                       ["REPOSITORY ID"]]
+        ] + ["STUDY LINK"] + list(platform.columns) +
+                       ["BODY SITE", "SAMPLE TYPE"] +
+                       ["DISEASE", "PARTICIPANT FEATURES"] +
+                       list(loc_diet.columns) + ["REPOSITORY ID"]]
         # "TARGET AMPLICON",
         # "STUDY LINK", "PLATFORM", "TECHNOLOGY", "ASSAY TYPE"
         # ] + list(loc_diet.columns
@@ -630,7 +637,7 @@ class Command(BaseCommand):
             samples,
             pub_dict,
             plt_dict,
-            body_site_dict,
+            # body_site_dict,
             disease_dict,
             loc_diet_dict,
             bioprojects_dict,
