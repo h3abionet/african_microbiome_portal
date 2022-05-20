@@ -1,111 +1,111 @@
 {% extends "mainLayout.html" %}
 {% load static %}
 {% block title%}
-  Welcome to the database
+Welcome to the database
 {% endblock %}
 {% block js %}
-  <!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
-  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-  {% comment %}
-    https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/
-  {% endcomment %}
-  <script>
-    $(document).ready(function () {
-          $("#filter").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $(".res").filter(function () {
-                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                    });
-              });
-        });
-  </script>
-  {% endblock %} {% block css%}
-  <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
-      />
-  <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
-      />
-  <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"
-      />
-  <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"
-      />
-  <style>
+<!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+{% comment %}
+https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/
+{% endcomment %}
+<script>
+$(document).ready(function () {
+		$("#filter").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$(".res").filter(function () {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+						});
+				});
+		});
+</script>
+{% endblock %} {% block css%}
+<link
+rel="stylesheet"
+href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
+/>
+<link
+rel="stylesheet"
+href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+/>
+<link
+rel="stylesheet"
+href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"
+/>
+<link
+rel="stylesheet"
+href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"
+/>
+<style>
 .hideme {
-  height: 1px;
-  border: none;
+height: 1px;
+border: none;
 }
 
-  .noborder {
-    border: none;
-  }
+.noborder {
+border: none;
+}
 
-  .offscreen {
-    height: 1px;
-    width: 1px;
-    position: absolute;
-    overflow: hidden;
-    top: -10px;
-  }
-  </style>
-  {% endblock %} {% block content %}
-  <br />
-  <br />
-  {% comment %}<div class="row">{% endcomment %}
-    {% comment %}<div class={% if res_len %}"col-10"{% else %} "col-12" {% endif %}>{% endcomment %}
-      {% comment %}{% csrf_token %}{% endcomment %}
-      {% comment %}<param id="tags" value="{{tags}}" />{% endcomment %}
-      {% comment %}<input{% endcomment %}
-      {% comment %}class="col-12"{% endcomment %}
-      {% comment %}id="search"{% endcomment %}
-      {% comment %}type="text"{% endcomment %}
-      {% comment %}placeholder="Refine your search (Currently inactive)"{% endcomment %}
-      {% comment %}/>{% endcomment %}
-      {% comment %}</div>{% endcomment %}
-    {% comment %}{% if res_len %}{% endcomment %}
-    {% comment %}<div class="col-2">{% endcomment %}
-      {% comment %}<a class="btn btn-primary" href="{% static result_file %}" role="button">Download Results</a>{% endcomment %}
-      {% comment %}</div>{% endcomment %}
-    {% comment %}{% endif %}{% endcomment %}
-    {% comment %}</div>{% endcomment %}
-  <div id="dynamic">
-    {% if qt == "get" %} {%if res_len%}
-      <a href="/download_r/?randv={{randv}}" title="Click to download the result">
-        <div class="card mt-4 text-center">
-          <H1>RESULT AND OVERVIEW</H1>
-        </div>
-      </a>
+.offscreen {
+height: 1px;
+width: 1px;
+position: absolute;
+overflow: hidden;
+top: -10px;
+}
+</style>
+{% endblock %} {% block content %}
+<br />
+<br />
+{% comment %}<div class="row">{% endcomment %}
+{% comment %}<div class={% if res_len %}"col-10"{% else %} "col-12" {% endif %}>{% endcomment %}
+{% comment %}{% csrf_token %}{% endcomment %}
+{% comment %}<param id="tags" value="{{tags}}" />{% endcomment %}
+{% comment %}<input{% endcomment %}
+{% comment %}class="col-12"{% endcomment %}
+{% comment %}id="search"{% endcomment %}
+{% comment %}type="text"{% endcomment %}
+{% comment %}placeholder="Refine your search (Currently inactive)"{% endcomment %}
+{% comment %}/>{% endcomment %}
+{% comment %}</div>{% endcomment %}
+{% comment %}{% if res_len %}{% endcomment %}
+{% comment %}<div class="col-2">{% endcomment %}
+{% comment %}<a class="btn btn-primary" href="{% static result_file %}" role="button">Download Results</a>{% endcomment %}
+{% comment %}</div>{% endcomment %}
+{% comment %}{% endif %}{% endcomment %}
+{% comment %}</div>{% endcomment %}
+<div id="dynamic">
+{% if qt == "get" %} {%if res_len%}
+<a href="/download_r/?randv={{randv}}" title="Click to download the result">
+<div class="card mt-4 text-center">
+<H1> PROJECT RESULT AND OVERVIEW</H1>
+</div>
+</a>
 
-      <div>
-        <div class="items" id="accordion">
-          {% include "results_core_table.html" %}
-          <div>{% include "pagination.html" %}</div>
-        </div>
-      </div>
-      <br />
-      <br />
-      <br />
+<div>
+<div class="items" id="accordion">
+{% include "results_core_table.html" %}
+<div>{% include "pagination.html" %}</div>
+</div>
+</div>
+<br />
+<br />
+<br />
 
-      {% include "result_dashboard.html" %}
+{% include "result_dashboard.html" %}
 
-    {% else %}
-      <div class="col-sm btn btn-danger">
-        No result found. Please search different keyword(s). Redirecting to search
-        page in 3 seconds.
-      </div>
-    <meta http-equiv="refresh" content="3;url=/" /> {%endif%}
+{% else %}
+<div class="col-sm btn btn-danger">
+No result found. Please search different keyword(s). Redirecting to search
+page in 3 seconds.
+</div>
+<meta http-equiv="refresh" content="3;url=/" /> {%endif%}
 
-  {%endif%}
-  </div>
+{%endif%}
+</div>
 {% endblock %}
