@@ -265,7 +265,10 @@ class Platform(models.Model):
 
 
 class BodySite(models.Model):
-    bodysite = models.CharField(max_length=100, null=False, blank=False)
+    bodysite = models.CharField(max_length=100,
+                                null=False,
+                                blank=False,
+                                default=None)
 
     # sampletype = models.CharField(max_length=100, null=False, black=False)
 
@@ -314,7 +317,10 @@ class Samples(models.Model):
                                            null=True,
                                            blank=True)
     sampletype = models.CharField(max_length=100, null=True, blank=True)
-    bodysite = models.CharField(max_length=100, null=False, blank=False)
+    bodysite = models.CharField(max_length=100,
+                                null=False,
+                                blank=False,
+                                default=None)
     # TODO: How to reset to default when date is null??
     col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
