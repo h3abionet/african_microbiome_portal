@@ -16,4 +16,4 @@ django-widget-tweaks==1.4.8
 django-leaflet==0.28.1
 django-active-link==0.1.8
 django-crontab==0.7.1
-
+geopy==2.2.0
