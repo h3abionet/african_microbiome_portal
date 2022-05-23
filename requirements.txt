@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 django==4.0.3
+=======
+django==3.2.13
+>>>>>>> origin/master
 gunicorn==20.1.0
 python-dotenv==0.18.0
 psycopg2-binary==2.9.1
