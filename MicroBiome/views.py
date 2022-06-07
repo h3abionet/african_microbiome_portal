@@ -122,6 +122,7 @@ def search_form(request):
         columns={
             "bodysite": "name"
         }).to_json(orient="records"))
+
     body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
     body_site_pie_sample = (read_frame(body_site_sample).rename(
         columns={

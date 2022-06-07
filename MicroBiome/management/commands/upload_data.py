@@ -215,7 +215,7 @@ def update_samples(
     samples,
     pub_dict,
     plt_dict,
-    # body_site_dict,
+    body_site_dict,
     disease_dict,
     loc_diet_dict,
     bioproject_dict,
@@ -282,7 +282,7 @@ def update_samples(
             )]
 
             # NOTE: Body site integration
-            # query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
+            query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
 
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
@@ -637,7 +637,7 @@ class Command(BaseCommand):
             samples,
             pub_dict,
             plt_dict,
-            # body_site_dict,
+            body_site_dict,
             disease_dict,
             loc_diet_dict,
             bioprojects_dict,
