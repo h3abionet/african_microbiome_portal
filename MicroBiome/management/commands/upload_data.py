@@ -258,7 +258,7 @@ def update_samples(
                 lib_layout=sample["LIBRARY LAYOUT"],
                 longitude=sample["LON"],
                 latitude=sample["LAT"],
-                capital=sample["CAPITAL"],
+                capital=True if sample["CAPITAL"] else False,
             )
             # NOTE: Pubid integration
             pubids = [
