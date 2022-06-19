@@ -408,6 +408,7 @@ def results_sample(request):
                 ]).size().reset_index().rename(columns={0: "num_samples"}))
         except AttributeError:
             geoloc = pd.DataFrame()
+
         no_data = [{"name": "No Data", "y": 0}]
         # print(assay_pie_dict)
         return render(
@@ -583,6 +584,8 @@ def results(request):
                         how="outer").merge(geo_projects,
                                            on=["lon", "lat"],
                                            how="outer")
+
+        geo = geo[~(pd.isna(geo["lat"]) | pd.isna(geo["lon"]))]
         project_summary = project_summary.drop(["lon", "lat"], axis=1)
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
@@ -697,7 +700,7 @@ def results(request):
     else:
         # except:
         project_summary = pd.DataFrame()
-    print(project_summary.columns, project_summary.values, "Anmol")
+    # print(project_summary.columns, project_summary.values, "Anmol")
 
     paginator = Paginator(project_summary.to_dict(orient="records"),
                           10)  # 10 information per page
