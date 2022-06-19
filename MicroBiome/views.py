@@ -212,6 +212,7 @@ def search_form(request):
                                    "longitude": "lon",
                                    "l2loc_diet__country": "country",
                                }))
+    geoloc = geoloc[~(pd.isna(geoloc["lat"]) | pd.isna(geoloc["lon"]))]
 
     context = {
         "form": form,
