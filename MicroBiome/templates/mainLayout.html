@@ -41,6 +41,24 @@ crossorigin="anonymous"
 <body>
 <!--{% define "Edit" as action %}
 {{action}} Anmol -->
+<div class="row">
+<div class="col-md-4">
+<a class="navbar-brand text-bigblue margin_on_top_image" href="https://h3abionet.org/" target="”_blank”" style="--link-color: rgb(232, 229, 227) !important; --link-color-hover: rgb(232, 229, 227) !important; --link-color-active: rgb(232, 229, 227) !important; --visited-color: rgb(232, 229, 227) !important; --visited-color-hover: rgb(232, 229, 227) !important; --visited-color-active: rgb(232, 229, 227) !important;">
+<img src="/static/img/h3ab.png" class="d-inline-block " alt="" style="filter: saturate(0.9) brightness(0.8); --link-color: rgb(232, 229, 227) !important; --link-color-hover: rgb(232, 229, 227) !important; --link-color-active: rgb(232, 229, 227) !important; --visited-color: rgb(232, 229, 227) !important; --visited-color-hover: rgb(232, 229, 227) !important; --visited-color-active: rgb(232, 229, 227) !important;" width="" height="15%">
+</a>
+</div>
+<div class="col-md-8">
+<div id="header_top_1">
+<h3>
+<b> African Microbiome Portal</b>
+
+</h3>
+</div>
+
+</div>
+</div>
+
+
 <div class="container2">
 <nav
 class="navbar navbar-fixed-top navbar-expand-md navbar-light bg-mibio py-md-2"
@@ -53,7 +71,7 @@ width="30"
 height="30"
 class="d-inline-block align-top"
 alt=" "
-/--><b>African Microbiome Portal</b>
+/--><b>Home</b>
 </a>
 <button
 class="navbar-toggler navbar-dark"
@@ -103,6 +121,22 @@ data-target="#main-navigation"
 </div>
 </nav>
 </div>
+
+<div class="header_top_bg vcenter-item">
+
+
+    <div class="text-center">
+
+        <span class="text_top_bg">
+
+				{% block banner_title %}{% endblock %}
+
+        </span>
+    </div>
+
+
+</div>
+
 {% block slides %}
 <div class="container">{% block content %} {% endblock %}</div>
 {% endblock %}
