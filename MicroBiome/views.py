@@ -112,8 +112,7 @@ def mergedict(args):
     return output
 
 
-def search_form(request):
-    form = PostForm()
+def summary(request):
 
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
@@ -156,24 +155,6 @@ def search_form(request):
             "platform": "name"
         }).to_json(orient="records"))
 
-    # NOTE: This code is for future reference, do not delete
-    # Body Site
-    #      bodysites = BodySite.objects.annotate(y=Count("samples"))
-    #      color = {'eye':"#90ED7D",
-    #  'genital':"#434348",
-    #  'gut':"#70A0CF",
-    #  'lung':"#F7A35C",
-    #  'milk':"#8085E9",
-    #  'nasopharyngeal':"#F15C80",
-    #  'oral':"#E4D354",
-    #  'plasma':"#2B908F",
-    #  'skin':"#F45B5B"}
-    #      bodysite_pie_dict = [{'name': bs.bodysite,
-    #                            'y': bs.y,
-    #                            } for bs in bodysites
-    #                            #  'color':color[bs.bodysite]} for bs in bodysites
-    #                           if not (bs.bodysite in ["Ebola virus",'nan', 'penil,vaginal'] or 'metagenom' in bs.bodysite)]
-
     # NOTE: DISEASES
 
     disease_project = Disease.objects.all().annotate(
@@ -215,7 +196,6 @@ def search_form(request):
     geoloc = geoloc[~(pd.isna(geoloc["lat"]) | pd.isna(geoloc["lon"]))]
 
     context = {
-        "form": form,
         "body_site_pie_dict_project": body_site_pie_project,
         "body_site_pie_dict_sample": body_site_pie_sample,
         "assay_pie_dict_project": assay_pie_project,
@@ -225,6 +205,16 @@ def search_form(request):
         "platform_pie_dict_sample": platform_pie_sample,
         "platform_pie_dict_project": platform_pie_project,
         "records": geoloc,
+    }
+    # #  print(all_records.values())
+    return render(request, "summary.html", context)
+
+
+def search_form(request):
+    form = PostForm()
+
+    context = {
+        "form": form,
     }
     # #  print(all_records.values())
     return render(request, "search.html", context)
