@@ -1,211 +1,140 @@
 {% extends 'mainLayout.html' %} {% load static %}
-{% block title %}Help{% endblock %}
-
-{% block banner_title %}Help{% endblock %}
-{% block js_top %}
+{% block title%}Help{%endblock %}
+{% block banner_title %}Help{% endblock %} {% block js_top%}
 
 <!-- <script type="text/javascript">
-jQuery(document).ready(function() {
-		jQuery(".content").hide();
-		//toggle the componenet with class msg_body
-		jQuery(".heading").click(function(){
-				jQuery(this).next(".content").slideToggle("slow");
-				});
-		});
+	jQuery(document).ready(function() {
+			jQuery(".content").hide();
+			//toggle the componenet with class msg_body
+			jQuery(".heading").click(function(){
+					jQuery(this).next(".content").slideToggle("slow");
+					});
+			});
 </script> -->
 {% endblock %} {%block content %}
 
-<div id="accordion">
-
-
-
-<div class="card">
-<div class="card-header" id="headingOne">
-<h5 class="mb-0">
-<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-<h3>About</h3>
-</button>
-</h5>
-</div>
-
-<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-<div class="card-body">
-This page contain basic information on the database.
-</div>
-</div>
-</div>
-
-
-
-
-
-
-<div class="card">
-<div class="card-header" id="headingtwo">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
-<h3>search</h3>
-</button>
-</h5>
-</div>
-<div id="collapsetwo" class="collapse" aria-labelledby="headingtwo" data-parent="#accordion">
-<div class="card-body">
-
-<p>This is the home page. It is divided in to two panels: panel a is search forms and panel b is the graphical overview of the data in the database.</p>
-<img src="{% static " img/searchpage.png " %}" class="rounded" alt="search page" style="width:100%;">
-<p>Search form accepts multiple keywords, separated with tab key. Empty search form for all the results.</p>
-<p>overview pannel is divided into 5 sub-pannels providing graphical overview of sample collection geographical location, heath contions of individuals, sequencing platform, sample collection body site and assay used in the study.
+<br />
+<br />
+<br />
+<h2><strong>Tutorial</strong></h2>
+<p>
+  The AHMP User Guide addresses following questions:
 </p>
-<p>query results are provided as table. however, due to large number of columns, most of the information are hidden and cab accessed by clicking "+" on the left of each row. result can also be acquired using imbedded links in the summary
-pannel. result can be further filtered using the form on the right top corner of the table.</p>
-<img src="{% static " img/results.png " %}" class="rounded" alt="results page" style="width:100%;">
+<ol>
+  <li><a href="#1">How to search AHMP?</a></li>
+  <li><a href="#2">How to use interactive panels and map.</a></li>
+  <li><a href="#3">How are the search results displayed?</a></li>
+  <li>
+    <a href="#4">How to submit your own metadata to enrich the portal?</a>
+  </li>
+</ol>
 
+<br />
+<br />
+<br />
 
+<h4 id="1"><strong>How to search AHMP</strong></h4>
+
+Please visit <a href="/">Home</a> page.
+<div class="row">
+  <img src="{% static 'img/help/search_box.png' %} " alt="" class="col-12" />
 </div>
-</div>
-</div>
+<p>
+  Panel 1 is the search form. It accepts multiple keywords related to body site,
+  sequencing platforms, country, or Bioproject ID separated with a tab key. For
+  example, qs are query terms and ts are their type (e.g. country, disease etc).
+  &, | and ~ represent AND, OR and NOT boolean operations respectively. “(“
+  parentheses define the query operation order. “[“ parentheses for defining the
+  query type. If the query type is not provided (missing "[]"), the query term
+  will be queried for all the known fields. Leaving the search form blank in a
+  query will return all the studies and samples in the portal as the result.
+</p>
+<br />
+<br />
+<br />
 
 
+<h4 id="2"><strong>Using interactive panels and map</strong></h4>
+<img
+  src="{% static 'img/help/data_overview_circle.png' %} "
+  alt=""
+  class="col-12"
+/>
+<img
+  src="{% static 'img/help/data_overview_map.png' %} "
+  alt=""
+  class="col-12"
+/>
+<p>
+  Results can also be acquired using embedded links in the interactive summary
+  panel (Panel 2). The overview panel is divided into 4 downloadable sub-panels,
+  providing graphical overviews of the health conditions of individuals,
+  sequencing platforms, sample collection body site, and assay used in the study
+  The AHMP also provides an interactive summary map (panel 3). It also includes
+  the ability to search for metadata by country and gives the number of projects
+  and samples per country. Please note that the coordinates shown on the map
+  correspond to the capital of the country and not the city where the samples
+  were collected. The city where the collection took place in your query results
+  (Figure 4A).
+</p>
+<br />
+<br />
+<br />
 
 
+<h4 id="3"><strong>How are the search results displayed?</strong></h4>
+<img src="{% static 'img/help/result_table.png' %} " alt="" class="col-12" />
+<img src="{% static 'img/help/result_overview.png' %} " alt="" class="col-12" />
+<p>
+  Query results are provided as a table (Panel 4). Any additional information,
+  where available, can be accessed by clicking on the project title (panel 4B) .
+  Users can also get access to the corresponding repository (panel 4B) and
+  publications (panel 4C). Query results by clicking on the interactive panel
+  (panel 5). All the results can be downloaded (panel 4A).
+</p>
+<br />
+<br />
+<br />
 
 
-
-{% comment %}<div class="card">{% endcomment %}
-{% comment %}<div class="card-header" id="headingThree">{% endcomment %}
-{% comment %}<h5 class="mb-0">{% endcomment %}
-{% comment %}<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">{% endcomment %}
-{% comment %}<H3>Publication</H3>{% endcomment %}
-{% comment %}</button>{% endcomment %}
-{% comment %}</h5>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">{% endcomment %}
-{% comment %}<div class="card-body">{% endcomment %}
-{% comment %}It contain information on citing this database and the list of the publication citing this repository.{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-
-<div class="card">
-<div class="card-header" id="headingFour">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-<H3>Resources</H3>
-</button>
-</h5>
-</div>
-<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-<div class="card-body">
-Resources page will provide the details of available tools, pipelines and training resources associated to metagenomic data.
-</div>
-</div>
-</div>
-
-
-<div class="card">
-<div class="card-header" id="headingFive">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-<H3>Help</H3>
-</button>
-</h5>
-</div>
-<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-<div class="card-body">
-This page.
-</div>
-</div>
-</div>
-
-
-<div class="card">
-<div class="card-header" id="headingSix">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-<H3>Data Submission Format</H3>
-</button>
-</h5>
-</div>
-<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-<div class="card-body">
+<h4 id="4"><strong>How to submit your own metadata to enrich the portal?</strong></h4>
+<p>
+  Authors are requested to submit their metadata by email to @emai_address. The
+  submitted metadata will be screened, reviewed, and the final decision will be
+  made by the portal content team on the basis of the formatting guidelines
+  outlined here. Please note that submission is only allowed by the metadata
+  author and must not be submitted by a third party.
+</p>
 <p>We accept data in tabulated format with following columns</p>
 <ul>
-<li> REPOSITORY ID </li>
-<li> STUDY TITLE </li>
-<li> REPOSITORY LINK </li>
-<li> SAMPLE NUMBER </li>
-<li> STUDY LINK </li>
-<li> ASSAY TYPE </li>
-<li> TECHNOLOGY </li>
-<li> COUNTRY </li>
-<li> DISEASE </li>
-<li> STUDY DESIGN </li>
-<li> BODY SITE </li>
-<li> PLATFORM </li>
-<li> PARTICIPANT FEATURES </li>
-<li> AVERAGE SPOTLENGTH </li>
-<li> LIBRARY LAYOUT </li>
-<li> LON LAT </li>
-<li> SAMPLE TYPE </li>
-<li> COLLECTION DATE </li>
-<li> ETHNICITY </li>
-<li> URBANZATION </li>
-<li> REGION </li>
-<li> CITY </li>
-<li> TARGET amplicon </li>
-<li> DIET </li>
-
+  <li>REPOSITORY ID</li>
+  <li>STUDY TITLE</li>
+  <li>REPOSITORY LINK</li>
+  <li>SAMPLE NUMBER</li>
+  <li>STUDY LINK</li>
+  <li>ASSAY TYPE</li>
+  <li>TECHNOLOGY</li>
+  <li>COUNTRY</li>
+  <li>DISEASE</li>
+  <li>STUDY DESIGN</li>
+  <li>BODY SITE</li>
+  <li>PLATFORM</li>
+  <li>PARTICIPANT FEATURES</li>
+  <li>AVERAGE SPOTLENGTH</li>
+  <li>LIBRARY LAYOUT</li>
+  <li>LON LAT</li>
+  <li>SAMPLE TYPE</li>
+  <li>COLLECTION DATE</li>
+  <li>ETHNICITY</li>
+  <li>URBANZATION</li>
+  <li>REGION</li>
+  <li>CITY</li>
+  <li>TARGET AMPLICON</li>
+  <li>DIET</li>
 </ul>
+<br />
+<br />
+<br />
 
-</div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-header" id="headingSeven">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="false" aria-controls="collapseSeven">
-<h3>Download</h3>
-</button>
-</h5>
-</div>
-<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
-<div class="card-body">
-
-<p><a href="">Click Me</a> to download whole dataset.</p>
-
-
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-</div>
-
-
-
-{% comment %}
-<H2>Database pages</H2> {% endcomment %} {% comment %}
-<p>The repository is contions six web pages:</p> {% endcomment %} {% comment %}
-<ul> {% endcomment %} {% comment %}
-<li>About</li> {% endcomment %} {% comment %}
-<li>Search</li> {% endcomment %} {% comment %}
-<li>Publication</li> {% endcomment %} {% comment %}
-<li>Resources</li> {% endcomment %} {% comment %}
-<li>Help</li> {% endcomment %} {% comment %} </ul> {% endcomment %}
-<H2>Other Information</H2>
-<h3>Contact Us/Feedback</h3>
-<p>H3ABionet Contacts</p>
-<h3>FAQs</h3>
-<p>We need to generate this</p>
-<H3>TODO</H3>
-<p> explain VLPM</p>
 
 {% endblock %}
