@@ -1527,10 +1527,6 @@ div#klixoSlider_166 div.textContent {
   color: #fff;
 }
 
-.page-footer a {
-  color: #fff;
-}
-
 /* @media (min-width: 1200px){
   .container {
       max-width: 1140px;
@@ -1644,11 +1640,6 @@ tr:hover td {
   justify-content: center;
 }
 
-/*link color*/
-a {
-  color: #ffffff;
-}
-
 /*Footer*/
 
 .page-footer_new {
@@ -1663,7 +1654,9 @@ a {
   margin-top: 1rem;
   font-size: 0.8em;
 }
-
+.page-footer_new a {
+  color: #fff;
+}
 .panel {
   border-radius: 0.3rem;
   padding: 0.7rem;
