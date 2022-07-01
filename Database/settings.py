@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from email.utils import parseaddr  # To parse the email from env file
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,13 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "anmolyouareanidiot"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False  # True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # For neo4J database connections
 #  NEOMODEL_NEO4J_BOLT_URL = os.environ.get(
@@ -66,9 +70,17 @@ INSTALLED_APPS = [
     #  'rooms',
 ]
 
+# Sending emails to admin in case of error
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+ADMINS = tuple(parseaddr(email) for email in env("ADMINS").split(','))
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 CRONJOBS = [("0 0 * * 0", "django.core.management.clean_old")]
-
 
 TAGGIT_CASE_INSENSITIVE = True
 
@@ -85,12 +97,10 @@ MIDDLEWARE = [
 # For cached sesson management [Anmol]
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
-
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
 
 ROOT_URLCONF = "Database.urls"
 
@@ -127,17 +137,21 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation."
+        "NAME":
+        "django.contrib.auth.password_validation."
         "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -154,11 +168,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # GRAPPELLI_ADMIN_TITLE
 GRAPPELLI_ADMIN_TITLE = "MicroBiome Admin Site"
 GRAPPELLI_SWITCH_USER = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -166,11 +178,10 @@ GRAPPELLI_SWITCH_USER = True
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# print(BASE_DIR)
+print(BASE_DIR)
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static')
     # "/home/devil/Documents/Tools/Database/staticfiles"
 ]
-
 
 RESULTS_PER_PAGE = 50
