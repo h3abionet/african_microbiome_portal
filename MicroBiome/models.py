@@ -174,7 +174,7 @@ class BioProject(models.Model):
 #
 #
 class LocEthDiet(models.Model):
-    country = models.CharField(max_length=100, null=False, blank=False)
+    country = models.CharField(max_length=100, null=True, blank=False)
     region = models.CharField(max_length=100,
                               default=None,
                               null=True,

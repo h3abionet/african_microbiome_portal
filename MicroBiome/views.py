@@ -112,8 +112,7 @@ def mergedict(args):
     return output
 
 
-def search_form(request):
-    form = PostForm()
+def summary(request):
 
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
@@ -122,6 +121,7 @@ def search_form(request):
         columns={
             "bodysite": "name"
         }).to_json(orient="records"))
+
     body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
     body_site_pie_sample = (read_frame(body_site_sample).rename(
         columns={
@@ -154,24 +154,6 @@ def search_form(request):
         columns={
             "platform": "name"
         }).to_json(orient="records"))
-
-    # NOTE: This code is for future reference, do not delete
-    # Body Site
-    #      bodysites = BodySite.objects.annotate(y=Count("samples"))
-    #      color = {'eye':"#90ED7D",
-    #  'genital':"#434348",
-    #  'gut':"#70A0CF",
-    #  'lung':"#F7A35C",
-    #  'milk':"#8085E9",
-    #  'nasopharyngeal':"#F15C80",
-    #  'oral':"#E4D354",
-    #  'plasma':"#2B908F",
-    #  'skin':"#F45B5B"}
-    #      bodysite_pie_dict = [{'name': bs.bodysite,
-    #                            'y': bs.y,
-    #                            } for bs in bodysites
-    #                            #  'color':color[bs.bodysite]} for bs in bodysites
-    #                           if not (bs.bodysite in ["Ebola virus",'nan', 'penil,vaginal'] or 'metagenom' in bs.bodysite)]
 
     # NOTE: DISEASES
 
@@ -211,9 +193,9 @@ def search_form(request):
                                    "longitude": "lon",
                                    "l2loc_diet__country": "country",
                                }))
+    geoloc = geoloc[~(pd.isna(geoloc["lat"]) | pd.isna(geoloc["lon"]))]
 
     context = {
-        "form": form,
         "body_site_pie_dict_project": body_site_pie_project,
         "body_site_pie_dict_sample": body_site_pie_sample,
         "assay_pie_dict_project": assay_pie_project,
@@ -223,6 +205,16 @@ def search_form(request):
         "platform_pie_dict_sample": platform_pie_sample,
         "platform_pie_dict_project": platform_pie_project,
         "records": geoloc,
+    }
+    # #  print(all_records.values())
+    return render(request, "summary.html", context)
+
+
+def search_form(request):
+    form = PostForm()
+
+    context = {
+        "form": form,
     }
     # #  print(all_records.values())
     return render(request, "search.html", context)
@@ -406,6 +398,7 @@ def results_sample(request):
                 ]).size().reset_index().rename(columns={0: "num_samples"}))
         except AttributeError:
             geoloc = pd.DataFrame()
+
         no_data = [{"name": "No Data", "y": 0}]
         # print(assay_pie_dict)
         return render(
@@ -581,6 +574,8 @@ def results(request):
                         how="outer").merge(geo_projects,
                                            on=["lon", "lat"],
                                            how="outer")
+
+        geo = geo[~(pd.isna(geo["lat"]) | pd.isna(geo["lon"]))]
         project_summary = project_summary.drop(["lon", "lat"], axis=1)
 
         project_summary = project_summary.melt(id_vars=["pubid", "title"])
@@ -695,7 +690,7 @@ def results(request):
     else:
         # except:
         project_summary = pd.DataFrame()
-    print(project_summary.columns, project_summary.values, "Anmol")
+    # print(project_summary.columns, project_summary.values, "Anmol")
 
     paginator = Paginator(project_summary.to_dict(orient="records"),
                           10)  # 10 information per page

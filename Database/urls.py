@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """Database URL Configuration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -27,7 +26,7 @@ urlpatterns = [
     #  path('', include('frontpage.urls')),
     #  path('flu/', include('flu.urls')),
     #  path('exp/', include('experimental.urls')),
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('microbiome/', include("MicroBiome.urls")),
     #  path('djide/', include('djide.urls')),
 ]

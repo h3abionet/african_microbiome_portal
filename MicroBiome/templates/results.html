@@ -1,8 +1,10 @@
 {% extends "mainLayout.html" %}
 {% load static %}
 {% block title%}
-Welcome to the database
+Results
 {% endblock %}
+
+{% block banner_title %}Results{% endblock %}
 {% block js %}
 <!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -81,11 +83,11 @@ top: -10px;
 {% comment %}</div>{% endcomment %}
 <div id="dynamic">
 {% if qt == "get" %} {%if res_len%}
-<a href="/download_r/?randv={{randv}}" title="Click to download the result">
 <div class="card mt-4 text-center">
-<H1> PROJECT RESULT AND OVERVIEW</H1>
+<H1> PROJECT RESULT AND OVERVIEW
+<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1>
 </div>
-</a>
+
 
 <div>
 <div class="items" id="accordion">
