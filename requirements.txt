@@ -7,7 +7,7 @@ django-nvd3
 django-grappelli==2.15.1
 django-geojson==3.2.0
 pandas==1.2.4
-numpy==1.20.3
+numpy==1.22.0
 django-taggit==1.4.0
 django-tags-input==5.1.0
 django-pandas==0.6.6
