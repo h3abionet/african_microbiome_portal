@@ -25,7 +25,12 @@
   left: 0px;
   font-size: 10px;
 }
+body {
+  font-family: "Roboto", "Verdana", sans-serif;
 
+  font-weight: 300 !important;
+  line-height: 1.6;
+}
 /* body { */
 /*     padding-top: 200px; /* Whatever the height of your navbar is; the */
 /*                              default is 50px */
