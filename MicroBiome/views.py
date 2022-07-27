@@ -489,6 +489,7 @@ def results(request):
         "country",
         "ethnicity",
         "ewiki",
+        "bodysite",
         "cityvillage",
         "platform",
         "amplicon",
@@ -645,17 +646,17 @@ def results(request):
                 project_summary.loc[
                     project_summary["variable"] == "ethnicity",
                     "value"].apply(lambda x: ethni(ewiki, x)).values)
-        print(set(project_summary["value"]),
-              # project_summary[~project_summary["value"]],
-              )
+        # print(set(project_summary["value"]),
+        # project_summary[~project_summary["value"]],
+        # )
         project_summary = project_summary[project_summary["value"] != False]
-        print(project_summary)
+        project_summary = project_summary[project_summary["value"] != "nan"]
 
         # project_summary["value"] = project_summary["value"] + \
         # "("+project_summary[0].astype(str)+")"
         project_summary["value"] = project_summary[["value", 0]].apply(
             lambda x: {x["value"]: x[0]}, axis=1)
-        print(project_summary)
+        # print(project_summary)
         # TODO: Use dictionary
         del project_summary[0]
         # project_summary = project_summary.groupby(["pubid", "title", "variable"])[
@@ -684,13 +685,12 @@ def results(request):
             how="outer").rename(columns={
                 ("col_date", ""): "col_date"
             }).fillna(False))
-        # print(project_summary[["bodysite", "cityvillage"]])
 
-        # print(project_summary[["pubid", "title", "bioproject"]])
     else:
         # except:
         project_summary = pd.DataFrame()
     # print(project_summary.columns, project_summary.values, "Anmol")
+    # print(project_summary)
 
     paginator = Paginator(project_summary.to_dict(orient="records"),
                           10)  # 10 information per page
