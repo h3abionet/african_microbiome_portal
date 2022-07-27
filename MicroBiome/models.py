@@ -270,7 +270,10 @@ class BodySite(models.Model):
                                 blank=False,
                                 default=None)
 
-    # sampletype = models.CharField(max_length=100, null=False, black=False)
+    sampletype = models.CharField(max_length=100,
+                                  null=False,
+                                  blank=False,
+                                  default=None)
 
     class Meta:
         ordering = ["bodysite"]

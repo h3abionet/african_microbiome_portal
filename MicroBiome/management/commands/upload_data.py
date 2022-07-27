@@ -169,9 +169,11 @@ def update_bodysite(bodysites):
 
     """
     body_site_dict = {}
-    for bodysite in bodysites:
-        query = models.BodySite.objects.get_or_create(bodysite=bodysite)[0]
-        body_site_dict[bodysite] = query
+    for _, bodysite in bodysites.iterrows():
+        query = models.BodySite.objects.get_or_create(
+            bodysite=bodysite["BODY SITE"],
+            sampletype=bodysite["SAMPLE TYPE"])[0]
+        body_site_dict[tuple(bodysite.values)] = query
     return body_site_dict
 
 
@@ -282,7 +284,8 @@ def update_samples(
             )]
 
             # NOTE: Body site integration
-            query.l2bodysite = body_site_dict[sample["BODY SITE"].upper()]
+            query.l2bodysite = body_site_dict[tuple(
+                sample[["BODY SITE", "SAMPLE TYPE"]].values)]
 
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
@@ -559,10 +562,10 @@ class Command(BaseCommand):
         disease_dict = upate_disease(disease_pair)
 
         # WARNING: Content team might mix sample to multiple body site.
-        bodysite = data[["BODY SITE"]].drop_duplicates()
+        bodysite = data[["BODY SITE", "SAMPLE TYPE"]].drop_duplicates()
         bodysite = bodysite[~pd.isnull(bodysite["BODY SITE"])]
         bodysite = bodysite.applymap(lambda val: str(val).upper())
-        bodysite = list(bodysite["BODY SITE"].values)
+        # bodysite = list(bodysite["BODY SITE"].values)
         body_site_dict = update_bodysite(bodysite)
         # Platform
         platform = data[[
