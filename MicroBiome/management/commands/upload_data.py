@@ -6,9 +6,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from geopy.geocoders import Nominatim
-from django_pandas.io import read_frame
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from MicroBiome import models
 from MicroBiome.date2date import to_date
@@ -27,7 +25,6 @@ def multi_value_columns_rows_allowed(dataframe):
     :returns: TODO
 
     """
-    print(dataframe)
     for col in [
             "DISEASE",
             "ELO",
@@ -48,7 +45,7 @@ def multi_value_columns_rows_allowed(dataframe):
 def raw_table_update(dataframe):
     for _, row in dataframe.iterrows():
 
-        query = models.RawData.objects.get_or_create(
+        models.RawData.objects.get_or_create(
             repoid=row['REPOSITORY ID'],
             sample_size=row['SAMPLE NUMBER'],
             pubid=row['STUDY LINK'],
@@ -101,7 +98,7 @@ def update_pubmed(pubmed_info):
     return pubmed_dict
 
 
-def update_bioproject(bioprojects, study_dict):
+def update_bioproject(bioprojects):
     """TODO: Docstring for update_bioproject.
 
     :arg1: TODO
@@ -115,14 +112,9 @@ def update_bioproject(bioprojects, study_dict):
                 repoid=bioproject["REPOSITORY ID"])
         except:
             query = models.BioProject.objects.create(
-                repoid=bioproject["REPOSITORY ID"])
-            # study_str = bioproject["STUDY DESIGN"]
-            # if type(study_str) == str:
-            # study_list = study_str.split("//")
-            # for study in study_list:
-            # print(study, study_dict)
-            # query.study_design.add(
-            # study_dict[remove_multiple_spaces(study)])
+                repoid=bioproject["REPOSITORY ID"],
+                participants_summary=bioproject["DISCRIPTION"],
+                study_design=bioproject["STUDY DESIGN"])
             query.save()
         bioproject_dict[bioproject["REPOSITORY ID"]] = query
     return bioproject_dict
@@ -136,12 +128,9 @@ def update_study_design(study_design_info):
 
     """
     studies_dict = {}
-    for studties_str in study_design_info:
-        studies_list = studties_str.split("//")
-        for study in studies_list:
-            query = models.StudyDesign.objects.get_or_create(
-                study_design=remove_multiple_spaces(study))[0]
-            studies_dict[remove_multiple_spaces(study)] = query
+    for study in study_design_info:
+        query = models.StudyDesign.objects.get_or_create(study_design=study)[0]
+        studies_dict[study] = query
     return studies_dict
 
 
@@ -154,7 +143,6 @@ def upate_disease(disease_info):
     """
     disease_dict = {}
     for info in disease_info:
-        # print(i, info)
         query = models.Disease.objects.get_or_create(disease=info[0],
                                                      doid=info[1])[0]
         disease_dict[info[0]] = query
@@ -177,15 +165,6 @@ def update_bodysite(bodysites):
     return body_site_dict
 
 
-def project_summary():
-    """TODO: Docstring for project_summary.
-    :returns: TODO
-
-    """
-    # TODO: Just update the table and the end of the run of update of the data
-    pass
-
-
 def sequenced_region(seq_regions):
     """TODO: Docstring for sequenced_region.
 
@@ -201,7 +180,6 @@ def update_platform(platform):
     """Checking info in pubmed table."""
     platform_dict = {}
     for _, info in platform.iterrows():
-        print(info.values)
         query = models.Platform.objects.get_or_create(
             platform=info["PLATFORM"],
             technology=info["TECHNOLOGY"],
@@ -213,15 +191,8 @@ def update_platform(platform):
     return platform_dict
 
 
-def update_samples(
-    samples,
-    pub_dict,
-    plt_dict,
-    body_site_dict,
-    disease_dict,
-    loc_diet_dict,
-    bioproject_dict,
-):
+def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict,
+                   loc_diet_dict, bioproject_dict):
     """TODO: Docstring for check_bodysite.
 
     :bodysites: TODO
@@ -236,7 +207,6 @@ def update_samples(
     "LAT LON"
 
     for _, sample in samples.iterrows():
-        # print(sample)
         try:
             query = models.Samples.objects.get(sampid=sample["RUN ID"])
             # NOTE: Pubid integration
@@ -244,17 +214,16 @@ def update_samples(
                 remove_multiple_spaces(pid)
                 for pid in sample["STUDY LINK"].split("//")
             ]
-            # print(pubids, "Alpha", pub_dict[pubids[0]])
-            # print(read_frame(query), "Anmol")
             for pubid in pubids:
                 query.l2pubmed.add(pub_dict[str(int(float(pubid)))])
 
         except:
             query = models.Samples.objects.create(
                 sampid=sample["RUN ID"],
-                bodysite=sample['BODY SITE'],
+                # bodysite=sample['BODY SITE'],
                 participant_feature=sample['PARTICIPANT FEATURES'],
-                sampletype=sample["SAMPLE TYPE"],
+
+                # sampletype=sample["SAMPLE TYPE"],
                 avspotlen=sample["AVERAGE SPOTLENGTH"],
                 col_date=sample["COLLECTION DATE"],
                 lib_layout=sample["LIBRARY LAYOUT"],
@@ -267,15 +236,10 @@ def update_samples(
                 remove_multiple_spaces(pid)
                 for pid in sample["STUDY LINK"].split("//")
             ]
-            # print(pubids, "Alpha", pub_dict[pubids[0]])
-            # print(read_frame(query), "Anmol")
             for pubid in pubids:
                 query.l2pubmed.add(pub_dict[str(int(float(pubid)))])
-                # print("K", sample["RUN ID"], pubid)
 
             # NOTE: Platform information integration
-            # print(plt_dict[(sample[6], sample[7], sample[8])],
-            # (sample[6], sample[7], sample[8]))
             query.l2platform = plt_dict[(
                 sample["PLATFORM"],
                 sample["TECHNOLOGY"],
@@ -289,7 +253,6 @@ def update_samples(
 
             # NOTE: Disease information integration
             if type(sample["DISEASE"]) == str:
-                print(type(sample["DISEASE"]), disease_dict)
                 diseases = [
                     remove_multiple_spaces(disease)
                     for disease in sample["DISEASE"].split(",")
@@ -354,8 +317,6 @@ def lan_lot(coor):
 
     """
     capital = False
-    if type(coor) == float:
-        print(coor)
     if coor.endswith("*"):
         capital = True
         coor = coor[:-1]
@@ -461,7 +422,7 @@ class Command(BaseCommand):
         try:
             data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
         except:
-            print(infile, "Anmol")
+            pass
         # exit(0)
 
         for col in col_type:
@@ -471,22 +432,13 @@ class Command(BaseCommand):
                              col].apply(lambda x: x.strip()).values)
                 data.loc[data[col] == "", col] = np.nan
 
-        # print(data[["COLLECTION DATE"]].head())
         data["COLLECTION DATE"] = data["COLLECTION DATE"].apply(to_date)
-        # not_found_column = set(usecols) - set(data.columns)
-        # if not_found_column:
-        # not_found_column = ",".join(not_found_column)
-        # print(not_found_column + " not found")
-        # exit(0)
-
-        # print(len(data))
         # NOTE: Selecting samples where selected columns mut have some value
         # TODO: Add following in test_file
         index = data[~(pd.isna(data["REPOSITORY ID"])
                        | pd.isna(data["STUDY TITLE"])
                        | pd.isna(data["STUDY LINK"])
                        | pd.isna(data["RUN ID"]))].index
-        # print(index)
         # TODO: Ask content team what would they like
         if len(index) < len(data):
             unselected_index = list(set(data.index) - set(index))
@@ -495,12 +447,7 @@ class Command(BaseCommand):
             print(data.loc[unselected_index])
             print("Updating rest")
         data = data.loc[index]
-
-        # NOTE: Inserting in raw table
-        # print(infile, "Anmol")
-        # exit(0)
         raw_table_update(data)
-        # return None
 
         elo_wiki = pd.read_csv(
             elo_wiki,
@@ -511,11 +458,8 @@ class Command(BaseCommand):
         tdata = data[~pd.isna(data["ELO"])]
 
         tdata["ELO"] = tdata["ELO"].apply(str.upper)
-        # print(tdata[pd.isna(tdata["STUDY LINK"])], "Anmol")
-        # print(elo_wiki[pd.isna(elo_wiki["ELO"])], "Kiran")
         data = data[pd.isna(data["ELO"])]
         tdata = tdata.merge(elo_wiki, on="ELO", how="left")
-        print(set(tdata["ELO"]), "Kiran")
 
         data = pd.concat([data, tdata])
         data.loc[pd.isna(data["WIKI"]), "WIKI"] = np.nan
@@ -556,9 +500,7 @@ class Command(BaseCommand):
 
         for _, row in disease.iterrows():
             for pair in zip(row["DISEASE"], map(doid, row["DOID"])):
-                print(pair, "anmol")
                 disease_pair.append(pair)
-        # print(disease)
         disease_dict = upate_disease(disease_pair)
 
         # WARNING: Content team might mix sample to multiple body site.
@@ -586,19 +528,15 @@ class Command(BaseCommand):
         ]].drop_duplicates()
         loc_diet_dict = update_loc_diet(loc_diet)
 
-        # study_design = data[["STUDY DESIGN"]]
-        # study_design = study_design[
-        # ~pd.isna(study_design["STUDY DESIGN"])
-        # ].drop_duplicates()
-        # print(study_design)
-        # study_dict = update_study_design(study_design["STUDY DESIGN"].values)
+        study_design = data[["STUDY DESIGN"]]
+        study_design = study_design[~pd.isna(study_design["STUDY DESIGN"]
+                                             )].drop_duplicates()
 
         bioprojects = data[["REPOSITORY ID", "STUDY DESIGN"]].drop_duplicates()
         bioprojects = bioprojects.merge(participant_summary,
                                         on="REPOSITORY ID",
                                         how="inner")
-        # bioprojects_dict = update_bioproject(bioprojects, study_dict)
-        bioprojects_dict = update_bioproject(bioprojects, None)
+        bioprojects_dict = update_bioproject(bioprojects)
 
         # NOTE: Pushing samples in the table and connecting with other tables
         samples = data[[
@@ -609,19 +547,10 @@ class Command(BaseCommand):
             "COLLECTION DATE",
             "LIBRARY LAYOUT",
             "LAT LON",  # TODO: Check where both field are there, else error
-        ] + ["STUDY LINK"] + list(platform.columns) +
+        ] + ["STUDY LINK", "STUDY DESIGN"] + list(platform.columns) +
                        ["BODY SITE", "SAMPLE TYPE"] +
                        ["DISEASE", "PARTICIPANT FEATURES"] +
                        list(loc_diet.columns) + ["REPOSITORY ID"]]
-        # "TARGET AMPLICON",
-        # "STUDY LINK", "PLATFORM", "TECHNOLOGY", "ASSAY TYPE"
-        # ] + list(loc_diet.columns
-        # ) + list(disease.columns
-        # ) + list(assay.columns
-        # )+list(amplicons.columns)
-        # ].drop_duplicates("RUN ID")
-        # if samples[~pd.isna(samples["LAT LON"])]:
-        print(samples)
         if len(samples[~pd.isna(samples["LAT LON"])]):
             samples.loc[~pd.isna(samples["LAT LON"]),
                         ["LAT", "LON", "CAPITAL"]] = (
@@ -632,16 +561,5 @@ class Command(BaseCommand):
             samples["LON"] = np.nan
             samples["CAPITAL"] = np.nan
         del samples["LAT LON"]
-        print(samples.head().values, "test")
-        # # NOTE:Considerting that each samples will have one samples collection date, one amplicon and etc
-        # print(samples.head())
-        print(loc_diet_dict)
-        update_samples(
-            samples,
-            pub_dict,
-            plt_dict,
-            body_site_dict,
-            disease_dict,
-            loc_diet_dict,
-            bioprojects_dict,
-        )
+        update_samples(samples, pub_dict, plt_dict, body_site_dict,
+                       disease_dict, loc_diet_dict, bioprojects_dict)
