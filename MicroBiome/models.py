@@ -119,33 +119,17 @@ class Pubmed(models.Model):
         return full_res
 
 
-class StudyDesign(models.Model):
-    """Docstring for StudyDesign."""
-
-    study_design = models.CharField(max_length=50, unique=True, blank=False)
-
-    def __str__(self):
-        """TODO: to be defined."""
-        return self.study_design
-
-
 class BioProject(models.Model):
     repoid = models.CharField(max_length=100,
                               unique=True,
                               null=False,
                               blank=False)
-    # l2study_design = models.ManyToManyField(StudyDesign)
     # TODO: Becareful about 0 value
     sample_size = models.IntegerField(default=0, null=False, blank=False)
     participants_summary = models.TextField(max_length=1000,
                                             null=True,
                                             blank=True)
-
-    # TODO: Make it autoupdate field
-    # TODO : Auto update using signal feature in Django
-    # date_start = models.DateField(
-    # default=date_default, null=False, blank=False)
-    # date_end = models.DateField(default=date_default, null=False, blank=False)
+    study_design = models.CharField(max_length=200, blank=False, default=None)
 
     class meta:
         order = ["repoid"]
@@ -319,11 +303,11 @@ class Samples(models.Model):
     participant_feature = models.CharField(max_length=1000,
                                            null=True,
                                            blank=True)
-    sampletype = models.CharField(max_length=100, null=True, blank=True)
-    bodysite = models.CharField(max_length=100,
-                                null=False,
-                                blank=False,
-                                default=None)
+    # sampletype = models.CharField(max_length=100, null=True, blank=True)
+    # bodysite = models.CharField(max_length=100,
+    # null=False,
+    # blank=False,
+    # default=None)
     # TODO: How to reset to default when date is null??
     col_date = models.DateField(default=None, null=True, blank=False)
     lib_layout = models.CharField(max_length=20)
