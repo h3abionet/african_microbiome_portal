@@ -1,4 +1,6 @@
-{% extends "mainLayout.html" %} {% load static %} {% comment %} {% block title %} {% endcomment %} {% comment %} Welcome to the database {% endcomment %} {% comment %} {% endblock %} {% endcomment %} {% comment %} {% endcomment %} {% block js %}
+{% extends "mainLayout.html" %} {% load static %}
+{% comment %} {% block title %} {% endcomment %} {% comment %} Welcome to the database {% endcomment %} {% comment %} {% endblock %} {% endcomment %} {% comment %} {% endcomment %}
+{% block js %}
 <!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -51,7 +53,7 @@ top: -10px;
 
 
 <div>
-<table cellspacing="0" id="example" class="table table-striped table-bordered table-sm display nowrap" width="100%">
+<table cellspacing="0" id="example" class="table table-striped table-bordered table-sm display" width="100%">
 {% comment %} <input class="form-control" id="myInput" type="text" placeholder="Search.."> {% endcomment %}
 <thead>
 <tr class="hideme">
@@ -97,7 +99,7 @@ href='https://www.mg-rast.org/mgmain.html?mgpage=overview&metagenome={{result.sa
 <td>{{result.lib_layout|safe}}</td>
 <td>{{result.ethnicity|safe}}</td>
 <td>{{result.urbanization|safe}}</td>
-<td>{{result.region|safe}}</td>
+<td>{%if result.region != "nan"%}{{result.region|safe}}{% else %}UNKNOWN{%endif%}</td>
 <td>{{result.cityvillage|safe}}</td>
 <td>{{result.diet|safe}}</td>
 </tr>
