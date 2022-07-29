@@ -35,7 +35,7 @@
 								<a
 										href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
 										>{{key}}
-								</a>{%elif key|first in 'mgp' %}<a
+								</a>{%elif key|first in 'MGP' %}<a
 																										href="https://www.mg-rast.org/mgmain.html?search={{key}}"
 																										>{{key}}
 								</a>{%else%}{%endif%}
@@ -58,6 +58,26 @@
 								{% comment %}>{% endcomment %}
 								{% comment %}</td>{% endcomment %}
 							{% comment %}</tr>{% endcomment %}
+						{% if result.pfeature %}
+						<tr>
+							<td>Participant Features</td>
+							<td>
+								{% for key, value in result.pfeature.items %}
+								{{key}}{% if not forloop.last %};{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}{% if result.study_design %}
+						<tr>
+							<td>Study Design</td>
+							<td>
+								{% for key, value in result.study_design.items %}
+								{{key}}{% if not forloop.last %};{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+
 						{% if result.country %}
 						<tr>
 							<td>Country</td>
@@ -114,6 +134,15 @@
 								{% endfor %}
 							</td>
 						</tr>
+						{%endif%}{% if result.lib_layout %}
+						<tr>
+							<td>Library Layout</td>
+							<td>
+								{% for key, value in result.lib_layout.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
 						{%endif%} {% if result.amplicon %}
 						<tr>
 							<td>Amplicons</td>
@@ -123,11 +152,29 @@
 								{% endfor %}
 							</td>
 						</tr>
+						{%endif%}{% if result.avspotlen  and result.avspotlen != 0%}
+						<tr>
+							<td>Mean of Mean Spot Lengths</td>
+							<td>
+								{% for key, value in result.avspotlen.items %}
+								{{key|floatformat:0}}{% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
 						{%endif%}{% if result.platform %}
 						<tr>
 							<td>Platform</td>
 							<td>
 								{% for key, value in result.platform.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+						{%endif%}{% if result.technology %}
+						<tr>
+							<td>Technology</td>
+							<td>
+								{% for key, value in result.technology.items %}
 								{{key}}({{value}}){% if not forloop.last %},{% endif %}
 								{% endfor %}
 							</td>
@@ -141,6 +188,24 @@
 								{% endfor %}
 							</td>
 						</tr>
+						{%endif%}{% if result.sampletype %}
+						<tr>
+							<td>Sample Type</td>
+							<td>
+								{% for key, value in result.sampletype.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+						{%endif%}{% if result.region %}
+						<tr>
+							<td>Region</td>
+							<td>
+								{% for key, value in result.region.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
 						{%endif%}{% if result.cityvillage %}
 						<tr>
 							<td>City-Village</td>
@@ -150,12 +215,30 @@
 								{% endfor %}
 							</td>
 						</tr>
+						{%endif%}{% if result.urbanization %}
+						<tr>
+							<td>Urbanization</td>
+							<td>
+								{% for key, value in result.urbanization.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+						{%endif%}{% if result.diets %}
+						<tr>
+							<td>Diets</td>
+							<td>
+								{% for key, value in result.diets.items %}
+								{{key}}({{value}}){% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
 						{%endif%}
 
 
 						{% if result.col_date %}
 						<tr>
-							<td>Collection date</td>
+							<td>Collection Date</td>
 							<td>{{result.col_date}}</td>
 						</tr>
 						{%endif%}
