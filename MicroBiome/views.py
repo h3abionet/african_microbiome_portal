@@ -239,8 +239,6 @@ def results_sample(request):
             else:
                 tags = f"{bioproject}[bioproject]"
         query = query2sqlquery(tags)
-        print(tags)
-        print(query)
 
         # res = Samples.objects.filter(query).values(
         # "sampid",
@@ -254,8 +252,6 @@ def results_sample(request):
         # )
         res = (
             Samples.objects.filter(query).annotate(
-                # title=F("l2pubmed__title"),
-                # pubid=F("l2pubmed__pubid"),
                 # Top bar
                 sampleid=F("sampid"),
                 # col_date=F('col_date'),
@@ -269,7 +265,8 @@ def results_sample(request):
                 country=F("l2loc_diet__country"),
                 disease=F("l2disease__disease"),
                 doid=F("l2disease__doid"),
-                # bodysite=F('l2bodysite__bodysite'),
+                bodysite=F('l2bodysite__bodysite'),
+                sampletype=F("l2bodysite__sampletype"),
                 # avspotlen=F('avspotlen'),
                 diet=F('l2loc_diet__diets'),
                 ethnicity=F('l2loc_diet__ethnicity'),
@@ -287,8 +284,8 @@ def results_sample(request):
                 "platform",
                 "technology",
                 "amplicon",
-                "sampletype",
                 "bodysite",
+                "sampletype",
                 'ethnicity',
                 'urbanization',
                 'cityvillage',
@@ -446,13 +443,22 @@ def results(request):
     if not tags:
         res = Pubmed.objects.annotate(
             bioproject=F("samples__l2bioproject__repoid"),
+            pfeature=F("samples__l2bioproject__participants_summary"),
+            study_design=F("samples__l2bioproject__study_design"),
             sampleid=F("samples__sampid"),
+            lib_layout=F("samples__lib_layout"),
+            avspotlen=F("samples__avspotlen"),
             country=F("samples__l2loc_diet__country"),
             ethnicity=F("samples__l2loc_diet__ethnicity"),
             ewiki=F("samples__l2loc_diet__el_wiki"),
             bodysite=F("samples__l2bodysite__bodysite"),
+            sampletype=F("samples__l2bodysite__sampletype"),
+            region=F("samples__l2loc_diet__region"),
             cityvillage=F("samples__l2loc_diet__cityvillage"),
+            urbanization=F("samples__l2loc_diet__urbanization"),
+            diets=F("samples__l2loc_diet__diets"),
             platform=F("samples__l2platform__platform"),
+            technology=F("samples__l2platform__technology"),
             amplicon=F("samples__l2platform__target_amplicon"),
             assay=F("samples__l2platform__assay"),
             disease=F("samples__l2disease__disease"),
@@ -467,13 +473,23 @@ def results(request):
         res = Samples.objects.filter(query).annotate(
             title=F("l2pubmed__title"),
             pubid=F("l2pubmed__pubid"),
+            study_design=F("l2bioproject__study_design"),
             sampleid=F("sampid"),
+            # lib_layout=F("lib_layout"),
+            # avspotlen=F("avspotlen"),
             bioproject=F("l2bioproject__repoid"),
+            pfeature=F("l2bioproject__participants_summary"),
             country=F("l2loc_diet__country"),
             ethnicity=F("l2loc_diet__ethnicity"),
             ewiki=F("l2loc_diet__el_wiki"),
+            bodysite=F("l2bodysite__bodysite"),
+            sampletype=F("l2bodysite__sampletype"),
+            region=F("l2loc_diet__region"),
             cityvillage=F("l2loc_diet__cityvillage"),
+            urbanization=F("l2loc_diet__urbanization"),
+            diets=F("l2loc_diet__diets"),
             platform=F("l2platform__platform"),
+            technology=F("l2platform__technology"),
             assay=F("l2platform__assay"),
             amplicon=F("l2platform__target_amplicon"),
             disease=F("l2disease__disease"),
@@ -485,13 +501,22 @@ def results(request):
         "title",
         "pubid",
         "bioproject",
+        "pfeature",
+        "study_design",
         "sampleid",
+        "avspotlen",
+        "lib_layout",
         "country",
         "ethnicity",
         "ewiki",
         "bodysite",
+        "sampletype",
+        "region",
         "cityvillage",
+        "urbanization",
+        "diets",
         "platform",
+        "technology",
         "amplicon",
         "assay",
         "disease",
@@ -503,7 +528,12 @@ def results(request):
     if True:
         # try:
         project_summary = read_frame(res)
-        # print(project_summary.columns)
+        avspotlen = project_summary.groupby(
+            "bioproject").avspotlen.mean().reset_index()
+        del project_summary["avspotlen"]
+        project_summary = project_summary.merge(avspotlen,
+                                                on="bioproject",
+                                                how="left")
         sampleids = project_summary.sampleid.unique()
         # print(set(project_summary["ethnicity"]))
 
@@ -690,7 +720,8 @@ def results(request):
         # except:
         project_summary = pd.DataFrame()
     # print(project_summary.columns, project_summary.values, "Anmol")
-    # print(project_summary)
+    # print(project_summary[~pd.isna(project_summary["diets"])])
+    print(project_summary.columns)
 
     paginator = Paginator(project_summary.to_dict(orient="records"),
                           10)  # 10 information per page
