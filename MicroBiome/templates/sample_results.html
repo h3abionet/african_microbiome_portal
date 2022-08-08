@@ -81,8 +81,8 @@ top: -10px;
 <tbody>
 {% for result in results%}
 <tr>
-<td>{%if result.sampleid|first in 'E' %}<a
-href='https://www.ncbi.nlm.nih.gov/sra/?term={{result.sampleid}}'> {%elif result.sampleid|first in 'mg'%}<a
+<td>{%if result.sampleid|first in 'E' %}<a class="doubleclick"
+href='https://www.ncbi.nlm.nih.gov/sra/?term={{result.sampleid}}'> {%elif result.sampleid|first in 'MG'%}<a
 href='https://www.mg-rast.org/mgmain.html?mgpage=overview&metagenome={{result.sampleid}}'>{%else%}{%endif%}
 {{result.sampleid}}</td>
 <td>{{result.country|safe}}</td>
