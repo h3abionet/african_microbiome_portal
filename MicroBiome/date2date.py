@@ -13,7 +13,7 @@ def to_date(date_str):
     # TODO: Check whether month and year are provided
     date = date_default
 
-    print(pd.isna(date_str), date_str, "Anmol")
+    # print(pd.isna(date_str), date_str, "Anmol")
     if pd.isna(date_str) or date_str == "-":
         return None
     if "-" in date_str:
@@ -32,7 +32,7 @@ def to_date(date_str):
                                           format="%Y") + YearEnd(1)
                 except:
                     pass
-        print(date_str)
+        # print(date_str)
         return date.date()
     if "/" in date_str:
         try:

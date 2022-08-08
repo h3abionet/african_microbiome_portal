@@ -1600,6 +1600,9 @@ tr:hover td {
   background: #7288a5;
   color: #fff;
 }
+td a {
+  color: #5aa1e3 !important;
+}
 
 /*Sample table related setting*/
 

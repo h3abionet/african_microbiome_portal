@@ -195,6 +195,11 @@ def str2eq(strng):
 
 def query_Q(query):
     """Converts query and query type (i.e. ("Malawi","country")) to Django Q object."""
+    # Pubmed related
+    if query[0] == "title":
+        return (~Q(l2pubmed__title__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2pubmed__title__icontains=query[0]))
     if query[1] == "sampid":
         return (~Q(sampid__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(sampid__icontains=query[0]))
@@ -213,10 +218,18 @@ def query_Q(query):
         return (~Q(l2bodysite__bodysite__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
                     l2bodysite__bodysite__icontains=query[0]))
+    if query[1] == "sampletype":
+        return (~Q(l2bodysite__sampletype__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2bodysite__sampletype__icontains=query[0]))
     if query[1] == "region":
         return (~Q(l2loc_diet__region__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
                     l2loc_diet__region__icontains=query[0]))
+    if query[1] == "studydesign":
+        return (~Q(l2study_design__study_design__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2study_design__study_design__icontains=query[0]))
     if query[1] == "urbanization":
         return (~Q(l2loc_diet__urbanization__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
@@ -233,6 +246,10 @@ def query_Q(query):
         return (~Q(l2platform__platform__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
                     l2platform__platform__icontains=query[0]))
+    if query[1] == "technology":
+        return (~Q(l2platform__technology__icontains=query[0][1:])
+                if query[0].startswith("~") else Q(
+                    l2platform__technology__icontains=query[0]))
     if query[1] == "amplicon":
         return (~Q(l2platform__target_amplicon__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
@@ -241,6 +258,7 @@ def query_Q(query):
         return (~Q(l2platform__assay__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
                     l2platform__assay__icontains=query[0]))
+
     if query[1] == "ethinicity":
         return (~Q(l2loc_diet__ethnicity__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
@@ -249,11 +267,11 @@ def query_Q(query):
         return (~Q(l2disease__disease__icontains=query[0][1:])
                 if query[0].startswith("~") else Q(
                     l2disease__disease__icontains=query[0]))
-    if (query[1] == "bioproject"
-        ):  # NOTE: This is hidden from rest, as only for sample query
-        return (~Q(l2bioproject__repoid__icontains=query[0][1:])
-                if query[0].startswith("~") else Q(
-                    l2bioproject__repoid__icontains=query[0]))
+    # if (query[1] == "bioproject"
+    # ):  # NOTE: This is hidden from rest, as only for sample query
+    # return (~Q(l2bioproject__repoid__icontains=query[0][1:])
+    # if query[0].startswith("~") else Q(
+    # l2bioproject__repoid__icontains=query[0]))
 
     # TODO: Work on and (&) conditions
 
@@ -265,7 +283,12 @@ def query_Q(query):
                 | Q(l2loc_diet__urbanization__icontains=query[0])
                 | Q(l2loc_diet__cityvillage__icontains=query[0])
                 | Q(l2loc_diet__ethnicity__icontains=query[0])
+                | Q(l2bodysite__sampletype__icontains=query[0])
+                | Q(l2pubmed__title__icontains=query[0])
+                | Q(l2bodysite__bodysite__icontains=query[0])
+                | Q(l2bodysite__sampletype__icontains=query[0])
                 | Q(l2platform__platform__icontains=query[0])
+                | Q(l2platform__technology__icontains=query[0])
                 | Q(l2platform__target_amplicon__icontains=query[0])
                 | Q(l2platform__assay__icontains=query[0])
                 | Q(l2disease__disease__icontains=query[0]))
@@ -276,7 +299,12 @@ def query_Q(query):
              | Q(l2loc_diet__urbanization__icontains=query[0][1:])
              | Q(l2loc_diet__cityvillage__icontains=query[0][1:])
              | Q(l2loc_diet__ethnicity__icontains=query[0][1:])
+             | Q(l2study_design__study_design__icontains=query[0][1:])
+             | Q(l2pubmed__title__icontains=query[0][1:])
+             | Q(l2bodysite__bodysite__icontains=query[0][1:])
+             | Q(l2bodysite__sampletype__icontains=query[0][1:])
              | Q(l2platform__platform__icontains=query[0][1:])
+             | Q(l2platform__technology__icontains=query[0][1:])
              | Q(l2platform__target_amplicon__icontains=query[0][1:])
              | Q(l2platform__assay__icontains=query[0][1:])
              | Q(l2disease__disease__icontains=query[0][1:]))
