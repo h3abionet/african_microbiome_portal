@@ -207,7 +207,8 @@ def summary(request):
         "records": geoloc,
     }
     # #  print(all_records.values())
-    return render(request, "summary.html", context)
+    return context
+    # return render(request, "summary.html", context)
 
 
 def search_form(request):
@@ -217,6 +218,9 @@ def search_form(request):
         "form": form,
     }
     # #  print(all_records.values())
+    context1 = summary(request)
+    context = {**context, **context1}
+
     return render(request, "search.html", context)
 
 
