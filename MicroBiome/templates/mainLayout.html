@@ -143,13 +143,13 @@ href="{% url 'resource' %}"
 ><b>Resources</b></a
 >
 </li>
-<li class="nav-item ml-auto py-0">
-<a
-class="nav-link {% active_link 'summary' 'active_link'%}"
-href="{% url 'summary' %}"
-><b>Summary</b></a
->
-</li>
+{% comment %}<li class="nav-item ml-auto py-0">{% endcomment %}
+{% comment %}<a{% endcomment %}
+{% comment %}class="nav-link {% active_link 'summary' 'active_link'%}"{% endcomment %}
+{% comment %}href="{% url 'summary' %}"{% endcomment %}
+{% comment %}><b>Summary</b></a{% endcomment %}
+{% comment %}>{% endcomment %}
+{% comment %}</li>{% endcomment %}
 <li class="nav-item ml-auto py-0">
 <a
 class="nav-link {% active_link 'help' 'active_link'%}"
@@ -285,53 +285,53 @@ $("#post-form ").submit(function (e) {
 {% comment %}</div>{% endcomment %}
 
 <div class="container-fluid page-footer_new ">
-		<div class="row">
-			<div class="col-sm-12 col-md-4">
-				<div class="panel panel-blue text-center">
-					<p>
-						H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
-						U41HG006941
-					</p>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-2">
-				<div class="panel panel-blue text-center">
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="panel panel-blue text-center">
+<p>
+H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
+U41HG006941
+</p>
+</div>
+</div>
+<div class="col-sm-12 col-md-2">
+<div class="panel panel-blue text-center">
 <img
 src="{% static 'img/NHGRI-logo_footer.png' %} "
 class="img-responsive"
 />
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-2">
-				<div class="panel panel-purple text-center">
+</div>
+</div>
+<div class="col-sm-12 col-md-2">
+<div class="panel panel-purple text-center">
 <img
 src="{% static 'img/NIH-logo_footer.png' %} "
 class="img-responsive"
 />
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-2">
+</div>
+</div>
+<div class="col-sm-12 col-md-2">
 
-				<div class="panel panel-blue text-center"> <a href="https://h3africa.org/">
+<div class="panel panel-blue text-center"> <a href="https://h3africa.org/">
 <img
 src="{% static 'img/h3africa-_partner.png' %} "
 class="img-responsive"
 />
-						</a></div>
-			</div>
-			<div class="col-sm-12 col-md-2">
-				<div class="panel panel-purple text-center"> <a target="_blank " href="https://www.facebook.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-facebook-square icon-large"></i></a>
-					<a target="_blank " href="https://twitter.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-twitter-square"></i></a>
-					<a target="_blank " href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw" style="padding: 5px; color:#fff;"><i class="fab fa-youtube-square"></i></a>
+</a></div>
+</div>
+<div class="col-sm-12 col-md-2">
+<div class="panel panel-purple text-center"> <a target="_blank " href="https://www.facebook.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-facebook-square icon-large"></i></a>
+<a target="_blank " href="https://twitter.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-twitter-square"></i></a>
+<a target="_blank " href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw" style="padding: 5px; color:#fff;"><i class="fab fa-youtube-square"></i></a>
 
 
-				</div>
-			</div>
-		</div>
-		<hr style="color:#fff;">
-		<div class="row">
-			<div class="col-sm-12 col-md-4">
-				<div class="panel panel-blue text-center">
+</div>
+</div>
+</div>
+<hr style="color:#fff;">
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="panel panel-blue text-center">
 <p>
 © {% now "Y " %} Copyright:<a href="https://h3abionet.org">
 H3ABioNet</a
@@ -339,26 +339,26 @@ H3ABioNet</a
 </p>
 
 
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-2">
-				<div class="panel panel-blue text-center">
-					<a href="https://helpdesk.h3abionet.org" >Helpdesk</a>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-2">
-				<div class="panel panel-purple text-center"><a href="https://github.com/codemeleon/african_microbiome_portal">Github Repository</a></div>
-			</div>
-			<div class="col-sm-12 col-md-4">
-				<div class="panel panel-blue text-center"> <a href="/disclaimer " style="color:#fff;">The H3ABioNet website content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institute of Health.</a>
-				</div>
-			</div>
-			{% comment %}<div class="col-sm-12 col-md-2">{% endcomment %}
-				{% comment %}<div class="panel panel-purple text-center"> <a target="_blank " href="https://h3abionet.org" style="color:#fff;">H3ABioNet</a>{% endcomment %}
-				{% comment %}</div>{% endcomment %}
-			{% comment %}</div>{% endcomment %}
-		</div>
-	</div>
+</div>
+</div>
+<div class="col-sm-12 col-md-2">
+<div class="panel panel-blue text-center">
+<a href="https://helpdesk.h3abionet.org" >Helpdesk</a>
+</div>
+</div>
+<div class="col-sm-12 col-md-2">
+<div class="panel panel-purple text-center"><a href="https://github.com/codemeleon/african_microbiome_portal">Github Repository</a></div>
+</div>
+<div class="col-sm-12 col-md-4">
+<div class="panel panel-blue text-center"> <a href="/disclaimer " style="color:#fff;">The H3ABioNet website content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institute of Health.</a>
+</div>
+</div>
+{% comment %}<div class="col-sm-12 col-md-2">{% endcomment %}
+{% comment %}<div class="panel panel-purple text-center"> <a target="_blank " href="https://h3abionet.org" style="color:#fff;">H3ABioNet</a>{% endcomment %}
+{% comment %}</div>{% endcomment %}
+{% comment %}</div>{% endcomment %}
+</div>
+</div>
 
 
 
