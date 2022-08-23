@@ -1,5 +1,5 @@
 .bg-mibio {
-  background-color: #5aa1e3;
+  background-color: #337ab7;
 }
 /* .bg-mibio{ background-color: #B83F0D; } */
 #logo {
@@ -1617,7 +1617,7 @@ td a {
   font-weight: 300 !important;
   margin-top: 1.6rem;
   margin-left: 1.5rem;
-  color: #5aa1e3;
+  color: #28405e;
   /* margin-left:25px; */
 }
 
@@ -1696,4 +1696,10 @@ td a {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/*Arrange it late*/
+
+h3 {
+  font-size: 36px !important;
 }
