@@ -47,9 +47,20 @@ top: -10px;
 <br />
 <br /> {% comment %} Number of results : <a href="/microbiome/download?{{query}}">{{res_count}}</a> {% endcomment %}
 <div id="dynamic">
-<div class="card mt-4 text-center">
-<H1> SAMPLE RESULT AND OVERVIEW<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1>
+<div class="card mt-4 resheader">
+	<div class="row">
+
+	<div class="text-center col-11"><H1> SAMPLE RESULT AND OVERVIEW</H1></div><div class="text-right col-1"><H1>
+			<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1></div>
+
+ </div>
 </div>
+<br />
+
+
+{% comment %}<div class="card mt-4 text-center">{% endcomment %}
+{% comment %}<H1> SAMPLE RESULT AND OVERVIEW<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1>{% endcomment %}
+{% comment %}</div>{% endcomment %}
 
 
 <div>
@@ -115,7 +126,10 @@ href='https://www.mg-rast.org/mgmain.html?mgpage=overview&metagenome={{result.sa
 </table>
 <div>{% include "pagination.html" %}
 </div>
+</div>
 
 <br />
 <br />
-<br /> {% include "result_dashboard.html" %} {% endblock %}
+<br /> {% include "result_dashboard.html" %}
+</div>
+{% endblock %}

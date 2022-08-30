@@ -62,6 +62,8 @@ body {
 
 .nav-links a {
   color: #9a9a9a;
+  font-size: 18px;
+  font-family: Roboto, sans-serif;
 }
 
 .sp-dropdown-main {
@@ -1564,6 +1566,8 @@ div#klixoSlider_166 div.textContent {
 .nav-link,
 .doubleclick {
   color: #ffffff !important;
+  font-size: 18px;
+  font-family: Roboto, sans-serif !important;
 }
 
 .navbar-brand:hover,
@@ -1596,14 +1600,19 @@ div#klixoSlider_166 div.textContent {
 /*color: #fff;*/
 /*}*/
 
-tr:hover td {
-  background: #7288a5;
-  color: #fff;
-}
+/*tr:hover td {*/
+/*background: #7288a5;*/
+/*color: #fff;*/
+/*}*/
 td a {
   color: #5aa1e3 !important;
 }
-
+td a:hover {
+  color: #ff7700 !important;
+}
+a:link {
+  text-decoration: none;
+}
 /*Sample table related setting*/
 
 .hiddenRow {
@@ -1638,7 +1647,7 @@ td a {
 .header_top_bg .text_top_bg {
   color: #fff;
   font-size: 36px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   /* text-align: center; */
   text-transform: sentencecase;
   background: rgba(0, 0, 0, 0.4);
@@ -1702,4 +1711,38 @@ td a {
 
 h3 {
   font-size: 36px !important;
+}
+
+button,
+.resheader {
+  background-color: #337ab7 !important;
+  color: #ffffff;
+}
+
+button a,
+.resheader a {
+  color: #ffffff !important;
+}
+
+button a:hover,
+.resheader a:hover {
+  color: #ff7700 !important;
+}
+
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: relative;
+  background-color: #337ab7;
+}
+
+.sidebar a {
+  color: #ffffff;
+}
+.sidebar a:hover {
+  color: #ff7700;
+}
+
+.sidebar ul {
+  list-style: none;
 }

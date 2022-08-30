@@ -12,9 +12,36 @@ div.intro { font-size: 20px; }
 {% block content %}
 <br />
 <br />
+
+<div class="row">
+	<div class="col-3">
+
+		<div class="sidebar">
+
+			<ul>
+				<div class="no_style">
+
+					<li><a class="side_link" href="#1">Context</a></li>
+					<li><a class="side_link" href="#2">Contributors</a></li>
+					<li><a class="side_link" href="#3">Version</a></li>
+					<li><a class="side_link" href="#4">Citing</a></li>
+
+				</div>
+
+			</ul>
+
+		</div>
+
+
+		</div>
+		<div class="col-9">
+
+
+
+
 <div class="page-section">
 
-<H3>Context</H3>
+<H3 class="text-center" id="1">Context</H3>
 <p><strong>The African Human Microbiome Portal (AHMP)</strong> is an <strong><a href='https://www.h3abionet.org/'>H3Africa</a></strong> initiative to establish a centralized repository for microbiome metadata associated with African human populations. Through this collection of African microbiome metadata, the African Microbiome Portal aims to:</p>
 <ul>
 <li class="mt-4">Provide free and open access to publicly available African human microbiome-related metadata that are curated, interactively displayed, and easily downloadable.</li>
@@ -29,23 +56,25 @@ div.intro { font-size: 20px; }
 
 <div class="page-section">
 
-<H3>Contributors</H3>
+<H3 class="text-center", id="2">Contributors</H3>
 <p>The development of the Human African Microbiome Portal is the fruit of a collaborating consortium composed of the Human Heredity and Health in Africa’s (H3Africa) Bioinformatics Network (H3ABioNet). H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number U41HG006941.</p>
 
 <p>Development of the AHMP was driven by H3ABioNet’s Databases and Resources Work Package.</p>
 
 </div>
 <div class="page-section">
-<H3>Version</H3>
+<H3 class="text-center" id="3">Version</H3>
 <p>AHMP v1.0 - released TBD Date</p>
 
 
 </div>
 <div class="page-section">
-<H3>How to cite</H3>
+<H3 class="text-center" id="4">How to cite</H3>
 
 
 
+</div>
+</div>
 </div>
 
 {% endblock %}

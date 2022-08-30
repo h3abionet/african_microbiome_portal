@@ -83,10 +83,15 @@ top: -10px;
 {% comment %}</div>{% endcomment %}
 <div id="dynamic">
 {% if qt == "get" %} {%if res_len%}
-<div class="card mt-4 text-center">
-<H1> PROJECT RESULT AND OVERVIEW
-<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1>
+<div class="card mt-4">
+	<div class="row">
+
+	<div class="text-center col-11"><H1> PROJECT RESULT AND OVERVIEW</H1></div><div class="text-right col-1"><H1>
+			<a href="/download_r/?randv={{randv}}" title="Click to download the result"><i class="fa fa-download"></i></a></H1></div>
+
+ </div>
 </div>
+<br />
 
 
 <div>
