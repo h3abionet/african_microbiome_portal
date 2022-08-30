@@ -1734,6 +1734,8 @@ button a:hover,
 }
 
 .sidebar {
+  border-radius: 25px;
+  padding-top: 10px;
   width: 250px;
   position: fixed;
   top: relative;
