@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .bg-mibio {
   background-color: #337ab7;
 }

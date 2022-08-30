@@ -24,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = "Anmol"  # env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # True
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -72,13 +72,13 @@ INSTALLED_APPS = [
 
 # Sending emails to admin in case of error
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-ADMINS = tuple(parseaddr(email) for email in env("ADMINS").split(','))
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+# ADMINS = tuple(parseaddr(email) for email in env("ADMINS").split(','))
+# EMAIL_HOST = env("EMAIL_HOST")
+# EMAIL_PORT = env("EMAIL_PORT")
+# EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
 
 CRONJOBS = [("0 0 * * 0", "django.core.management.clean_old")]
 
