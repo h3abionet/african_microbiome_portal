@@ -3,11 +3,11 @@
 	<div class="col-12">
 		<div class="row">
 
-			<button class="col-12 text-left font-weight-bold"
+			<button class="col-12 text-left font-weight-bold clk"
 							data-toggle="collapse"
 							data-target="#pub_{{result.pubid}}"
 
-							>{{result.title}}<a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}"><i class="fas fa-external-link-alt"></i></a>
+							>{{result.title}} <a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}"><i class="fas fa-external-link-alt"></i></a><span class="fa fa-play bottom-right rotate"></span>
 			</button>
 		</div>
 
@@ -16,6 +16,7 @@
 			id="pub_{{result.pubid}}"
 			class="collapse"
 			data-parent="#accordion"
+			style="transition: 0.5s;"
 			>
 			<div class="col-12">
 				<table class="table">
