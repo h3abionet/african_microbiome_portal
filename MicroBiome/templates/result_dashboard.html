@@ -1,101 +1,101 @@
 {% load leaflet_tags %}
 {% load static %}
 {% block js_top %}
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  <script src="https://code.highcharts.com/modules/export-data.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 {% endblock %}
 {% block js %}
-  {% leaflet_js %}
+{% leaflet_js %}
 {% endblock %}
 
 {% block css %}
-  {% leaflet_css %}
-  <style>
+{% leaflet_css %}
+<style>
 .leaflet-container {
-  /* all maps */
-  width: 100%;
-  height: 120px;
+	/* all maps */
+width: 100%;
+height: 120px;
 }
-    /* Resize the "display_raw" textbox */
+/* Resize the "display_raw" textbox */
 
-    .django-leaflet-raw-textarea {
-      width: 100%;
-    }
+.django-leaflet-raw-textarea {
+width: 100%;
+}
 
-    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />.item {
-      color: white;
-      padding: 0.5em 0;
-      font-size: 2em;
-    }
+<link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" />.item {
+color: white;
+padding: 0.5em 0;
+				 font-size: 2em;
+}
 
-    .map_div {
-      grid-area: map_div;
-    }
-  </style>
+.map_div {
+	grid-area: map_div;
+}
+</style>
 {% endblock %}
 {% block content %}
-  {%if not results.empty%}
-    {% comment %}<div class="card mt-4 text-center">{% endcomment %}
-      {% comment %}<H1>RESULT OVERVIEW</H1>{% endcomment %}
-      {% comment %}</div>{% endcomment %}
-  <br /> {%endif%}
+{%if not results.empty%}
+{% comment %}<div class="card mt-4 text-center">{% endcomment %}
+{% comment %}<H1>RESULT OVERVIEW</H1>{% endcomment %}
+{% comment %}</div>{% endcomment %}
+<br /> {%endif%}
 
-  <div class="container">
-
-
-    <div class="row">
-      {% if disease_pie_dict_sample %}
-        <div class="col-sm pr-0">
-          <div class="card">
-            <div class="card-body">
-              <div id="disease_pie_sample"></div>
-            </div>
-          </div>
-        </div>
-        {%endif%} {% if platform_pie_dict_sample %}
-        <div class="col-sm pl-0">
-          <div class="card">
-            <div class="card-body">
-              <div id="platform_pie_sample"></div>
-            </div>
-          </div>
-        </div>
-        {%endif%} {% if assay_pie_dict_sample %}
-        <div class="col-sm pl-0">
-          <div class="card">
-            <div class="card-body">
-              <div id="assay_pie_sample"></div>
-            </div>
-          </div>
-        </div>
-    </div>
-    {%endif%} {% if not records.empty %}
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h4 align="center">Sample collection locations</h4>
-            {% leaflet_map "mapd" callback="map_init" %}
-            <!-- <div id="disease"></div> -->
-          </div>
-        </div>
-      </div>
-    {%endif%}
-    </div>
-
-  </div>
+<div class="container">
 
 
-  {% comment %} BODY SITE {% endcomment %}
-  {% comment %} {% include "bodysite.html" %} {% endcomment %}
-  {% comment %} DISEASE {% endcomment %}
-  {% include "disease.html" %}
-  {% comment %} ASSAY {% endcomment %}
-  {% include "assay.html" %}
-  {% comment %} PLAFORM {% endcomment %}
-  {% include "platform.html" %}
-  {% comment %} MAP {% endcomment %}
-  {% include "coordinates.html" %}
+<div class="row">
+{% if disease_pie_dict_sample %}
+<div class="col-sm pr-0">
+<div class="card">
+<div class="card-body">
+<div id="disease_pie_sample"></div>
+</div>
+</div>
+</div>
+{%endif%} {% if platform_pie_dict_sample %}
+<div class="col-sm pl-0">
+<div class="card">
+<div class="card-body">
+<div id="platform_pie_sample"></div>
+</div>
+</div>
+</div>
+{%endif%} {% if assay_pie_dict_sample %}
+<div class="col-sm pl-0">
+<div class="card">
+<div class="card-body">
+<div id="assay_pie_sample"></div>
+</div>
+</div>
+</div>
+</div>
+{%endif%} {% if not records.empty %}
+<div class="row">
+<div class="col-12">
+<div class="card">
+<div class="card-body">
+<h4 align="center">Sample collection locations</h4>
+{% leaflet_map "mapd" callback="map_init" %}
+<!-- <div id="disease"></div> -->
+</div>
+</div>
+</div>
+{%endif%}
+</div>
+
+</div>
+
+
+{% comment %} BODY SITE {% endcomment %}
+{% comment %} {% include "bodysite.html" %} {% endcomment %}
+{% comment %} DISEASE {% endcomment %}
+{% include "disease.html" %}
+{% comment %} ASSAY {% endcomment %}
+{% include "assay.html" %}
+{% comment %} PLAFORM {% endcomment %}
+{% include "platform.html" %}
+{% comment %} MAP {% endcomment %}
+{% include "coordinates.html" %}
 {% endblock %}

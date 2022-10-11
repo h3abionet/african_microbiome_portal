@@ -8,82 +8,82 @@
 
 /* Style the tab */
 .tab {
-  float: left;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  width: 30%;
-  height: 300px;
+	float: left;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+	width: 30%;
+	height: 300px;
 }
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
-  display: block;
-  background-color: inherit;
-  color: black;
-  padding: 22px 16px;
-  width: 100%;
-  border: none;
-  outline: none;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.3s;
+	display: block;
+	background-color: inherit;
+	color: black;
+	padding: 22px 16px;
+	width: 100%;
+	border: none;
+	outline: none;
+	text-align: left;
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+	background-color: #ddd;
 }
 
 /* Create an active/current "tab button" class */
 .tab button.active {
-  background-color: #ccc;
+	background-color: #ccc;
 }
 
 /* Style the tab content */
 .tabcontent {
-  float: left;
-  padding: 0px 12px;
-  border: 1px solid #ccc;
-  width: 70%;
-  border-left: none;
-  height: 300px;
+	float: left;
+	padding: 0px 12px;
+	border: 1px solid #ccc;
+	width: 70%;
+	border-left: none;
+	height: 300px;
 }
-                </style>
+</style>
 
 
 
 <style>
 .leaflet-container {  /* all maps */
-                width:  100%;
-                height: 120px;
+	width:  100%;
+	height: 120px;
 }
 /* Resize the "display_raw" textbox */
 .django-leaflet-raw-textarea {
-                width: 100%;
+	width: 100%;
 }
 
 {% comment %} <link rel="stylesheet" type="text/css" media="all" href="{% static "css/contributors.css" %}" /> {% endcomment %}
 {% comment %} ul.no-bullets { {% endcomment %}
-{% comment %}   list-style-type: none; {% endcomment %}
-{% comment %}   margin: 0; {% endcomment %}
-{% comment %}   padding: 0; {% endcomment %}
-{% comment %} } {% endcomment %}
+	{% comment %}   list-style-type: none; {% endcomment %}
+	{% comment %}   margin: 0; {% endcomment %}
+	{% comment %}   padding: 0; {% endcomment %}
+	{% comment %} } {% endcomment %}
 
 ul.striped-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    {% comment %} max-width: 200px; {% endcomment %}
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	{% comment %} max-width: 200px; {% endcomment %}
 }
 ul.striped-list > li {
-    border-bottom: 1px solid rgb(221,221,221);
-    padding: 6px;
+	border-bottom: 1px solid rgb(221,221,221);
+	padding: 6px;
 }
 ul.striped-list > li:nth-of-type(odd) {
-    background-color: #337ab7;
+	background-color: #337ab7;
 }
 ul.striped-list > li:last-child {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 
@@ -91,13 +91,13 @@ ul.striped-list > li:last-child {
 
 
 .item {
-        color: white;
-        padding: 0.5em 0;
-        font-size: 2em;
+	color: white;
+	padding: 0.5em 0;
+	font-size: 2em;
 }
 
 .map_div {
-        grid-area: map_div;
+	grid-area: map_div;
 }
 
 </style>
@@ -109,84 +109,84 @@ ul.striped-list > li:last-child {
 {% endblock %}
 
 {% block js_top%}
-	{% leaflet_js %}
-                <script>
-function openCity(evt, cityName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
+{% leaflet_js %}
+<script>
+	function openCity(evt, cityName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(cityName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-                </script>
-	{% endblock %}
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+</script>
+{% endblock %}
 
-	{% block content %}
-                 <div class="tab">
-                         {% for key,val in results.items %}
-        <button class="tablinks" onclick="openCity(event, '{{key}}')">{{key}}</button>
-        {% endfor %}
+{% block content %}
+<div class="tab">
+	{% for key,val in results.items %}
+	<button class="tablinks" onclick="openCity(event, '{{key}}')">{{key}}</button>
+	{% endfor %}
 </div>
 
 {% for key, val in results.items %}
 <!-- Need to merge country and coordinates -->
 <div id="{{key}}" class="tabcontent">
-        <!-- {{val}} -->
-				{% if key == "LON LAT" %}
-					 <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
+	<!-- {{val}} -->
+	{% if key == "LON LAT" %}
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
 					{% comment %} {% leaflet_map "mapd" callback="map_init" %} {% endcomment %}
-					 </div>
-            </div>
-                                </div>
-                 </div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-					<p>Anmol</p>
-					<script type="text/javascript">
-						function map_init(map, options){
+	<p>Anmol</p>
+	<script type="text/javascript">
+		function map_init(map, options){
+			{% for res in val %}
+			var coord = "{{ res }}";
+			var lon_lat = coord.split(',');
+			if (lon_lat.length == 2){
+				var lon = lon_lat[1];
+				var lat = lon_lat[0];
+				var marker = L.marker([lat, lon]);
+				var list = ""
+				marker.bindPopup(list).addTo(map);
+			}
+
+			{% endfor %}
+			map.setView([-0.6605788, 14.8965794], 2);
+
+
+		}
+	</script>
+	{% else %}
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<ul class="striped-list">
 					{% for res in val %}
-					var coord = "{{ res }}";
-					var lon_lat = coord.split(',');
-					if (lon_lat.length == 2){
-							 var lon = lon_lat[1];
-							var lat = lon_lat[0];
-              var marker = L.marker([lat, lon]);
-						var list = ""
-						marker.bindPopup(list).addTo(map);
-					}
-
-						{% endfor %}
-						 map.setView([-0.6605788, 14.8965794], 2);
-
-
-						}
-					</script>
-				{% else %}
-					<div class="row">
-					<div class="col-12">
-					<div class="card">
-        <ul class="striped-list">
-        {% for res in val %}
-        <li>{{res}}</li>
-        <!-- Add to show if it new in the database -->
-        {% endfor %}
-        </ul>
-					</div>
-					</div>
-					</div>
-				{% endif %}
+					<li>{{res}}</li>
+					<!-- Add to show if it new in the database -->
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </div>
 {% endfor %}
 

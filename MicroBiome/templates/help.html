@@ -8,50 +8,76 @@
 <br />
 <br />
 <br />
-<h2 class="text-center"><strong>Tutorial</strong></h2>
-<p>
-The AHMP User Guide addresses following questions:
-</p>
-<ol>
-<li><a href="#1">How to search AHMP.</a></li>
-<li><a href="#2">How to use interactive panels and map.</a></li>
-<li><a href="#3">How are the search results displayed?</a></li>
-<li>
-<a href="#4">How to submit your own metadata to enrich the portal.</a>
-</li>
-</ol>
 
 
-
-<div class="page-section">
-
-<h4 class="text-center" id="1"><strong>How to search AHMP</strong></h4>
-
-Please visit <a href="/">Home</a> page.
 <div class="row">
-<img src="{% static 'img/help/search_box.png' %} " alt="" class="col-12" />
-</div>
-<p>
-Panel 1 is the search form. It accepts multiple keywords related to body site,
+	<div class="col-3">
+
+		<div class="sidebar">
+
+			<ul>
+				<div class="no_style">
+
+					<li><a class="side_link" href="#1">Search</a></li>
+					<li><a class="side_link" href="#2">Interactive panels</a></li>
+					<li><a class="side_link" href="#3">Result panels</a></li>
+					<li><a class="side_link" href="#4">Data submission</a></li>
+
+				</div>
+
+			</ul>
+
+		</div>
+
+
+	</div>
+	<div class="col-9">
+
+
+		<h2 class="text-center"><strong>Tutorial</strong></h2>
+		{% comment %}<p>{% endcomment %}
+		{% comment %}The AHMP User Guide addresses following questions:{% endcomment %}
+		{% comment %}</p>{% endcomment %}
+		{% comment %}<ol>{% endcomment %}
+			{% comment %}<li><a href="#1">How to search AHMP.</a></li>{% endcomment %}
+			{% comment %}<li><a href="#2">How to use interactive panels and map.</a></li>{% endcomment %}
+			{% comment %}<li><a href="#3">How are the search results displayed?</a></li>{% endcomment %}
+			{% comment %}<li>{% endcomment %}
+				{% comment %}<a href="#4">How to submit your own metadata to enrich the portal.</a>{% endcomment %}
+				{% comment %}</li>{% endcomment %}
+			{% comment %}</ol>{% endcomment %}
+
+
+
+		<div class="page-section">
+
+			<h4 class="text-center" id="1"><strong>How to search AHMP</strong></h4>
+
+			Please visit <a href="/">Home</a> page.
+			<div class="row">
+				<img src="{% static 'img/help/search_box.png' %} " alt="" class="col-12" />
+			</div>
+			<p>
+			Panel 1 is the search form. It accepts multiple keywords related to body site,
 			sequencing platforms, country, or Bioproject ID separated with a tab key. For
 			example, qs are query terms and ts are their type (e.g. country, disease etc).
 			&, | and ~ represent AND, OR and NOT boolean operations respectively. “(“
-					parentheses define the query operation order. “[“ parentheses for defining the
-					query type. If the query type is not provided (missing "[]"), the query term
-					will be queried for all the known fields. Leaving the search form blank in a
-					query will return all the studies and samples in the portal as the result.
-					</p>
+			parentheses define the query operation order. “[“ parentheses for defining the
+			query type. If the query type is not provided (missing "[]"), the query term
+			will be queried for all the known fields. Leaving the search form blank in a
+			query will return all the studies and samples in the portal as the result.
+			</p>
 
-					</div>
-					<div class="page-section">
+		</div>
+		<div class="page-section">
 
-					<h4 class="text-center"  id="2"><strong>How to use interactive panels and map?</strong></h4>
-					<img
+			<h4 class="text-center"  id="2"><strong>How to use interactive panels and map?</strong></h4>
+			<img
 					src="{% static 'img/help/data_overview_circle.png' %} "
 					alt=""
 					class="col-12"
 					/>
-					<img
+			<img
 					src="{% static 'img/help/data_overview_map.png' %} "
 					alt=""
 					class="col-12"
@@ -69,8 +95,8 @@ Panel 1 is the search form. It accepts multiple keywords related to body site,
 			(Figure 4A).
 			</p>
 
-			</div>
-			<div class="page-section">
+		</div>
+		<div class="page-section">
 
 			<h4 class="text-center"  id="3"><strong>How are the search results displayed?</strong></h4>
 			<img src="{% static 'img/help/result_table.png' %} " alt="" class="col-12" />
@@ -83,8 +109,8 @@ Panel 1 is the search form. It accepts multiple keywords related to body site,
 			(panel 5). All the results can be downloaded (panel 4A).
 			</p>
 
-			</div>
-			<div class="page-section">
+		</div>
+		<div class="page-section">
 
 			<h4 class="text-center"  id="4"><strong>How to submit your own metadata to enrich the portal?</strong></h4>
 			<p>
@@ -96,31 +122,33 @@ Panel 1 is the search form. It accepts multiple keywords related to body site,
 			</p>
 			<p>We accept data in tabulated format with following columns</p>
 			<ul>
-			<li>REPOSITORY ID</li>
-			<li>STUDY TITLE</li>
-			<li>REPOSITORY LINK</li>
-			<li>SAMPLE NUMBER</li>
-			<li>STUDY LINK</li>
-			<li>ASSAY TYPE</li>
-			<li>TECHNOLOGY</li>
-			<li>COUNTRY</li>
-			<li>DISEASE</li>
-			<li>STUDY DESIGN</li>
-			<li>BODY SITE</li>
-			<li>PLATFORM</li>
-			<li>PARTICIPANT FEATURES</li>
-			<li>AVERAGE SPOTLENGTH</li>
-			<li>LIBRARY LAYOUT</li>
-			<li>LON LAT</li>
-			<li>SAMPLE TYPE</li>
-			<li>COLLECTION DATE</li>
-			<li>ETHNICITY</li>
-			<li>URBANZATION</li>
-			<li>REGION</li>
-			<li>CITY</li>
-			<li>TARGET AMPLICON</li>
-			<li>DIET</li>
+				<li>REPOSITORY ID</li>
+				<li>STUDY TITLE</li>
+				<li>REPOSITORY LINK</li>
+				<li>SAMPLE NUMBER</li>
+				<li>STUDY LINK</li>
+				<li>ASSAY TYPE</li>
+				<li>TECHNOLOGY</li>
+				<li>COUNTRY</li>
+				<li>DISEASE</li>
+				<li>STUDY DESIGN</li>
+				<li>BODY SITE</li>
+				<li>PLATFORM</li>
+				<li>PARTICIPANT FEATURES</li>
+				<li>AVERAGE SPOTLENGTH</li>
+				<li>LIBRARY LAYOUT</li>
+				<li>LON LAT</li>
+				<li>SAMPLE TYPE</li>
+				<li>COLLECTION DATE</li>
+				<li>ETHNICITY</li>
+				<li>URBANZATION</li>
+				<li>REGION</li>
+				<li>CITY</li>
+				<li>TARGET AMPLICON</li>
+				<li>DIET</li>
 			</ul>
 
-			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

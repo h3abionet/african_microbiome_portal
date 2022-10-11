@@ -117,6 +117,7 @@ def summary(request):
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
         y=Count("samples__l2bioproject", distinct=True))
+    print(read_frame(body_site_project))
     body_site_pie_project = (read_frame(body_site_project).rename(
         columns={
             "bodysite": "name"

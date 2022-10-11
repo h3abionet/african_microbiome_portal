@@ -1,21 +1,22 @@
 {% for result in results%}
-
-<div class="row res">
+<div class="mt-1 row res">
 	<div class="col-12">
-		<button
-				type="button"
-				class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold"
-				data-toggle="collapse"
-				data-target="#pub_{{result.pubid}}"
-				>
-				<div class="row"><a class="doubleclick" target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}">{{result.title}}</a></div>
-		</button>
+		<div class="row">
+
+			<button class="col-12 text-left font-weight-bold clk"
+							data-toggle="collapse"
+							data-target="#pub_{{result.pubid}}"
+
+							>{{result.title}} <a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}"><i class="fas fa-external-link-alt"></i></a><span class="fa fa-play bottom-right rotate"></span>
+			</button>
+		</div>
+
 	</div>
-	{% comment %}<div class="col-sm">A</div>{% endcomment %}
 	<div
 			id="pub_{{result.pubid}}"
 			class="collapse"
 			data-parent="#accordion"
+			style="transition: 0.5s;"
 			>
 			<div class="col-12">
 				<table class="table">
