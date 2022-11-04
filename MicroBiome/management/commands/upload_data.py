@@ -258,7 +258,7 @@ def update_samples(samples, pub_dict, plt_dict, body_site_dict, disease_dict,
                     for disease in sample["DISEASE"].split(",")
                 ]
                 for disease in diseases:
-                    query.l2disease.add(disease_dict[disease.upper()])
+                    query.l2disease.add(disease_dict[disease])
                 if len(diseases) > 1:
                     query.is_mixed = True
             # NOTE: Loc and diets related information integration
@@ -353,6 +353,7 @@ class Command(BaseCommand):
         """
         infile = options["infile"]
         elo_wiki = options["elo_wiki_file"]
+        print(infile)
         participant_summary = pd.read_csv(options["participant_summary_file"])
         if not infile:
             print("Infput file not given. Exiting . . . . .")
@@ -453,11 +454,9 @@ class Command(BaseCommand):
             elo_wiki,
             usecols=["ELO", "WIKI"],
         )
-        elo_wiki["ELO"] = elo_wiki["ELO"].apply(str.upper)
         # TODO: Merge the values where elo is
         tdata = data[~pd.isna(data["ELO"])]
 
-        tdata["ELO"] = tdata["ELO"].apply(str.upper)
         data = data[pd.isna(data["ELO"])]
         tdata = tdata.merge(elo_wiki, on="ELO", how="left")
 
@@ -469,7 +468,7 @@ class Command(BaseCommand):
         # NOTE: only BioProject per line
         # NOTE: One sample/bioproject can be connected to multiple publications
         pubmed = data[["STUDY TITLE", "STUDY LINK"]].drop_duplicates()
-        pubmed = pubmed.applymap(lambda val: str(val).upper())
+        pubmed = pubmed.applymap(lambda val: str(val))
         pubmed = pubmed.applymap(
             lambda values:
             [remove_multiple_spaces(value) for value in values.split("//")])
@@ -486,7 +485,7 @@ class Command(BaseCommand):
         disease = disease.applymap(lambda x: np.nan if x == "-" else x)
         disease = disease[~pd.isna(disease["DISEASE"])].drop_duplicates()
 
-        disease = disease.applymap(lambda val: str(val).upper())
+        disease = disease.applymap(lambda val: str(val))
         disease = disease.applymap(
             lambda values:
             [remove_multiple_spaces(value) for value in values.split(",")])
@@ -506,7 +505,7 @@ class Command(BaseCommand):
         # WARNING: Content team might mix sample to multiple body site.
         bodysite = data[["BODY SITE", "SAMPLE TYPE"]].drop_duplicates()
         bodysite = bodysite[~pd.isnull(bodysite["BODY SITE"])]
-        bodysite = bodysite.applymap(lambda val: str(val).upper())
+        bodysite = bodysite.applymap(lambda val: str(val))
         # bodysite = list(bodysite["BODY SITE"].values)
         body_site_dict = update_bodysite(bodysite)
         # Platform
