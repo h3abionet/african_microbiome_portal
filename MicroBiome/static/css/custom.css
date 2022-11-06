@@ -173,17 +173,17 @@ a:link {
 
 /*Banner figure and text*/
 
-.header_top_bg {
-  /* height: 100%; */
-  background: url("/static/img/banner9.jpeg");
-  /* width: 100%; */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  /* background-attachment: fixed; */
-  min-height: 20vh;
-  margin-top: 0%;
-}
+/*.header_top_bg {*/
+/*[> height: 100%; <]*/
+/*background: url("/static/img/banner9.jpeg");*/
+/*[> width: 100%; <]*/
+/*background-repeat: no-repeat;*/
+/*background-position: center;*/
+/*background-size: cover;*/
+/*[> background-attachment: fixed; <]*/
+/*min-height: 20vh;*/
+/*margin-top: 0%;*/
+/*}*/
 
 .header_top_bg .text_top_bg {
   color: #fff;
