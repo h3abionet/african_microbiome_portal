@@ -1,380 +1,225 @@
 <!DOCTYPE html>
-{% load leaflet_tags %} {% load define_action %} {% load active_link_tags %}
-{% load cache_bust %} {% load static %}
+{% load leaflet_tags %}
+{% load define_action %}
+{% load active_link_tags %}
+{% load cache_bust %}
+{% load static %}
 {% load random_numbers %}
 <html>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="x-ua-compatible" content="ie=edge" />
-<link
-rel="icon"
-href="https://h3abionet.org/images/icons/favicon-96x96.png"
-type="image/x-icon"
-/>
-<title>{% block title %}{% endblock %}</title>
-{% block js_top %} {% endblock %}
-<link
-rel="stylesheet"
-href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-crossorigin="anonymous"
-/>
-<link
-rel="stylesheet"
-href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-crossorigin="anonymous"
-/>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-<link
-rel="stylesheet"
-href="{% static 'css/custom.css' %}?{% cache_bust %}"
-/>
-<style>
-.navbar-nav > a.nav-link {
-	background-color: #0f0;
-}
-.header_top_bg {
-  /* height: 100%; */
-  background: url("/static/img/banner{% random_int 1 4 %}.png");
-  /* width: 100%; */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  /* background-attachment: fixed; */
-  min-height: 20vh;
-  margin-top: 0%;
-}
-</style>
-{% block css %} {% endblock %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <link rel="icon" href="https://h3abionet.org/images/icons/favicon-96x96.png" type="image/x-icon" />
+  <title>{% block title %}{% endblock %}</title>
+  {% block js_top %} {% endblock %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/h3abionet.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+  <style>
+    .navbar-nav>a.nav-link {
+      background-color: #0f0;
+    }
+
+    .header_top_bg {
+      /* height: 100%; */
+      background: url("/static/img/banner{% random_int 1 4 %}.png");
+      /* width: 100%; */
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      /* background-attachment: fixed; */
+      min-height: 25vh;
+      margin-top: 0%;
+    }
+  </style>
+  {% block css %} {% endblock %}
 </head>
 
 <body>
-<!--{% define "Edit" as action %}
-{{action}} Anmol -->
-<div class="row">
-<div class="col-md-4">
-<a
-class="navbar-brand text-bigblue margin_on_top_image"
-href="https://h3abionet.org/"
-target="”_blank”"
-style="
---link-color: rgb(232, 229, 227) !important;
---link-color-hover: rgb(232, 229, 227) !important;
---link-color-active: rgb(232, 229, 227) !important;
---visited-color: rgb(232, 229, 227) !important;
---visited-color-hover: rgb(232, 229, 227) !important;
---visited-color-active: rgb(232, 229, 227) !important;
-"
->
-<img
-src="/static/img/h3ab.png"
-class="d-inline-block"
-alt=""
-style="
-filter: saturate(0.9) brightness(0.8);
---link-color: rgb(232, 229, 227) !important;
---link-color-hover: rgb(232, 229, 227) !important;
---link-color-active: rgb(232, 229, 227) !important;
---visited-color: rgb(232, 229, 227) !important;
---visited-color-hover: rgb(232, 229, 227) !important;
---visited-color-active: rgb(232, 229, 227) !important;
-"
-width=""
-height="15%"
-/>
-</a>
-</div>
-<div class="col-md-8">
-<div id="header_top_1">
-<h3>
-<b> African Human Microbiome Portal</b>
-</h3>
-</div>
-</div>
-</div>
-
-<div class="container2">
-<nav
-class="navbar navbar-fixed-top navbar-expand-md navbar-light py-md-2"
->
-<a class="navbar-brand" href="/">
-<i class="fa fa-home"></i>
-<!--img
-src="{% static 'img/bionetlogo.png' %} "
-width="30"
-height="30"
-class="d-inline-block align-top"
-alt=" "
-/-->Home
-</a>
-<button
-class="navbar-toggler navbar-dark"
-type="button"
-data-toggle="collapse"
-data-target="#main-navigation"
->
-<span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="collapse navbar-collapse" id="main-navigation">
-<ul class="navbar-nav ml-auto">
-<li class="nav-item ml-auto py-0 sp-menu-item">
-<a
-class="nav-link dropdown {% active_link 'about' 'active_link'%}"
-href="{%url 'about' %}"
->About</a
->
-</li>
-<!--li class="nav-item ml-auto py-0">
-<a class="nav-link" href="/">Search</a>
-</li>
-<li class="nav-item ml-auto py-0">
-<a class="nav-link" href="/microbiome/contributor/"
->Contributor</a
->
-</li-->
-{% comment %}
-<li class="nav-item ml-auto py-0">
-{% endcomment %} {% comment %}
-<a class="nav-link" href="/microbiome/publication/"
->Publication</a
->
-{% endcomment %} {% comment %}
-</li>
-{% endcomment %}
-<li class="nav-item ml-auto py-0">
-<a
-class="nav-link {% active_link 'resource' 'active_link'%}"
-href="{% url 'resource' %}"
->Resources</a
->
-</li>
-{% comment %}<li class="nav-item ml-auto py-0">{% endcomment %}
-{% comment %}<a{% endcomment %}
-{% comment %}class="nav-link {% active_link 'summary' 'active_link'%}"{% endcomment %}
-{% comment %}href="{% url 'summary' %}"{% endcomment %}
-{% comment %}><b>Summary</b></a{% endcomment %}
-{% comment %}>{% endcomment %}
-{% comment %}</li>{% endcomment %}
-<li class="nav-item ml-auto py-0">
-<a
-class="nav-link {% active_link 'help' 'active_link'%}"
-href="{% url 'help' %}"
->Help</a
->
-</li>
-</ul>
-</div>
-</nav>
-</div>
-
-<div class="header_top_bg vcenter-item">
-<div class="text-center">
-<span class="text_top_bg">
-{% block banner_title %}{% endblock %}
-</span>
-</div>
-</div>
-
-{% block slides %}
-<div class="container">{% block content %} {% endblock %}</div>
-{% endblock %}
-<div>
-<p></p>
-<script
-src="https://code.jquery.com/jquery-3.3.1.min.js "
-integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
-crossorigin="anonymous "
-></script>
-<script
-src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
-integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
-crossorigin="anonymous "
-></script>
-<script
-src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
-integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
-crossorigin="anonymous "
-></script>
-<script src="/static/js/tagsinut.js "></script>
-
-<script src="{% static 'js/ajax.js' %} "></script>
-<script>
-$("#post-form ").submit(function (e) {
-		e.preventDefault();
-		});
-</script>
-{% block js%} {% endblock %} {% block content2 %} {% endblock %}
-</div>
-
-<!-- Footer -->
-{% comment %}<div class="page-footer">{% endcomment %}
-{% comment %}<!-- Footer Links -->{% endcomment %}
-{% comment %}<div class="container-fluid text-center text-md-left">{% endcomment %}
-{% comment %}<div class="row">{% endcomment %}
-{% comment %}<div class="col-md-3">{% endcomment %}
-{% comment %}<p>{% endcomment %}
-{% comment %}H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number{% endcomment %}
-{% comment %}U41HG006941{% endcomment %}
-{% comment %}</p>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-2">{% endcomment %}
-{% comment %}<img{% endcomment %}
-{% comment %}src="{% static 'img/NHGRI-logo_footer.png' %} "{% endcomment %}
-{% comment %}class="img-responsive"{% endcomment %}
-{% comment %}/>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-2">{% endcomment %}
-{% comment %}<img{% endcomment %}
-{% comment %}src="{% static 'img/NIH-logo_footer.png' %} "{% endcomment %}
-{% comment %}class="img-responsive"{% endcomment %}
-{% comment %}/>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-2">{% endcomment %}
-{% comment %}<a href="https://h3africa.org/"{% endcomment %}
-{% comment %}><img{% endcomment %}
-{% comment %}src="{% static 'img/h3africa-_partner.png' %} "{% endcomment %}
-{% comment %}class="img-responsive"{% endcomment %}
-{% comment %}/></a>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<!-- <div class="col-md-2 "><img src="{% static "img/idm_uct_logo.png" %} " class="img-responsive "></div> -->{% endcomment %}
-{% comment %}<div class="col-md-2" style="font-size: 22px">{% endcomment %}
-{% comment %}<a{% endcomment %}
-{% comment %}target="_blank "{% endcomment %}
-{% comment %}href="https://www.facebook.com/H3ABioNet"{% endcomment %}
-{% comment %}style="padding: 5px"{% endcomment %}
-{% comment %}><i class="fab fa-facebook-square icon-large"></i{% endcomment %}
-{% comment %}></a>{% endcomment %}
-{% comment %}<a{% endcomment %}
-{% comment %}target="_blank "{% endcomment %}
-{% comment %}href="https://twitter.com/H3ABioNet"{% endcomment %}
-{% comment %}style="padding: 5px"{% endcomment %}
-{% comment %}><i class="fab fa-twitter-square"></i{% endcomment %}
-{% comment %}></a>{% endcomment %}
-{% comment %}<a{% endcomment %}
-{% comment %}target="_blank "{% endcomment %}
-{% comment %}href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw"{% endcomment %}
-{% comment %}style="padding: 5px"{% endcomment %}
-{% comment %}><i class="fab fa-youtube-square"></i{% endcomment %}
-{% comment %}></a>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="row">{% endcomment %}
-{% comment %}<div class="col-md-10"><hr style="border: 1px solid white" /></div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-
-{% comment %}<div class="row">{% endcomment %}
-{% comment %}<div class="col-md-3">{% endcomment %}
-{% comment %}<p>{% endcomment %}
-{% comment %}© {% now "Y " %} Copyright:<a href="https://h3abionet.org">{% endcomment %}
-{% comment %}H3ABioNet</a{% endcomment %}
-{% comment %}>{% endcomment %}
-{% comment %}</p>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-2">{% endcomment %}
-{% comment %}<a href="https://helpdesk.h3abionet.org"> Helpdesk</a>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-2">{% endcomment %}
-{% comment %}<a href="https://github.com/codemeleon/african_microbiome_portal"{% endcomment %}
-{% comment %}>Github Repository</a{% endcomment %}
-{% comment %}>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}<div class="col-md-3">{% endcomment %}
-{% comment %}<p>{% endcomment %}
-{% comment %}The H3ABioNet website content is solely the responsibility of the{% endcomment %}
-{% comment %}authors and does not necessarily represent the official views of the{% endcomment %}
-{% comment %}National Institute of Health.{% endcomment %}
-{% comment %}</p>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-
-<div class="container-fluid page-footer_new ">
-<div class="row">
-<div class="col-sm-12 col-md-4">
-<div class="panel panel-blue text-center">
-<p>
-H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
-U41HG006941
-</p>
-</div>
-</div>
-<div class="col-sm-12 col-md-2">
-<div class="panel panel-blue text-center">
-<img
-src="{% static 'img/NHGRI-logo_footer.png' %} "
-class="img-responsive"
-/>
-</div>
-</div>
-<div class="col-sm-12 col-md-2">
-<div class="panel panel-purple text-center">
-<img
-src="{% static 'img/NIH-logo_footer.png' %} "
-class="img-responsive"
-/>
-</div>
-</div>
-<div class="col-sm-12 col-md-2">
-
-<div class="panel panel-blue text-center"> <a href="https://h3africa.org/">
-<img
-src="{% static 'img/h3africa-_partner.png' %} "
-class="img-responsive"
-/>
-</a></div>
-</div>
-<div class="col-sm-12 col-md-2">
-<div class="panel panel-purple text-center"> <a target="_blank " href="https://www.facebook.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-facebook-square icon-large"></i></a>
-<a target="_blank " href="https://twitter.com/H3ABioNet" style="padding: 5px; color:#fff;"><i class="fab fa-twitter-square"></i></a>
-<a target="_blank " href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw" style="padding: 5px; color:#fff;"><i class="fab fa-youtube-square"></i></a>
-
-
-</div>
-</div>
-</div>
-<hr style="color:#fff;">
-<div class="row">
-<div class="col-sm-12 col-md-4">
-<div class="panel panel-blue text-center">
-<p>
-© {% now "Y " %} Copyright:<a href="https://h3abionet.org">
-H3ABioNet</a
->
-</p>
-
-
-</div>
-</div>
-<div class="col-sm-12 col-md-2">
-<div class="panel panel-blue text-center">
-<a href="https://helpdesk.h3abionet.org" >Helpdesk</a>
-</div>
-</div>
-<div class="col-sm-12 col-md-2">
-<div class="panel panel-purple text-center"><a href="https://github.com/codemeleon/african_microbiome_portal">Github Repository</a></div>
-</div>
-<div class="col-sm-12 col-md-4">
-<div class="panel panel-blue text-center"> <a href="/disclaimer " style="color:#fff;">The H3ABioNet website content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institute of Health.</a>
-</div>
-</div>
-{% comment %}<div class="col-sm-12 col-md-2">{% endcomment %}
-{% comment %}<div class="panel panel-purple text-center"> <a target="_blank " href="https://h3abionet.org" style="color:#fff;">H3ABioNet</a>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-{% comment %}</div>{% endcomment %}
-</div>
-</div>
-
-
-
-<!-- Footer -->
-<div></div>
+  <div class="top_div_fixed">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <a class="navbar-brand text-bigblue margin_on_top_image" href="https://h3abionet.org/" target="”_blank”"
+            style="
+               --link-color: rgb(232, 229, 227) !important;
+               --link-color-hover: rgb(232, 229, 227) !important;
+               --link-color-active: rgb(232, 229, 227) !important;
+               --visited-color: rgb(232, 229, 227) !important;
+               --visited-color-hover: rgb(232, 229, 227) !important;
+               --visited-color-active: rgb(232, 229, 227) !important;
+               ">
+            <img src="/static/img/h3ab.png" class="d-inline-block" alt="" style="
+               --link-color: rgb(232, 229, 227) !important;
+               --link-color-hover: rgb(232, 229, 227) !important;
+               --link-color-active: rgb(232, 229, 227) !important;
+               --visited-color: rgb(232, 229, 227) !important;
+               --visited-color-hover: rgb(232, 229, 227) !important;
+               --visited-color-active: rgb(232, 229, 227) !important;
+               " width="" height="15%" />
+          </a>
+        </div>
+        <div class="col-md-8">
+          <div id="header_top_1">
+            <h3>
+              <b> African Human Microbiome Portal</b>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container2">
+      <nav class="navbar navbar-fixed-top navbar-expand-md navbar-light py-md-2">
+        <a class="navbar-brand" href="/">
+          <i class="fa fa-home"></i> Home</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navigation">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item ml-auto py-0 sp-menu-item">
+              <a class="nav-link dropdown {% active_link 'about' 'active_link'%}" href="{%url 'about' %}">About</a>
+            </li>
+            <!--li class="nav-item ml-auto py-0">
+                     <a class="nav-link" href="/">Search</a>
+                     </li>
+                     <li class="nav-item ml-auto py-0">
+                     <a class="nav-link" href="/microbiome/contributor/"
+                     >Contributor</a
+                     >
+                     </li-->
+            {% comment %}
+            <li class="nav-item ml-auto py-0">
+              {% endcomment %} {% comment %}
+              <a class="nav-link" href="/microbiome/publication/">Publication</a>
+              {% endcomment %} {% comment %}
+            </li>
+            {% endcomment %}
+            <li class="nav-item ml-auto py-0">
+              <a class="nav-link {% active_link 'resource' 'active_link'%}" href="{% url 'resource' %}">Resources</a>
+            </li>
+            {% comment %}
+            <li class="nav-item ml-auto py-0">{% endcomment %}
+              {% comment %}<a{% endcomment %} {% comment %}class="nav-link {% active_link 'summary' 'active_link'%}" {%
+                endcomment %} {% comment %}href="{% url 'summary' %}" {% endcomment %} {% comment %}>
+                <b>Summary</b>
+              </a{% endcomment %} {% comment %}>{% endcomment %}
+              {% comment %}
+            </li>
+            {% endcomment %}
+            <li class="nav-item ml-auto py-0">
+              <a class="nav-link {% active_link 'help' 'active_link'%}" href="{% url 'help' %}">Help</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="header_top_bg vcenter-item">
+      <div class="text-center">
+        <span class="text_top_bg">
+          {% block banner_title %}{% endblock %}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    {% block slides %}
+    <div class="container">{% block content %} {% endblock %}</div>
+    {% endblock %}
+    <div>
+      <p></p>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+        crossorigin="anonymous "></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+        crossorigin="anonymous "></script>
+      <script src="{% static 'js/ajax.js' %} "></script>
+      <script>
+        $("#post-form ").submit(function (e) {
+          e.preventDefault();
+        });
+      </script>
+      {% block js%} {% endblock %} {% block content2 %} {% endblock %}
+    </div>
+  </div>
+    
+    <!-- Footer -->
+    <div class="container-fluid page-footer_new ">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="panel panel-blue text-center">
+            <p>
+              H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
+              U41HG006941
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-blue text-center">
+            <img src="{% static 'img/NHGRI-logo_footer.png' %} " class="img-responsive" />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-purple text-center">
+            <img src="{% static 'img/NIH-logo_footer.png' %} " class="img-responsive" />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-blue text-center"> <a href="https://h3africa.org/">
+              <img src="{% static 'img/h3africa-_partner.png' %} " class="img-responsive" />
+            </a>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-purple text-center"> <a target="_blank " href="https://www.facebook.com/H3ABioNet"
+              style="padding: 5px; color:#fff;"><i class="fab fa-facebook-square icon-large"></i></a>
+            <a target="_blank " href="https://twitter.com/H3ABioNet" style="padding: 5px; color:#fff;"><i
+                class="fab fa-twitter-square"></i></a>
+            <a target="_blank " href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw"
+              style="padding: 5px; color:#fff;"><i class="fab fa-youtube-square"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr style="color:#fff;">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="panel panel-blue text-center">
+            <p>
+              © {% now "Y " %} Copyright:<a href="https://h3abionet.org">
+                H3ABioNet</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-blue text-center">
+            <a href="https://helpdesk.h3abionet.org">Helpdesk</a>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="panel panel-purple text-center"><a
+              href="https://github.com/h3abionet/african_microbiome_portal">Github Repository</a>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="panel panel-blue text-center"> <a href="/disclaimer " style="color:#fff;">The
+              H3ABioNet website content is solely the responsibility of the authors and does not
+              necessarily represent the official views of the National Institute of Health.</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

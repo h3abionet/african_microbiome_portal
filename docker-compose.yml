@@ -1,26 +1,36 @@
-version: "3.9"
+version: '3'
 
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - 1337:80
-    depends_on:
-      - web
-  sqlite3:
-    image: nouchka/sqlite3:latest
-    volumes:
-      - ./db/:/root/db/
-    stdin_open: true
-    tty: true
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - sqlite3
+    djangoapp:
+        image: microbiome
+        container_name: microbiome_django_instance
+        restart: unless-stopped
+        build: .
+        command: gunicorn Database.wsgi:application -w 2 -b :8000
+        volumes:
+            - static:/code/static_cdn
+        expose:
+            - 8000
+        networks:  # <-- here
+            - microbiome_network
+    
+    nginx:
+        image: nginx:latest
+        container_name: microbiome_nginx_instance
+        restart: unless-stopped
+        volumes:
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - static:/code/static_cdn
+        ports:
+            - 8081:80
+        depends_on:  # <-- wait for djangoapp to be "ready" before starting this service
+            - djangoapp
+        networks:  # <-- here
+            - microbiome_network
 
+networks:  # <-- and here
+  microbiome_network:
+    driver: bridge
 
+volumes:
+    static:

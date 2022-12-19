@@ -9,11 +9,11 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
+/* body {
   font-family: "Roboto", "Verdana", sans-serif;
   font-weight: 300 !important;
   line-height: 1.6;
-}
+} */
 
 /*Navigation bar*/
 .navbar {
@@ -23,25 +23,30 @@ body {
 /*Sidebar*/
 
 .sidebar {
-  border-radius: 25px;
-  padding-top: 10px;
-  padding-right: 10px;
-  margin-right: 10px;
-  /*width: 250px;*/
+  background-color: rgb(51, 122, 183);
+
+  border-radius: 5px;
+
+  padding-top: 20px;
+  padding-right: 30px;
+  padding-left: 10px;
+  margin-right: 20px;
+  
   position: fixed;
   top: relative;
-  background-color: #337ab7;
 }
 
 .sidebar a {
   color: #ffffff;
 }
+
 .sidebar a:hover {
-  color: #ff7700;
+  color: #ffffff;
 }
 
 .sidebar ul {
   list-style: none;
+  padding-inline-start: 20px;
 }
 
 @media (max-width: 1000px) {
@@ -123,14 +128,14 @@ body {
 .navbar-brand,
 .nav-link {
   color: #ffffff !important;
-  font-size: 18px;
+  /* font-size: 18px; */
 }
 
 .navbar-brand:hover,
 .nav-link:hover,
 .plot:hover,
 .doubleclick:hover {
-  color: #ff7700 !important;
+  color: #ffffff !important;
 }
 
 .active_link {
@@ -149,7 +154,7 @@ td a {
   color: #5aa1e3 !important;
 }
 td a:hover {
-  color: #ff7700 !important;
+  color: #ffffff !important;
 }
 a:link {
   text-decoration: none;
@@ -163,42 +168,20 @@ a:link {
 /*Header related*/
 
 #header_top_1 {
-  font-family: "Verdana";
   font-weight: 300 !important;
-  margin-top: 1.6rem;
-  margin-left: 1.5rem;
+  margin-top: 20px;
+  margin-left: 0px;
   color: #28405e;
   /* margin-left:25px; */
 }
 
 /*Banner figure and text*/
 
-/*.header_top_bg {*/
-/*[> height: 100%; <]*/
-/*background: url("/static/img/banner9.jpeg");*/
-/*[> width: 100%; <]*/
-/*background-repeat: no-repeat;*/
-/*background-position: center;*/
-/*background-size: cover;*/
-/*[> background-attachment: fixed; <]*/
-/*min-height: 20vh;*/
-/*margin-top: 0%;*/
-/*}*/
-
 .header_top_bg .text_top_bg {
   color: #fff;
-  font-size: 36px;
-  /*font-family: Roboto, sans-serif;*/
-  /* text-align: center; */
-  text-transform: sentencecase;
+  font-size: 25px;  
   background: rgba(0, 0, 0, 0.4);
   padding: 11.5px !important;
-  /* position: relative; */
-  /* top: 23%;
-    left: 50%; */
-  /* -ms-transform: translateY(-50%);
-    transform: translateY(-50%); */
-  /* transform: translate(-50%, -50%); */
   border-radius: 10px;
 
   margin-left: auto;
@@ -253,6 +236,7 @@ a:link {
 
 h3 {
   font-size: 36px !important;
+  color: rgb(40, 64, 94);
 }
 
 button {
@@ -267,7 +251,7 @@ button a,
 
 button a:hover,
 .resheader a:hover {
-  color: #ff7700 !important;
+  color: #ffffff !important;
 }
 
 /*Rotation of arrow*/
