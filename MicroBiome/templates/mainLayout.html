@@ -40,17 +40,18 @@ href="{% static 'css/custom.css' %}?{% cache_bust %}"
 	background-color: #0f0;
 }
 .header_top_bg {
-  /* height: 100%; */
-  background: url("/static/img/banner{% random_int 1 4 %}.png");
-  /* width: 100%; */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  /* background-attachment: fixed; */
-  min-height: 20vh;
-  margin-top: 0%;
+	/* height: 100%; */
+background: url("/static/img/banner{% random_int 1 4 %}.png");
+						/* width: 100%; */
+						background-repeat: no-repeat;
+						background-position: center;
+						background-size: cover;
+						/* background-attachment: fixed; */
+						min-height: 20vh;
+						margin-top: 0%;
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
 {% block css %} {% endblock %}
 </head>
 
