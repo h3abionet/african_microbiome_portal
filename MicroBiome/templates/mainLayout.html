@@ -48,26 +48,11 @@
   <div class="top_div_fixed">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-4">
-          <a class="navbar-brand text-bigblue margin_on_top_image" href="https://h3abionet.org/" target="”_blank”"
-            style="
-               --link-color: rgb(232, 229, 227) !important;
-               --link-color-hover: rgb(232, 229, 227) !important;
-               --link-color-active: rgb(232, 229, 227) !important;
-               --visited-color: rgb(232, 229, 227) !important;
-               --visited-color-hover: rgb(232, 229, 227) !important;
-               --visited-color-active: rgb(232, 229, 227) !important;
-               ">
-            <img src="/static/img/h3ab.png" class="d-inline-block" alt="" style="
-               --link-color: rgb(232, 229, 227) !important;
-               --link-color-hover: rgb(232, 229, 227) !important;
-               --link-color-active: rgb(232, 229, 227) !important;
-               --visited-color: rgb(232, 229, 227) !important;
-               --visited-color-hover: rgb(232, 229, 227) !important;
-               --visited-color-active: rgb(232, 229, 227) !important;
-               " width="" height="15%" />
-          </a>
-        </div>
+				<div class="col-md-4">
+					<a class="navbar-brand text-bigblue margin_on_top_image" href="https://h3abionet.org/" target=”_blank”>
+						<img src="{% static 'img/h3ab.png' %}" width="" height="15%" class="d-inline-block " alt="">
+					</a>
+				</div>
         <div class="col-md-8">
           <div id="header_top_1">
             <h3>
@@ -156,69 +141,8 @@
   </div>
     
     <!-- Footer -->
-    <div class="container-fluid page-footer_new ">
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-blue text-center">
-            <p>
-              H3ABioNet is funded by NIH Common Fund Award / NHGRI Grant Number
-              U41HG006941
-            </p>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-blue text-center">
-            <img src="{% static 'img/NHGRI-logo_footer.png' %} " class="img-responsive" />
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-purple text-center">
-            <img src="{% static 'img/NIH-logo_footer.png' %} " class="img-responsive" />
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-blue text-center"> <a href="https://h3africa.org/">
-              <img src="{% static 'img/h3africa-_partner.png' %} " class="img-responsive" />
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-purple text-center"> <a target="_blank " href="https://www.facebook.com/H3ABioNet"
-              style="padding: 5px; color:#fff;"><i class="fab fa-facebook-square icon-large"></i></a>
-            <a target="_blank " href="https://twitter.com/H3ABioNet" style="padding: 5px; color:#fff;"><i
-                class="fab fa-twitter-square"></i></a>
-            <a target="_blank " href="https://www.youtube.com/channel/UCMYQE_GYsOKY6-j8z9N6Adw"
-              style="padding: 5px; color:#fff;"><i class="fab fa-youtube-square"></i></a>
-          </div>
-        </div>
-      </div>
-      <hr style="color:#fff;">
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-blue text-center">
-            <p>
-              © {% now "Y " %} Copyright:<a href="https://h3abionet.org">
-                H3ABioNet</a>
-            </p>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-blue text-center">
-            <a href="https://helpdesk.h3abionet.org">Helpdesk</a>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-          <div class="panel panel-purple text-center"><a
-              href="https://github.com/h3abionet/african_microbiome_portal">Github Repository</a>
-          </div>
-        </div>
-
-
-        <div class="col-sm-12 col-md-4">
-          <div class="panel panel-blue text-center"> <a href="/disclaimer " style="color:#fff;">Disclaimer</a>
-          </div>
-        </div>
-      </div>
+    <div class="container-fluid page-footer_new fixed-bottom">
+      {% include 'footer.html' %}
     </div>
   </div>
 </body>

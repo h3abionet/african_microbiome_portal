@@ -168,7 +168,7 @@ a:link {
 /*Header related*/
 
 #header_top_1 {
-  font-weight: 300 !important;
+  /* font-weight: 300 !important; */
   margin-top: 20px;
   margin-left: 0px;
   color: #28405e;
@@ -200,7 +200,7 @@ a:link {
   background-color: #337ab7;
   color: #ffffff !important;
   font-size: 14.4px !important;
-  /* position: initial; */
+  position: initial;
   /* bottom: 0; */
   /* width: 100%; */
   /* height: 160px; */
