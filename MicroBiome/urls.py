@@ -32,5 +32,7 @@ urlpatterns = [
          name="help"),
     path("publication/",
          TemplateView.as_view(template_name="publications.html")),
+     path("disclaimer/",
+         TemplateView.as_view(template_name="disclaimer.html")),
     # path('contributors/', views.contributors, name="contributors"),
 ]
