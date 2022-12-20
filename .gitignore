@@ -1,0 +1,3 @@
+config.py
+.mypy_cache
+.ipynb_checkpoints
