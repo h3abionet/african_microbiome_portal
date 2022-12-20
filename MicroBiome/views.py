@@ -117,17 +117,19 @@ def summary(request):
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
         y=Count("samples__l2bioproject", distinct=True))
-    print(read_frame(body_site_project))
-    body_site_pie_project = (read_frame(body_site_project).rename(
-        columns={
-            "bodysite": "name"
-        }).to_json(orient="records"))
+    body_site_project = read_frame(body_site_project).groupby(
+        "bodysite")["y"].apply(sum).reset_index()
+    print()
+    body_site_pie_project = body_site_project.rename(columns={
+        "bodysite": "name"
+    }).to_json(orient="records")
 
     body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
-    body_site_pie_sample = (read_frame(body_site_sample).rename(
-        columns={
-            "bodysite": "name"
-        }).to_json(orient="records"))
+    body_site_sample = read_frame(body_site_sample).groupby(
+        "bodysite")["y"].apply(sum).reset_index()
+    body_site_pie_sample = body_site_sample.rename(columns={
+        "bodysite": "name"
+    }).to_json(orient="records")
     # NOTE: ASSAY
     assay_project = (Platform.objects.values("assay").annotate(
         y=Count("samples__l2bioproject", distinct=True)).order_by("assay"))
