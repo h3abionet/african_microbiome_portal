@@ -119,7 +119,6 @@ def summary(request):
         y=Count("samples__l2bioproject", distinct=True))
     body_site_project = read_frame(body_site_project).groupby(
         "bodysite")["y"].apply(sum).reset_index()
-    print()
     body_site_pie_project = body_site_project.rename(columns={
         "bodysite": "name"
     }).to_json(orient="records")
@@ -162,13 +161,18 @@ def summary(request):
 
     disease_project = Disease.objects.all().annotate(
         y=Count("samples__l2bioproject", distinct=True))
+
     disease_sample = Disease.objects.all().annotate(y=Count("samples"))
-    disease_pie_project = (read_frame(disease_project).rename(columns={
+    disease_project = read_frame(disease_project).groupby(
+        "disease")["y"].apply(sum).reset_index()
+    disease_pie_project = disease_project.rename(columns={
         "disease": "name"
-    }).to_json(orient="records"))
-    disease_pie_sample = (read_frame(disease_sample).rename(columns={
+    }).to_json(orient="records")
+    disease_sample = read_frame(disease_sample).groupby("disease")["y"].apply(
+        sum).reset_index()
+    disease_pie_sample = disease_sample.rename(columns={
         "disease": "name"
-    }).to_json(orient="records"))
+    }).to_json(orient="records")
 
     # NOTE: Geographical plotting on map
     geoloc_project = pd.DataFrame(
