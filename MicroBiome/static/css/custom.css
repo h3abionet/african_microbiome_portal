@@ -13,7 +13,8 @@ html {
   font-family: "Roboto", "Verdana", sans-serif;
   font-weight: 300 !important;
   line-height: 1.6;
-} */
+  font-size: 18px;
+}
 
 /*Navigation bar*/
 .navbar {
@@ -151,7 +152,7 @@ html {
 }
 
 td a {
-  color: #5aa1e3 !important;
+  color: #007bff !important;
 }
 td a:hover {
   color: #ffffff !important;
@@ -168,9 +169,10 @@ a:link {
 /*Header related*/
 
 #header_top_1 {
-  /* font-weight: 300 !important; */
-  margin-top: 20px;
-  margin-left: 0px;
+  /*font-family: "Verdana";*/
+  font-weight: 300 !important;
+  margin-top: 1.6rem;
+  margin-left: 1.5rem;
   color: #28405e;
   /* margin-left:25px; */
 }
