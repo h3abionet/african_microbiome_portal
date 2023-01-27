@@ -68,8 +68,7 @@ def download_res(request):
     randv = None
     if request.method == "GET":
         randv = request.GET.get("randv", None)
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    filepath = BASE_DIR + f"/static/downloads/{randv}/results.csv"
+    filepath = f"{settings.STATIC_ROOT}/downloads/{randv}/results.csv"
     path = open(filepath, "r")
     mime_type, _ = mimetypes.guess_type(filepath)
     response = HttpResponse(path, content_type=mime_type)
@@ -527,9 +526,14 @@ def results(request):
         "lat",
         "col_date",
     )
-    if True:
-        # try:
-        project_summary = read_frame(res)
+    platform_pie_dict_sample = '[]'
+    assay_pie_dict_sample = '[]'
+    disease_pie_dict_sample = '[]'
+    geo = '[]'
+    rand_fold = None
+
+    project_summary = read_frame(res)
+    if len(project_summary):
         avspotlen = project_summary.groupby(
             "bioproject").avspotlen.mean().reset_index()
         del project_summary["avspotlen"]
@@ -588,7 +592,8 @@ def results(request):
                 "coordinate": "LAT LON",
             })
         raw_data.to_csv(result_file, index=False)
-        result_file = f"{result_fold}/results.csv"
+        print(result_file)
+        # result_file = f"{result_fold}/results.csv"
 
         geo = (project_summary.groupby(
             ["lon",
@@ -669,7 +674,6 @@ def results(request):
                                 project_summary["variable"] == "ethnicity",
                                 "value"].apply(
                                     lambda x: ethni(ewiki, x)).values)
-        print(project_summary)
         project_summary = project_summary[~pd.isna(project_summary["value"])]
         project_summary = project_summary[project_summary["value"] != "nan"]
 
@@ -711,6 +715,7 @@ def results(request):
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
+    print(platform_pie_dict_sample)
 
     if qt == "get":
         return render(
