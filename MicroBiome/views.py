@@ -39,7 +39,7 @@ from .models import (
     Platform,
     Pubmed,
     Samples,
-    RawData
+    RawData,
     # StudyDesign,
 )
 
@@ -117,15 +117,15 @@ def summary(request):
     # NOTE: BODY SITE
     body_site_project = BodySite.objects.all().annotate(
         y=Count("samples__l2bioproject", distinct=True))
-    body_site_project = read_frame(body_site_project).groupby(
-        "bodysite")["y"].apply(sum).reset_index()
+    body_site_project = (read_frame(body_site_project).groupby("bodysite")
+                         ["y"].apply(sum).reset_index())
     body_site_pie_project = body_site_project.rename(columns={
         "bodysite": "name"
     }).to_json(orient="records")
 
     body_site_sample = BodySite.objects.all().annotate(y=Count("samples"))
-    body_site_sample = read_frame(body_site_sample).groupby(
-        "bodysite")["y"].apply(sum).reset_index()
+    body_site_sample = (read_frame(body_site_sample).groupby("bodysite")
+                        ["y"].apply(sum).reset_index())
     body_site_pie_sample = body_site_sample.rename(columns={
         "bodysite": "name"
     }).to_json(orient="records")
@@ -163,13 +163,13 @@ def summary(request):
         y=Count("samples__l2bioproject", distinct=True))
 
     disease_sample = Disease.objects.all().annotate(y=Count("samples"))
-    disease_project = read_frame(disease_project).groupby(
-        "disease")["y"].apply(sum).reset_index()
+    disease_project = (read_frame(disease_project).groupby("disease")
+                       ["y"].apply(sum).reset_index())
     disease_pie_project = disease_project.rename(columns={
         "disease": "name"
     }).to_json(orient="records")
-    disease_sample = read_frame(disease_sample).groupby("disease")["y"].apply(
-        sum).reset_index()
+    disease_sample = (read_frame(disease_sample).groupby("disease")["y"].apply(
+        sum).reset_index())
     disease_pie_sample = disease_sample.rename(columns={
         "disease": "name"
     }).to_json(orient="records")
@@ -213,9 +213,7 @@ def summary(request):
         "platform_pie_dict_project": platform_pie_project,
         "records": geoloc,
     }
-    # #  print(all_records.values())
     return context
-    # return render(request, "summary.html", context)
 
 
 def search_form(request):
@@ -224,7 +222,6 @@ def search_form(request):
     context = {
         "form": form,
     }
-    # #  print(all_records.values())
     context1 = summary(request)
     context = {**context, **context1}
 
@@ -268,7 +265,6 @@ def results_sample(request):
                 # col_date=F('col_date'),
                 # lib_layout=F('lib_layout'),
                 # TODO: Add Sample type
-
                 # Hidden
                 assay=F("l2platform__assay"),
                 platform=F("l2platform__platform"),
@@ -276,15 +272,14 @@ def results_sample(request):
                 country=F("l2loc_diet__country"),
                 disease=F("l2disease__disease"),
                 doid=F("l2disease__doid"),
-                bodysite=F('l2bodysite__bodysite'),
+                bodysite=F("l2bodysite__bodysite"),
                 sampletype=F("l2bodysite__sampletype"),
                 # avspotlen=F('avspotlen'),
-                diet=F('l2loc_diet__diets'),
-                ethnicity=F('l2loc_diet__ethnicity'),
-                urbanization=F('l2loc_diet__urbanization'),
-                cityvillage=F('l2loc_diet__cityvillage'),
-                region=F('l2loc_diet__region'),
-
+                diet=F("l2loc_diet__diets"),
+                ethnicity=F("l2loc_diet__ethnicity"),
+                urbanization=F("l2loc_diet__urbanization"),
+                cityvillage=F("l2loc_diet__cityvillage"),
+                region=F("l2loc_diet__region"),
                 # bioproject=F("l2bioproject__repoid"),
                 amplicon=F("l2platform__target_amplicon"),
                 lon=F("longitude"),
@@ -297,11 +292,11 @@ def results_sample(request):
                 "amplicon",
                 "bodysite",
                 "sampletype",
-                'ethnicity',
-                'urbanization',
-                'cityvillage',
-                'diet',
-                'region',
+                "ethnicity",
+                "urbanization",
+                "cityvillage",
+                "diet",
+                "region",
                 "participant_feature",
                 "assay",
                 "disease",
@@ -321,35 +316,34 @@ def results_sample(request):
         raw_data = raw_data.rename(
             columns={
                 # REPOSITORY ID,REPOSITORY LINK,SAMPLE NUMBER,STUDY TITLE,STUDY LINK,ASSAY TYPE,TECHNOLOGY,COUNTRY,DISEASE,DOID,STUDY DESIGN,BODY SITE,PLATFORM,PARTICIPANT FEATURES,AVERAGE SPOTLENGTH,RUN ID,Sample ID,Sample Name,COLLECTION DATE,LIBRARY LAYOUT,LAT LON,SAMPLE TYPE,ETHNICITY,ELO,URBANZATION,REGION,CITYVILLAGE,TARGET AMPLICON,DI
-                'repoid': 'REPOSITORY ID',
-                'sample_size': 'SAMPLE NUMER',
-                'pubid': 'STUDY LINK',
-                'title': 'STUDY TITLE',
-                'study_design': 'STUDY DESIGN',
-                'country': 'COUNTRY',
-                'region': 'REGION',
-                'urbanization': 'URBANZATION',
-                'cityvillage': 'CITYVILLAGE',
-                'ethnicity': 'ETHNICITY',
-                'elo': 'ELO',
-                'diets': 'DIET',
-                'platform': 'PLATFORM',
-                'technology': 'TECHNOLOGY',
-                'assay': 'ASSAY TYPE',
-                'target_amplicon': 'TARGET AMPLICON',
-                'bodysite': 'BODY SITE',
-                'disease': 'DISEASE',
-                'doid': 'DOID',
-                'sampid': 'SAMPLE ID',
-                'avspotlen': 'AVERAGE SPOTLENGTH',
-                'col_date': 'COLLECTION DATE',
-                'lib_layout': 'LIBRARY LAYOUT',
-                'coordinate': 'LAT LON',
+                "repoid": "REPOSITORY ID",
+                "sample_size": "SAMPLE NUMER",
+                "pubid": "STUDY LINK",
+                "title": "STUDY TITLE",
+                "study_design": "STUDY DESIGN",
+                "country": "COUNTRY",
+                "region": "REGION",
+                "urbanization": "URBANZATION",
+                "cityvillage": "CITYVILLAGE",
+                "ethnicity": "ETHNICITY",
+                "elo": "ELO",
+                "diets": "DIET",
+                "platform": "PLATFORM",
+                "technology": "TECHNOLOGY",
+                "assay": "ASSAY TYPE",
+                "target_amplicon": "TARGET AMPLICON",
+                "bodysite": "BODY SITE",
+                "disease": "DISEASE",
+                "doid": "DOID",
+                "sampid": "SAMPLE ID",
+                "avspotlen": "AVERAGE SPOTLENGTH",
+                "col_date": "COLLECTION DATE",
+                "lib_layout": "LIBRARY LAYOUT",
+                "coordinate": "LAT LON",
             })
         raw_data.to_csv(result_file, index=False)
         result_file = f"{result_fold}/results.csv"
 
-        print(samples)
         paginator = Paginator(samples.to_dict(orient="records"),
                               10)  # 10 information per page
 
@@ -359,8 +353,6 @@ def results_sample(request):
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-
-        # print(items, "anmol",df.to_dict(orient="records"),page)
 
         index = items.number - 1
         max_index = len(paginator.page_range)
@@ -408,7 +400,6 @@ def results_sample(request):
             geoloc = pd.DataFrame()
 
         no_data = [{"name": "No Data", "y": 0}]
-        # print(assay_pie_dict)
         return render(
             request,
             "sample_results.html",
@@ -546,7 +537,6 @@ def results(request):
                                                 on="bioproject",
                                                 how="left")
         sampleids = project_summary.sampleid.unique()
-        # print(set(project_summary["ethnicity"]))
 
         # NOTE: Values with external links
         # Disease ID
@@ -572,30 +562,30 @@ def results(request):
         raw_data = read_frame(RawData.objects.filter(sampid__in=sampleids))
         raw_data = raw_data.rename(
             columns={
-                'repoid': 'REPOSITORY ID',
-                'sample_size': 'SAMPLE NUMER',
-                'pubid': 'STUDY LINK',
-                'title': 'STUDY TITLE',
-                'study_design': 'STUDY DESIGN',
-                'country': 'COUNTRY',
-                'region': 'REGION',
-                'urbanization': 'URBANZATION',
-                'cityvillage': 'CITYVILLAGE',
-                'ethnicity': 'ETHNICITY',
-                'elo': 'ELO',
-                'diets': 'DIET',
-                'platform': 'PLATFORM',
-                'technology': 'TECHNOLOGY',
-                'assay': 'ASSAY TYPE',
-                'target_amplicon': 'TARGET AMPLICON',
-                'bodysite': 'BODY SITE',
-                'disease': 'DISEASE',
-                'doid': 'DOID',
-                'sampid': 'SAMPLE ID',
-                'avspotlen': 'AVERAGE SPOTLENGTH',
-                'col_date': 'COLLECTION DATE',
-                'lib_layout': 'LIBRARY LAYOUT',
-                'coordinate': 'LAT LON',
+                "repoid": "REPOSITORY ID",
+                "sample_size": "SAMPLE NUMER",
+                "pubid": "STUDY LINK",
+                "title": "STUDY TITLE",
+                "study_design": "STUDY DESIGN",
+                "country": "COUNTRY",
+                "region": "REGION",
+                "urbanization": "URBANZATION",
+                "cityvillage": "CITYVILLAGE",
+                "ethnicity": "ETHNICITY",
+                "elo": "ELO",
+                "diets": "DIET",
+                "platform": "PLATFORM",
+                "technology": "TECHNOLOGY",
+                "assay": "ASSAY TYPE",
+                "target_amplicon": "TARGET AMPLICON",
+                "bodysite": "BODY SITE",
+                "disease": "DISEASE",
+                "doid": "DOID",
+                "sampid": "SAMPLE ID",
+                "avspotlen": "AVERAGE SPOTLENGTH",
+                "col_date": "COLLECTION DATE",
+                "lib_layout": "LIBRARY LAYOUT",
+                "coordinate": "LAT LON",
             })
         raw_data.to_csv(result_file, index=False)
         result_file = f"{result_fold}/results.csv"
@@ -631,10 +621,9 @@ def results(request):
         disease_pie_dict_sample = pie_json(project_summary, "disease")
         assay_pie_dict_sample = pie_json(project_summary, "assay")
 
-        # print(platform_pie_dict_sample)
         project_summary_col_date = project_summary.loc[
-            (project_summary["variable"] == "col_date") &
-            (~pd.isna(project_summary["value"])), ["pubid", "value"]]
+            (project_summary["variable"] == "col_date")
+            & (~pd.isna(project_summary["value"])), ["pubid", "value"], ]
         if project_summary_col_date.empty:
             project_summary_col_date["col_date"] = None
         else:
@@ -655,12 +644,11 @@ def results(request):
 
         # NOTE: Adding external link related values
         # DOID
-        project_summary.loc[
-            project_summary["variable"] == "disease", "value"] = (
-                # print(
-                project_summary.loc[
-                    project_summary["variable"] == "disease",
-                    "value"].apply(lambda x: tuple([x, doid[x]])).values)
+        project_summary.loc[project_summary["variable"] == "disease",
+                            "value"] = (project_summary.loc[
+                                project_summary["variable"] == "disease",
+                                "value"].apply(
+                                    lambda x: tuple([x, doid[x]])).values)
 
         # ETHNICITY WIKI
 
@@ -673,45 +661,28 @@ def results(request):
             """
             try:
                 return tuple([key, ewiki[key]])
-            except:
+            except Exception:
                 return False
 
-        project_summary.loc[
-            project_summary["variable"] == "ethnicity", "value"] = (
-                # # print(
-                project_summary.loc[
-                    project_summary["variable"] == "ethnicity",
-                    "value"].apply(lambda x: ethni(ewiki, x)).values)
-        # print(set(project_summary["value"]),
-        # project_summary[~project_summary["value"]],
-        # )
-        project_summary = project_summary[project_summary["value"] != False]
+        project_summary.loc[project_summary["variable"] == "ethnicity",
+                            "value"] = (project_summary.loc[
+                                project_summary["variable"] == "ethnicity",
+                                "value"].apply(
+                                    lambda x: ethni(ewiki, x)).values)
+        print(project_summary)
+        project_summary = project_summary[~pd.isna(project_summary["value"])]
         project_summary = project_summary[project_summary["value"] != "nan"]
 
-        # project_summary["value"] = project_summary["value"] + \
-        # "("+project_summary[0].astype(str)+")"
         project_summary["value"] = project_summary[["value", 0]].apply(
             lambda x: {x["value"]: x[0]}, axis=1)
-        # print(project_summary)
         # TODO: Use dictionary
         del project_summary[0]
-        # project_summary = project_summary.groupby(["pubid", "title", "variable"])[
-        # "value"].apply(lambda x: ",".join(x.values)).reset_index()
 
         project_summary = (project_summary.groupby(
             ["pubid", "title", "variable"])["value"].apply(list).reset_index())
 
-        # print(project_summary)
         project_summary["value"] = project_summary["value"].apply(mergedict)
 
-        # NOTE: Calculating date range
-        # project_summary.loc[
-        # project_summary["variable"] == "col_date", "value"
-        # ] = project_summary.loc[
-        # project_summary["variable"] == "col_date", "value"
-        # ].apply(
-        # date_range
-        # )
         project_summary = project_summary.pivot(index=["pubid", "title"],
                                                 columns="variable",
                                                 values="value").reset_index()
@@ -723,11 +694,7 @@ def results(request):
             }).fillna(False))
 
     else:
-        # except:
         project_summary = pd.DataFrame()
-    # print(project_summary.columns, project_summary.values, "Anmol")
-    # print(project_summary[~pd.isna(project_summary["diets"])])
-    print(project_summary.columns)
 
     paginator = Paginator(project_summary.to_dict(orient="records"),
                           10)  # 10 information per page
@@ -739,16 +706,12 @@ def results(request):
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
 
-    # print(items, "anmol",df.to_dict(orient="records"),page)
-
     index = items.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    # print("Anmol Kiran", df)
-    print(qt, items)
     if qt == "get":
         return render(
             request,
@@ -765,13 +728,10 @@ def results(request):
                 # Pagination
                 "page_range": page_range,
                 "items": items,
-                "randv": rand_fold
-                # 'query': query[: -1]
+                "randv": rand_fold,
             },
         )
     else:
-        # print(disease_pie_dict, "this is test")
-        # return render_to_response("results_refine.html", {'results': items,
         return render(
             None,
             "results_refine.html",
@@ -790,23 +750,3 @@ def results(request):
                 # 'query': query[: -1]
             },
         )
-    # else:
-    #     response = redirect('/search/')
-    #     return response
-
-
-#  def summary(request):
-#      """The Database Summary Page.
-#      """
-#      df = "/home/devil/Documents/Tools/Database/MicroBiome/test.csv"
-#      all_records = pd.read_csv(
-#          df,
-#          usecols=["LON", "LAT", "SAMPLE_TYPE", "DISEASE", "PLATFORM", "COUNTRY", "SAMPLE_COUNT"])
-#      all_records = all_records[~pd.isnull(all_records.LON)]
-#
-#      print(all_records.head().T.to_dict().values())
-#      data = all_records.head().to_csv()
-#      #  all_records = Project.objects.all()
-#      #  return render(request, 'index.html', {'records': all_records,
-#      return render(request, 'pivottablejs.html', {'records': all_records,
-#                                            'data': data})
