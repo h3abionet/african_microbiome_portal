@@ -572,7 +572,6 @@ def results(request):
         raw_data = read_frame(RawData.objects.filter(sampid__in=sampleids))
         raw_data = raw_data.rename(
             columns={
-                # REPOSITORY ID,REPOSITORY LINK,SAMPLE NUMBER,STUDY TITLE,STUDY LINK,ASSAY TYPE,TECHNOLOGY,COUNTRY,DISEASE,DOID,STUDY DESIGN,BODY SITE,PLATFORM,PARTICIPANT FEATURES,AVERAGE SPOTLENGTH,RUN ID,Sample ID,Sample Name,COLLECTION DATE,LIBRARY LAYOUT,LAT LON,SAMPLE TYPE,ETHNICITY,ELO,URBANZATION,REGION,CITYVILLAGE,TARGET AMPLICON,DI
                 'repoid': 'REPOSITORY ID',
                 'sample_size': 'SAMPLE NUMER',
                 'pubid': 'STUDY LINK',
@@ -649,14 +648,10 @@ def results(request):
                 "col_date"] = project_summary_col_date.apply(date_range,
                                                              axis=1)
             project_summary_col_date = project_summary_col_date.reset_index()
-            print(project_summary_col_date)
 
         project_summary = (
             project_summary[project_summary["variable"] != "col_date"].groupby(
                 ["pubid", "title", "variable", "value"]).size().reset_index())
-        # project_summary.loc[project_summary["variable"] == "disease", "value"].apply(
-        # lambda x: print(x, doid[x])
-        # )
 
         # NOTE: Adding external link related values
         # DOID
