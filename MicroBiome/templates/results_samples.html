@@ -1,16 +1,19 @@
-{% extends "mainLayout.html" %} {% load static %}
-{% block title %} Results {%endblock %} {% block banner_title %}Results{% endblock %} {% block js %}
-<!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-{% comment %}
+{% extends "mainLayout.html" %}
+{% load static %}
+{% block title %}Results{% endblock %}
+{% block banner_title %}Results{% endblock %}
+{% block js %}
+    <!-- <script src="{% static " js/tableToCards.js " %}"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    {% comment %}
 https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/
-{% endcomment %}
-<script>
+    {% endcomment %}
+    <script>
 	$(document).ready(function () {
 		$("#filter").on("keyup", function () {
 			var value = $(this).val().toLowerCase();
@@ -19,25 +22,18 @@ https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-
 			});
 		});
 	});
-</script>
-{% endblock %} {% block css%}
-<link
-		rel="stylesheet"
-		href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
-		/>
-<link
-		rel="stylesheet"
-		href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
-		/>
-<link
-		rel="stylesheet"
-		href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"
-		/>
-<link
-		rel="stylesheet"
-		href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"
-		/>
-<style>
+    </script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css"/>
+    <style>
 .hideme {
 	height: 1px;
 	border: none;
@@ -54,96 +50,93 @@ https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-
 	overflow: hidden;
 	top: -10px;
 }
-</style>
-{% endblock %} {% block content %}
-<br />
-<br />
-{%if not results.empty%}
-<div class="col-12">
-	<param id="tags" value="{{tags}}" />
-	<input class="col-12" , id="filter" type="text" />
-</div>
-<div class="items" id="accordion">
-	{% for result in results%}
-
-	<div class="col-12 res">
-		<button
-				type="button"
-				class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold"
-				data-toggle="collapse"
-				data-target="#{{result.sampid}}"
-				>
-				{{result.sampid}}
-		</button>
-			<div id="{{result.sampid}}" class="collapse" data-parent="#accordion">
-				<table class="table col-sm">
-					<thead>
-						<tr>
-							<th>Variable</th>
-							<th>Values</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Bioproject ID</td>
-							<td>
-								<a
-										href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{result.project__repoid}}"
-										>{{result.project__repoid}}
-								</a>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Sample Count</td>
-							<td>
-								<a
-										href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"
-										>{{result.samp_size}}</a
-									>
-							</td>
-						</tr>
-						{% if result.locetdiet__country %}
-						<tr>
-							<td>Country</td>
-							<td>{{result.locetdiet__country|safe}}</td>
-						</tr>
-						{% endif %} {% if result.disease__disease %}
-						<tr>
-							<td>Disease</td>
-							<td>{{result.disease__disease}}</td>
-						</tr>
-						{% endif %} {% if result.assay__assay %}
-						<tr>
-							<td>Assay</td>
-							<td>{{result.assay__assay}}</td>
-						</tr>
-						{%endif%} {% if result.amplicon__amplicon %}
-						<tr>
-							<td>Amplicons</td>
-							<td>{{result.amplicon__amplicon}}</td>
-						</tr>
-						{%endif%} {% if result.platform__platform %}
-						<tr>
-							<td>Platform</td>
-							<td>{{result.platform__platform}}</td>
-						</tr>
-						{%endif%}
-					</tbody>
-				</table>
-			</div>
-	</div>
-	{% endfor %}
-	<div>{% include "pagination.html" %}</div>
-</div>
-{% else %}
-<div class="col-sm btn btn-danger">
-	No result found. Please search different keyword(s). Redirecting to search
-	page in 3 seconds.
-</div>
-<meta http-equiv="refresh" content="3;url=/search/" /> {%endif%}
-
-<br />
-<br />
-<br />
-{% include "result_dashboard.html" %} {% endblock %}
+    </style>
+{% endblock %}
+{% block content %}
+    <br />
+    <br />
+    {% if not results.empty %}
+        <div class="col-12">
+            <param id="tags" value="{{ tags }}" />
+            <input class="col-12" , id="filter" type="text" />
+        </div>
+        <div class="items" id="accordion">
+            {% for result in results %}
+                <div class="col-12 res">
+                    <button type="button"
+                            class="btn-lg bg-mibio col-sm text-left mb-1 text-white text-capitalize font-weight-bold"
+                            data-toggle="collapse"
+                            data-target="#{{ result.sampid }}">
+                        {{ result.sampid }}
+                    </button>
+                    <div id="{{ result.sampid }}" class="collapse" data-parent="#accordion">
+                        <table class="table col-sm">
+                            <thead>
+                                <tr>
+                                    <th>Variable</th>
+                                    <th>Values</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bioproject ID</td>
+                                    <td>
+                                        <a href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{ result.project__repoid }}">{{ result.project__repoid }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sample Count</td>
+                                    <td>
+                                        <a href="/results_sample/?project={{ result.project__repoid }}&tags={{ tags }}">{{ result.samp_size }}</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    {% if result.locetdiet__country %}
+                                        <tr>
+                                            <td>Country</td>
+                                            <td>{{ result.locetdiet__country|safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if result.disease__disease %}
+                                        <tr>
+                                            <td>Disease</td>
+                                            <td>{{ result.disease__disease }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if result.assay__assay %}
+                                        <tr>
+                                            <td>Assay</td>
+                                            <td>{{ result.assay__assay }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if result.amplicon__amplicon %}
+                                        <tr>
+                                            <td>Amplicons</td>
+                                            <td>{{ result.amplicon__amplicon }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if result.platform__platform %}
+                                        <tr>
+                                            <td>Platform</td>
+                                            <td>{{ result.platform__platform }}</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div>{% include "pagination.html" %}</div>
+            </div>
+        {% else %}
+            <div class="col-sm btn btn-danger">
+                No result found. Please search different keyword(s). Redirecting to search
+                page in 3 seconds.
+            </div>
+            <meta http-equiv="refresh" content="3;url=/search/" />
+        {% endif %}
+        <br />
+        <br />
+        <br />
+        {% include "result_dashboard.html" %}
+    {% endblock %}
