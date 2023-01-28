@@ -331,9 +331,9 @@ def eq2query(postfix, diction):
                 if operator == "*":
                     query = first & second
                 to_calculate.append(query)
-    if len(to_calculate) > 1:
-        print("Something worng.")
-    print(to_calculate)
+    # if len(to_calculate) > 1:
+    # print("Something worng.")
+    # print(to_calculate)
     return to_calculate[0]
 
 
@@ -347,8 +347,8 @@ def query2sqlquery(qry):
     infix_equation, diction = str2eq(qry)
     print(qry, infix_equation, diction)
     blnc = is_balanced(infix_equation)
-    if not blnc:
-        print("Given query is not balanced")
+    # if not blnc:
+    # print("Given query is not balanced")
     postfix_equation = Stack().infix2postfix(infix_equation)
     print(infix_equation, blnc, postfix_equation)
     sql_query = eq2query(postfix_equation, diction)
@@ -360,8 +360,8 @@ if __name__ == "__main__":
         "~amplicons | (South Africa[country] & cancer[disease]) | (Malawi[country] & Illumina[platform])"
         # "Malawi"
     )
-    print(infix_equation, diction)
+    # print(infix_equation, diction)
     blnc = is_balanced(infix_equation)
     postfix_eqaution = Stack().infix2postfix(infix_equation)
     sql_query = eq2query(postfix_eqaution, diction)
-    print(infix_equation, blnc, postfix_eqaution, sql_query)
+    # print(infix_equation, blnc, postfix_eqaution, sql_query)
