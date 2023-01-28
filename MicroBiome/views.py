@@ -52,14 +52,6 @@ def random_alnum(size=6):
     return code
 
 
-def downloal_all(request):
-    """
-    Send link to pre arrange dataset.
-
-    """
-    pass
-
-
 def download_res(request):
     """
     Provide download link for the results
@@ -314,7 +306,6 @@ def results_sample(request):
             RawData.objects.filter(sampid__in=samples["sampleid"].values))
         raw_data = raw_data.rename(
             columns={
-                # REPOSITORY ID,REPOSITORY LINK,SAMPLE NUMBER,STUDY TITLE,STUDY LINK,ASSAY TYPE,TECHNOLOGY,COUNTRY,DISEASE,DOID,STUDY DESIGN,BODY SITE,PLATFORM,PARTICIPANT FEATURES,AVERAGE SPOTLENGTH,RUN ID,Sample ID,Sample Name,COLLECTION DATE,LIBRARY LAYOUT,LAT LON,SAMPLE TYPE,ETHNICITY,ELO,URBANZATION,REGION,CITYVILLAGE,TARGET AMPLICON,DI
                 "repoid": "REPOSITORY ID",
                 "sample_size": "SAMPLE NUMER",
                 "pubid": "STUDY LINK",
