@@ -1,143 +1,156 @@
 {% extends 'mainLayout.html' %}
 {% block title %}Resources{% endblock %}
-
 {% block banner_title %}Resources{% endblock %}
 {% block content %}
-
-<div class="row">
-	<div class="col-3">
-
-		<div class="sidebar">
-
-			<ul>
-				<div class="no_style">
-
-					<li><a class="side_link" href="#1">Tools</a></li>
-					<li><a class="side_link" href="#2">Training materials</a></li>
-					<li><a class="side_link" href="#3">Databases</a></li>
-				</div>
-
-			</ul>
-
-		</div>
-
-
-	</div>
-	<div class="col-9">
-
-
-
-
-
-		<div class="page-section">
-			<h3  class="text-center" id="1">Microbiome analysis tools</h3>
-
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th scope="col">Resources</th>
-						<th scope="col">Description</th>
-						<!--th scope="col">Links</th-->
-					</tr>
-				</thead>
-
-				<tbody>
-					<tr>
-						<td><a href="https://microsud.github.io/Tools-Microbiome-Analysis/">Tools for Microbiome analysis</a></td>
-						<td>Useful R packages  for 16S rRNA gene and shotgun data analysis and visualization</td>
-					</tr>
-					<tr>
-						<td><a href="https://qiime.org/">Quantitative Insights Into Microbial Ecology (QIIME)</a>
-						</td>
-						<td>QIIME is a bioinformatics pipeline enabling analysis of microbiome DNA metadata. It allows to perform statistical analyses of results and generate high-quality graphs</td>
-					</tr>
-					<tr>
-						<td><a href="http://benjjneb.github.io/dada2/">dada2 R package</a></td>
-						<td>
-							dada2 is an R package dedicated to the analysis of microbiome data
-						</td>
-					</tr>
-
-				</tbody>
-			</table>
-
-		</div>
-		<br /><br />
-		<div class="page-section">
-
-			<h3 class="text-center" id="2">Training materials</h3>
-
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th scope="col">Resources</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-
-
-					<tr>
-						<td><a href="https://h3abionet.org/tools-and-services/workflows">16S workflow</a></td>
-						<td>H3ABioNet guideline for Bioinformatic and statistical analysis on 16S rDNA data</td>
-					</tr>
-					<tr>
-
-						<td><a href="https://www.nap.edu/read/24960/chapter/6">The National Academic Press</a></td>
-						<td>Current methods for studying human microbiome project- Human and environmental chemicals interactions characterisation.</td>
-					</tr>
-					<tr>
-						<td><a href="https://www.genome.gov/27552808/teaching-the-microbiome/">NIH: Teaching the microbiome</a></td>
-						<td>Collection of various Internet-based tools and resources for teaching the microbiome</td>
-					</tr>
-				</tbody>
-			</table>
-
-		</div>
-		<br />
-		<br />
-		<div class="page-section">
-
-			<h3 class="text-center" id="3">Microbiome related databases</h3>
-
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th scope="col">Resources</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="https://www.juit.ac.in/hcmd/home">Human OncoBiome Database</a></td>
-						<td>Database of comprehensive curated information on the bacterial species present in the human cancer microbiota</td>
-					</tr>
-					<tr>
-						<td><a href="https://microbiomedb.org/mbio/app/">MicrobiomeDB</a></td>
-						<td>MicrobiomeDB is a data mining platform enabling the exploration of microbiome studies. This platform also provides visualization and analysis tools to investigate microbiome data.</td>
-					</tr>
-					<tr>
-						<td><a href="https://portal.hmpdacc.org/">Human Microbiome Project Data Portal</a></td>
-						<td>The Human Microbiome Project Data Portal enables the exploration of studies and data associated with the human microbiome. Furthermore, this web interface provides access to the tools used to analyze microbiome.</td>
-					</tr>
-					<tr>
-						<td><a href="http://www.homd.org/">Human Oral Microbiome Database (eHOMD)</a></td>
-						<td>comprehensive and curated information o­n the bacterial species present in the human aerodigestive tract</td>
-					</tr>
-					<tr>
-						<td><a href="https://disbiome.ugent.be/home">Disbiome database</a></td>
-						<td>Database providing an overview of differential microbial composition in diseases</td>
-					</tr>
-					<tr>
-						<td><a href="https://db.cngb.org/microbiome/">MDB: Microbiome Database</a></td>
-						<td>This database provides sequencing resource and  accurate metadata of metagenomics samples, as well as gene catalogs.</td>
-					</tr>
-				</tbody>
-
-			</table>
-
-		</div>
-	</div>
-</div>
-
+    <div class="row">
+        <div class="col-3">
+            <div class="sidebar">
+                <ul>
+                    <div class="no_style">
+                        <li>
+                            <a class="side_link" href="#1">Tools</a>
+                        </li>
+                        <li>
+                            <a class="side_link" href="#2">Training materials</a>
+                        </li>
+                        <li>
+                            <a class="side_link" href="#3">Databases</a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="page-section">
+                <h3 class="text-center" id="1">Microbiome analysis tools</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Resources</th>
+                            <th scope="col">Description</th>
+                            <!--th scope="col">Links</th-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="https://microsud.github.io/Tools-Microbiome-Analysis/">Tools for Microbiome analysis</a>
+                            </td>
+                            <td>Useful R packages  for 16S rRNA gene and shotgun data analysis and visualization</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://qiime.org/">Quantitative Insights Into Microbial Ecology (QIIME)</a>
+                            </td>
+                            <td>
+                                QIIME is a bioinformatics pipeline enabling analysis of microbiome DNA metadata. It allows users to perform statistical analyses of results and generate high-quality graphs
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="http://benjjneb.github.io/dada2/">dada2 R package</a>
+                            </td>
+                            <td>dada2 is an R package dedicated to the analysis of microbiome data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <br />
+            <div class="page-section">
+                <h3 class="text-center" id="2">Training materials</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Resources</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="https://zivahub.uct.ac.za/articles/educational_resource/16S_rRNA_Microbiome_Intermediate_Bioinformatics_Training_Course_Material_Archive/19106780">16S workflow</a>
+                            </td>
+                            <td>H3ABioNet guideline for Bioinformatic and statistical analysis on 16S rDNA data</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://www.nap.edu/read/24960/chapter/6">The National Academic Press</a>
+                            </td>
+                            <td>
+                                Current methods for studying human microbiome project- Human and environmental chemicals interactions characterisation.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://www.genome.gov/27552808/teaching-the-microbiome/">NIH: Teaching the microbiome</a>
+                            </td>
+                            <td>Collection of various Internet-based tools and resources for teaching the microbiome</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <br />
+            <div class="page-section">
+                <h3 class="text-center" id="3">Microbiome related databases</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Resources</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="https://www.juit.ac.in/hcmd/home">Human OncoBiome Database</a>
+                            </td>
+                            <td>Database of comprehensive curated information on the bacterial species present in the human cancer microbiota</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://microbiomedb.org/mbio/app/">MicrobiomeDB</a>
+                            </td>
+                            <td>
+                                MicrobiomeDB is a data mining platform enabling the exploration of microbiome studies. This platform also provides visualization and analysis tools to investigate microbiome data.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://portal.hmpdacc.org/">Human Microbiome Project Data Portal</a>
+                            </td>
+                            <td>
+                                The Human Microbiome Project Data Portal enables the exploration of studies and data associated with the human microbiome. Furthermore, this web interface provides access to the tools used to analyze microbiome.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="http://www.homd.org/">Human Oral Microbiome Database (eHOMD)</a>
+                            </td>
+                            <td>
+                                comprehensive and curated information o­n the bacterial species present in the human aerodigestive tract
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://disbiome.ugent.be/home">Disbiome database</a>
+                            </td>
+                            <td>
+                                Database providing an overview of differential microbial composition in diseases
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://db.cngb.org/microbiome/">MDB: Microbiome Database</a>
+                            </td>
+                            <td>
+                                This database provides sequencing resource and  accurate metadata of metagenomics samples, as well as gene catalogs.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
