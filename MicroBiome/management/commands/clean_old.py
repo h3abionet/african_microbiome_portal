@@ -8,12 +8,10 @@ from django.conf import settings
 import datetime
 import os
 
-
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-
     """Docstring for Command."""
 
     def __init__(self):
@@ -33,10 +31,9 @@ class Command(BaseCommand):
         today = datetime.datetime.today()
 
         fold = f"{settings.STATIC_ROOT}/downloads"
-        print(fold)
 
         for fl in glob(f"{fold}/*"):
-            print(fl)
+            # print(fl)
             modified_date = datetime.datetime.fromtimestamp(
                 os.path.getmtime(fl))
             duration = today - modified_date
