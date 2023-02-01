@@ -32,7 +32,7 @@ html {
   padding-right: 30px;
   padding-left: 10px;
   margin-right: 20px;
-  
+
   position: fixed;
   top: relative;
 }
@@ -71,9 +71,19 @@ html {
 
 /*Table related*/
 
-.resheader {
-  background-color: #337ab7 !important;
-  color: #ffffff;
+.resheaderi,
+.clk {
+  background-color: #fff !important; /*#337ab7*/
+  color: #000; /*#ffffff*/
+}
+
+.clk:hover {
+  color: gray; /*#ffffff*/
+}
+.fa-play,
+.fa-download,
+.fa-external-link-alt {
+  color: #337ab7;
 }
 
 .gfg {
@@ -181,7 +191,7 @@ a:link {
 
 .header_top_bg .text_top_bg {
   color: #fff;
-  font-size: 25px;  
+  font-size: 25px;
   background: rgba(0, 0, 0, 0.4);
   padding: 11.5px !important;
   border-radius: 10px;
@@ -241,7 +251,7 @@ h3 {
   color: rgb(40, 64, 94);
 }
 
-button {
+/* button {
   background-color: #337ab7 !important;
   color: #ffffff;
 }
@@ -254,7 +264,7 @@ button a,
 button a:hover,
 .resheader a:hover {
   color: #ffffff !important;
-}
+} */
 
 /*Rotation of arrow*/
 
