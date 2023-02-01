@@ -14,19 +14,17 @@
 https://www.jquery-az.com/6-demos-of-bootstrap-data-tables-with-paging-rows-per-view-and-more/
     {% endcomment %}
     <script>
-$(document).ready(function () {
-		$("#filter").on("keyup", function () {
-				var value = $(this).val().toLowerCase();
-				$(".res").filter(function () {
-						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-						});
-				});
-		});
-
-$(".clk").click(function () {
-		$(".down").toggleClass("down");
-		$(".rotate", this).toggleClass("down");
-		})
+        $(".clk").click(function () {
+            var local_val = $(this).attr( "data-target");
+            $(".clk").each(function () {
+                if ($(this).attr("data-target") != local_val) {
+                    $(".down",this).removeClass("down");
+                }
+                else {
+                    $(".rotate",this).toggleClass("down");
+                }
+            })
+        })
 
     </script>
 {% endblock %}
