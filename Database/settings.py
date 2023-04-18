@@ -14,20 +14,25 @@ import os
 from email.utils import parseaddr  # To parse the email from env file
 import environ
 
-env = environ.Env()
-environ.Env.read_env()
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+try:
+    env = environ.Env()
+    environ.Env.read_env()
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = env("SECRET_KEY")
+
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+except Exception as e:
+    print(e)
+    SECRET_KEY = "anmol"
+    DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
