@@ -583,7 +583,6 @@ def results(request):
                 "coordinate": "LAT LON",
             })
         raw_data.to_csv(result_file, index=False)
-        print(result_file)
         # result_file = f"{result_fold}/results.csv"
 
         geo = (project_summary.groupby(
@@ -681,12 +680,13 @@ def results(request):
         project_summary = project_summary.pivot(index=["pubid", "title"],
                                                 columns="variable",
                                                 values="value").reset_index()
+        project_summary_col_date = project_summary_col_date[[
+            "pubid", "col_date"
+        ]].droplevel(1, axis=1)
         project_summary = (project_summary.merge(
             project_summary_col_date[["pubid", "col_date"]],
             on="pubid",
-            how="outer").rename(columns={
-                ("col_date", ""): "col_date"
-            }).fillna(False))
+            how="outer").fillna(False))
 
     else:
         project_summary = pd.DataFrame()
@@ -706,7 +706,6 @@ def results(request):
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
-    print(platform_pie_dict_sample)
 
     if qt == "get":
         return render(
