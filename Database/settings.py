@@ -28,11 +28,10 @@ try:
     SECRET_KEY = env("SECRET_KEY")
 
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-except Exception as e:
-    print(e)
-    SECRET_KEY = "anmol"
     DEBUG = False
+except Exception as _:
+    SECRET_KEY = "anmol"
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
