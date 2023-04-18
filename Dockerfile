@@ -21,6 +21,7 @@ ENV C_INCLUDE_PATH=/usr/include/gdal
 RUN python -m pip install -U pip
 
 RUN mkdir /code
+RUN mkdir -p /code/static_cdn
 WORKDIR /code
 COPY requirements.txt /code
 
