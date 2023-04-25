@@ -21,7 +21,8 @@ ENV C_INCLUDE_PATH=/usr/include/gdal
 RUN python -m pip install -U pip
 
 RUN mkdir /code
-RUN mkdir -p /code/static_cdn
+#RUN mkdir -p /code/static_cdn
+
 WORKDIR /code
 COPY requirements.txt /code
 
@@ -32,6 +33,7 @@ ENV PATH="/home/django_user/.local/bin:${PATH}"
 RUN python -m pip install -r requirements.txt
 
 COPY --chown=django_user:django_user . /code
+COPY --chown=django_user:django_user . /code/static_cdn
 
 #RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
