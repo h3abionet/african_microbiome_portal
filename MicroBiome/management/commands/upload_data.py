@@ -422,7 +422,7 @@ class Command(BaseCommand):
         # NOTE: Reporting error if required columns are not in the given file
         try:
             data = pd.read_csv(infile, usecols=usecols, dtype=col_type)
-        except:
+        except Exception:
             pass
         # exit(0)
 
