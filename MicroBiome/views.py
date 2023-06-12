@@ -19,7 +19,6 @@ from .string2query import query2sqlquery
 # For pagination
 #  from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django_pandas.io import read_frame
-from django.conf import settings
 from django.shortcuts import render
 from django.db.models import Count, F
 
@@ -522,9 +521,8 @@ def results(request):
     disease_pie_dict_sample = '[]'
     geo = '[]'
     rand_fold = None
-
     project_summary = read_frame(res)
-    if len(project_summary):
+    if not project_summary.empty:
         avspotlen = project_summary.groupby(
             "bioproject").avspotlen.mean().reset_index()
         del project_summary["avspotlen"]
@@ -680,9 +678,10 @@ def results(request):
         project_summary = project_summary.pivot(index=["pubid", "title"],
                                                 columns="variable",
                                                 values="value").reset_index()
-        project_summary_col_date = project_summary_col_date[[
-            "pubid", "col_date"
-        ]].droplevel(1, axis=1)
+        print(project_summary_col_date.columns, 'kiran')
+        # project_summary_col_date = project_summary_col_date[[
+        # "pubid", "col_date"
+        # ]].droplevel(1, axis=1)
         project_summary = (project_summary.merge(
             project_summary_col_date[["pubid", "col_date"]],
             on="pubid",
