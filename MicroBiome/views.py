@@ -616,7 +616,9 @@ def results(request):
 
         project_summary_col_date = project_summary.loc[
             (project_summary["variable"] == "col_date")
-            & (~pd.isna(project_summary["value"])), ["pubid", "value"], ]
+            & (~pd.isna(project_summary["value"])),
+            ["pubid", "value"],
+        ]
         if project_summary_col_date.empty:
             project_summary_col_date["col_date"] = None
         else:
@@ -678,10 +680,10 @@ def results(request):
         project_summary = project_summary.pivot(index=["pubid", "title"],
                                                 columns="variable",
                                                 values="value").reset_index()
-        print(project_summary_col_date.columns, 'kiran')
-        # project_summary_col_date = project_summary_col_date[[
-        # "pubid", "col_date"
-        # ]].droplevel(1, axis=1)
+        project_summary_col_date.columns = [
+            ''.join(col) for col in project_summary_col_date.columns.values
+        ]
+
         project_summary = (project_summary.merge(
             project_summary_col_date[["pubid", "col_date"]],
             on="pubid",
