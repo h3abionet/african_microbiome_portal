@@ -303,11 +303,12 @@ def results_sample(request):
         result_file = f"{settings.STATIC_ROOT}/downloads/{rand_fold}/results.csv"
         raw_data = read_frame(
             RawData.objects.filter(sampid__in=samples["sampleid"].values))
+        raw_data['pubid'] = raw_data['pubid'].apply(lambda x: x.split('.')[0])
         raw_data = raw_data.rename(
             columns={
                 "repoid": "REPOSITORY ID",
                 "sample_size": "SAMPLE NUMER",
-                "pubid": "STUDY LINK",
+                "pubid": "PUBID",
                 "title": "STUDY TITLE",
                 "study_design": "STUDY DESIGN",
                 "country": "COUNTRY",
@@ -553,11 +554,12 @@ def results(request):
         # Change this to static root later
         result_file = f"{settings.STATIC_ROOT}/downloads/{rand_fold}/results.csv"
         raw_data = read_frame(RawData.objects.filter(sampid__in=sampleids))
+        raw_data['pubid'] = raw_data['pubid'].apply(lambda x: x.split('.')[0])
         raw_data = raw_data.rename(
             columns={
                 "repoid": "REPOSITORY ID",
                 "sample_size": "SAMPLE NUMER",
-                "pubid": "STUDY LINK",
+                "pubid": "PUBID",
                 "title": "STUDY TITLE",
                 "study_design": "STUDY DESIGN",
                 "country": "COUNTRY",
