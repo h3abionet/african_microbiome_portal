@@ -1,57 +1,59 @@
-{% extends "mainLayout.html" %} {% block title %}Search{% endblock %}
+{% extends "mainLayout.html" %}
+{% block title %}Search{% endblock %}
 {% block banner_title %}Search{% endblock %}
-{% load crispy_forms_tags %} {% load bootstrap4 %} {% load static %} {% load widget_tweaks %} {% block js %}
-
-<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
-<script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
-<script src="//bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-{% endblock %} {% block css%}
-<link rel="stylesheet" href="//bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-<link rel="stylesheet" href="{% static 'css/search.css'%}">
-<style>
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load static %}
+{% load widget_tweaks %}
+{% block js %}
+    <script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+    <script src="{% static 'js/functions.js' %}" type="text/JavaScript"></script>
+    <script src="//bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet"
+          href="//bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <style>
 .bootstrap-tagsinput {
 	width: 100% !important;
 }
-</style>
-{% endblock %} {% block content %}
-<br />
-<br />
-<br />
-
-
-<form action='/microbiome/results/' method='GET' novalidate>{% csrf_token %}
-
-	<div class="input-group">
-		{% comment %} <input type="text" class="form-control" placeholder="Search there"> {% endcomment %} {{ form.tags|add_class:"form-control"}} {% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
-		<div class="input-group-append">
-			<button class="btn btn-primary" type="submit">
-				<i class="fa fa-search"></i>
-			</button>
-		</div>
-	</div>
-
-
-</form>
-<div class="input-group">
-	<p> <i> Examples: <strong>(q1[t1] & q1[t2]) | ~q3[t3] </strong> </i> </p>
-
-
-	<!--p> <i> In example, <strong>q</strong>s are query terms and <strong>t</strong>s are their type (e.g. country, disease etc). <strong>&</strong>, <strong>|</strong> and <strong>~</strong> represent
+    </style>
+{% endblock %}
+{% block content %}
+    <br />
+    <br />
+    <br />
+    <form action='/microbiome/results/' method='GET' novalidate>
+        {% csrf_token %}
+        <div class="input-group">
+            {% comment %} <input type="text" class="form-control" placeholder="Search there"> {% endcomment %} {{ form.tags|add_class:"form-control" }} {% comment %} {{ form.tags|as_crispy_field}} {% endcomment %}
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="input-group">
+        <p>
+            <i> Examples: <strong>(q1[t1] & q1[t2]) | ~q3[t3]</strong> </i>
+        </p>
+        <!--p> <i> In example, <strong>q</strong>s are query terms and <strong>t</strong>s are their type (e.g. country, disease etc). <strong>&</strong>, <strong>|</strong> and <strong>~</strong> represent
 		<strong>AND</strong>, <strong>OR</strong> and <strong>NOT</strong> boolean operations respectively. “<strong>(</strong>“ parentheses defines the query operation order. “<strong>[</strong>“
-		parentheses for defining the query type. If query type not provided (missing "[]"), the query term will be queried for all the known fields. For the searchable keyword list, please visit <a
-		href="/microbiome/help/">Help</a-->.
-	<p> Use Boolean operators ( &, | and ~ ) for advanced query search. For details, please visit <a href="/microbiome/help/">Help</a>.
-	</i> </p>
-
+parentheses for defining the query type. If query type not provided (missing "[]"), the query term will be queried for all the known fields. For the searchable keyword list, please visit <a href="/microbiome/help/">Help</a -->.
+        <p>
+            Use Boolean operators ( &, | and ~ ) for advanced query search. For details, please visit <a href="/microbiome/help/">Help</a>.
+        </i>
+    </p>
 </div>
-<!-- <H3>SEARCH</H3>
+<!-- <h3>SEARCH</h3>
 	{% comment %}{% csrf_token %}{% endcomment %}
 	<param id="test" value="100 ">
 	<input type='text' id='search' name="search " />
-	<div id="results"></div> -->
-
-	<br />
-	<br />
-	<br /> {% include "dashboard.html" %}
-
-	{% endblock %}
+<div id="results"></div> -->
+<br />
+<br />
+<br />
+{% include "dashboard.html" %}
+{% endblock %}
