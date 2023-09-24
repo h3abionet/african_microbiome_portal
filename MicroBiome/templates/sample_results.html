@@ -50,6 +50,8 @@
 }
     </style>
 {% endblock %}
+{% block title %}Results{% endblock %}
+{% block banner_title %}Results{% endblock %}
 {% block content %}
     <br />
     <br />
@@ -57,13 +59,13 @@
         <div class="card mt-4 resheader">
             <div class="row">
                 <div class="text-center col-11">
-                    <H1>Sample result and overview</H1>
+                    <h1>Bioproject ID: {{ bioproject_id }} ({{ res_len }} samples)</h1>
                 </div>
                 <div class="text-right col-1">
-                    <H1>
+                    <h1>
                         <a href="/download_r/?randv={{ randv }}"
                            title="Click to download the result"><i class="fa fa-download"></i></a>
-                    </H1>
+                    </h1>
                 </div>
             </div>
         </div>
@@ -108,46 +110,20 @@
                                         {% endif %}
                                         {{ result.sampleid }}
                                     </td>
-                                    <td>
-                                        {{ result.country|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.disease|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.platform|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.assay|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.amplicon|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.sampletype|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.technology|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.disease|safe }}
-                                    </td>
+                                    <td>{{ result.country|safe }}</td>
+                                    <td>{{ result.disease|safe }}</td>
+                                    <td>{{ result.platform|safe }}</td>
+                                    <td>{{ result.assay|safe }}</td>
+                                    <td>{{ result.amplicon|safe }}</td>
+                                    <td>{{ result.sampletype|safe }}</td>
+                                    <td>{{ result.technology|safe }}</td>
+                                    <td>{{ result.disease|safe }}</td>
                                     {% comment %}<td>{{result.study_design|safe}}</td>{% endcomment %}
-                                    <td>
-                                        {{ result.bodysite|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.participant_feature|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.lib_layout|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.ethnicity|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.urbanization|safe }}
-                                    </td>
+                                    <td>{{ result.bodysite|safe }}</td>
+                                    <td>{{ result.participant_feature|safe }}</td>
+                                    <td>{{ result.lib_layout|safe }}</td>
+                                    <td>{{ result.ethnicity|safe }}</td>
+                                    <td>{{ result.urbanization|safe }}</td>
                                     <td>
                                         {% if result.region != "nan" %}
                                             {{ result.region|safe }}
@@ -155,19 +131,13 @@
                                             UNKNOWN
                                         {% endif %}
                                     </td>
-                                    <td>
-                                        {{ result.cityvillage|safe }}
-                                    </td>
-                                    <td>
-                                        {{ result.diet|safe }}
-                                    </td>
+                                    <td>{{ result.cityvillage|safe }}</td>
+                                    <td>{{ result.diet|safe }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                    <div>
-                        {% include "pagination.html" %}
-                    </div>
+                    <div>{% include "pagination.html" %}</div>
                 </div>
                 <br />
                 <br />
