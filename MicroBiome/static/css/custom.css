@@ -164,6 +164,15 @@ html {
 td a {
   color: #007bff !important;
 }
+
+a.plot:hover {
+  color: #007bff !important;
+}
+
+td a.btn {
+  color: #ffffff !important;
+}
+
 a.doubleclick:hover {
   color: #007bff !important;
 }
