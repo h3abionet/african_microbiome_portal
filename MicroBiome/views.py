@@ -31,7 +31,7 @@ from django.views.decorators.csrf import csrf_exempt
 #  from .models import Movie, Person
 from .forms import PostForm
 from .models import (
-    # BioProject,
+    BioProject,
     BodySite,
     Disease,
     # LocEthDiet,
@@ -89,9 +89,9 @@ def date_range(date_list):
     :returns: range string of date
 
     """
-    if date_list[("value", "amin")] == date_list[("value", "amax")]:
-        return f'{date_list[("value", "amin")]}'
-    return f'{date_list[("value", "amin")]}:{date_list[("value", "amax")]}'
+    if date_list[("value", "min")] == date_list[("value", "max")]:
+        return f'{date_list[("value", "min")]}'
+    return f'{date_list[("value", "min")]}:{date_list[("value", "max")]}'
 
 
 def mergedict(args):
@@ -202,6 +202,8 @@ def summary(request):
         "platform_pie_dict_sample": platform_pie_sample,
         "platform_pie_dict_project": platform_pie_project,
         "records": geoloc,
+        "bioproject_count": BioProject.objects.count(),
+        "biosample_count": Samples.objects.count()
     }
     return context
 
@@ -226,7 +228,6 @@ def results_sample(request):
         tags = request.GET.get("tags", None)
         page = request.GET.get("page", 1)
         bioproject = request.GET.get("bioproject", None)
-        qs = []
         extras = {}
 
         if not tags:
@@ -414,7 +415,12 @@ def results_sample(request):
                 "items":
                 items,
                 "randv":
-                rand_fold
+                rand_fold,
+                "bioproject_id":
+                bioproject,
+                'res_len':
+                len(res)
+
                 # 'query': query[: -1]
             },
         )
@@ -629,7 +635,7 @@ def results(request):
             project_summary_col_date = project_summary_col_date.agg(
                 {"value": [np.min, np.max]})  # .reset_index()
             project_summary_col_date = project_summary_col_date[
-                ~pd.isna(project_summary_col_date[("value", "amin")])]
+                ~pd.isna(project_summary_col_date[("value", "min")])]
             project_summary_col_date[
                 "col_date"] = project_summary_col_date.apply(date_range,
                                                              axis=1)
