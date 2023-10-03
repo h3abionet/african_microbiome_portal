@@ -1,254 +1,264 @@
-{% for result in results%}
-<div class="mt-1 row res">
-	<div class="col-12">
-		<div class="row">
-
-			<button class="btn btn-primary btn-lg btn-block text-left font-weight-bold clk"
-							type="button"
-							data-toggle="collapse"
-							data-target="#pub_{{result.pubid}}"
-
-							>{{result.title}} <a target="_blank" rel="noopener noreferrer" href="https://pubmed.ncbi.nlm.nih.gov/{{result.pubid}}"><i class="fas fa-external-link-alt"></i></a><span class="fa fa-play bottom-right rotate"></span>
-			</button>
-		</div>
-
-	</div>
-	<div
-			id="pub_{{result.pubid}}"
-			class="collapse"
-			data-parent="#accordion"
-			style="transition: 0.5s;"
-			>
-			<div class="col-12">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Variable</th>
-							<th>Values</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% comment %}TODO: Change color of alternative columns {% endcomment %}
-						<tr>
-							<td>Bioproject ID</td>
-							<td>
-								{% for key, value in result.bioproject.items %}
-								{% if key|first in 'PRJ' %}
-								<a
-										href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{key}}"
-										>{{key}}
-								</a>{%elif key|first in 'MGP' %}<a
-																										href="https://www.mg-rast.org/mgmain.html?search={{key}}"
-																										>{{key}}
-								</a>{%else%}{%endif%}
-								(
-								<a
-										href="/results_sample/?bioproject={{key}}&tags={{tags}}"
-										>{{value}}
-								</a>)
-
-								{% endfor %}
-							</td>
-						</tr>
-
-						{% comment %}<tr>{% endcomment %}
-							{% comment %}<td>Sample Count</td>{% endcomment %}
-							{% comment %}<td>{% endcomment %}
-								{% comment %}<a{% endcomment %}
-									{% comment %}href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"{% endcomment %}
-									{% comment %}>{{result.samp_size}}</a{% endcomment %}
-								{% comment %}>{% endcomment %}
-								{% comment %}</td>{% endcomment %}
-							{% comment %}</tr>{% endcomment %}
-						{% if result.pfeature %}
-						<tr>
-							<td>Participant Features</td>
-							<td>
-								{% for key, value in result.pfeature.items %}
-								{{key}}{% if not forloop.last %};{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{% endif %}{% if result.study_design %}
-						<tr>
-							<td>Study Design</td>
-							<td>
-								{% for key, value in result.study_design.items %}
-								{{key}}{% if not forloop.last %};{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{% endif %}
-
-						{% if result.country %}
-						<tr>
-							<td>Country</td>
-							<td>
-								{% for key, value in result.country.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{% endif %} {% if result.disease %}
-						<tr>
-							<td>Disease</td>
-							<td>
-								{% for key, value in result.disease.items %}
-								{% if key.1 %}
-								<a href="https://www.ebi.ac.uk/ols/ontologies/doid/terms?iri=http://purl.obolibrary.org/obo/DOID_{{key.1|floatformat}}">{{key.0}}</a>
-								{% else %}
-								{{key.0}}
-								{% endif %}
-								({{value}})
-								{% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-
-						</tr>
-						{% endif %}
-
-						{% if result.ethnicity %}
-						<tr>
-							<td>Ethnicity</td>
-							<td>
-								{% for key, value in result.ethnicity.items %}
-								{% if key.1 != "nan" %}
-								<a href="https://en.wikipedia.org/wiki/{{key.1}}">{{key.0}}</a>
-								{% else %}
-								{{key.0}}
-								{% endif %}
-								({{value}})
-								{% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-
-						</tr>
-						{% endif %}
-
-
-
-						{% if result.assay %}
-						<tr>
-							<td>Assay</td>
-							<td>
-								{% for key, value in result.assay.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.lib_layout %}
-						<tr>
-							<td>Library Layout</td>
-							<td>
-								{% for key, value in result.lib_layout.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%} {% if result.amplicon %}
-						<tr>
-							<td>Amplicons</td>
-							<td>
-								{% for key, value in result.amplicon.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.avspotlen  and result.avspotlen != 0%}
-						<tr>
-							<td>Mean of Mean Spot Lengths</td>
-							<td>
-								{% for key, value in result.avspotlen.items %}
-								{{key|floatformat:0}}{% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.platform %}
-						<tr>
-							<td>Platform</td>
-							<td>
-								{% for key, value in result.platform.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.technology %}
-						<tr>
-							<td>Technology</td>
-							<td>
-								{% for key, value in result.technology.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.bodysite %}
-						<tr>
-							<td>Bodysite</td>
-							<td>
-								{% for key, value in result.bodysite.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.sampletype %}
-						<tr>
-							<td>Sample Type</td>
-							<td>
-								{% for key, value in result.sampletype.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.region %}
-						<tr>
-							<td>Region</td>
-							<td>
-								{% for key, value in result.region.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.cityvillage %}
-						<tr>
-							<td>City-Village</td>
-							<td>
-								{% for key, value in result.cityvillage.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.urbanization %}
-						<tr>
-							<td>Urbanization</td>
-							<td>
-								{% for key, value in result.urbanization.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}{% if result.diets %}
-						<tr>
-							<td>Diets</td>
-							<td>
-								{% for key, value in result.diets.items %}
-								{{key}} ({{value}}){% if not forloop.last %},{% endif %}
-								{% endfor %}
-							</td>
-						</tr>
-						{%endif%}
-
-
-						{% if result.col_date %}
-						<tr>
-							<td>Collection Date</td>
-							<td>{{result.col_date}}</td>
-						</tr>
-						{%endif%}
-
-					</tbody>
-				</table>
-			</div>
-	</div>
-</div>
+{% for result in results %}
+    <div class="mt-1 row res">
+        <div class="col-12">
+            <div class="row">
+                <button class="btn btn-primary btn-lg btn-block text-left font-weight-bold clk"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#pub_{{ result.pubid }}">
+                    {{ result.title }} <a target="_blank"
+    rel="noopener noreferrer"
+    href="https://pubmed.ncbi.nlm.nih.gov/{{ result.pubid }}"><i class="fas fa-external-link-alt"></i></a><span class="fa fa-play bottom-right rotate"></span>
+                </button>
+            </div>
+        </div>
+        <div id="pub_{{ result.pubid }}"
+             class="collapse"
+             data-parent="#accordion"
+             style="transition: 0.5s">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% comment %}TODO: Change color of alternative columns {% endcomment %}
+                        <tr>
+                            <td>Bioproject ID</td>
+                            <td>
+                                {% for key, value in result.bioproject.items %}
+                                    {% if key|first in 'PRJ' %}
+                                        <a href="https://www.ncbi.nlm.nih.gov/bioproject/?term={{ key }}">{{ key }}</a>
+                                    {% elif key|first in 'MGP' %}
+                                        <a href="https://www.mg-rast.org/mgmain.html?search={{ key }}">{{ key }}</a>
+                                    {% else %}
+                                    {% endif %}
+                                    (
+                                    <a href="/results_sample/?bioproject={{ key }}&tags={{ tags }}">{{ value }}</a>)
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% comment %}<tr>{% endcomment %}
+                        {% comment %}<td>Sample Count</td>{% endcomment %}
+                        {% comment %}<td>{% endcomment %}
+                        {% comment %}<a {% endcomment %}
+   {% comment %}
+   href="/results_sample/?project={{result.project__repoid}}&tags={{tags}}"
+   {% endcomment %}
+   {% comment %}>{{result.samp_size}}</a {% endcomment %} {% comment %}>{% endcomment %}
+                        {% comment %}</td>{% endcomment %}
+                        {% comment %}</tr>{% endcomment %}
+                        {% if result.pfeature %}
+                            <tr>
+                                <td>Participant Features</td>
+                                <td>
+                                    {% for key, value in result.pfeature.items %}
+                                        {{ key }}
+                                        {% if not forloop.last %};{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.study_design %}
+                            <tr>
+                                <td>Study Design</td>
+                                <td>
+                                    {% for key, value in result.study_design.items %}
+                                        {{ key }}
+                                        {% if not forloop.last %};{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.country %}
+                            <tr>
+                                <td>Country</td>
+                                <td>
+                                    {% for key, value in result.country.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.disease %}
+                            <tr>
+                                <td>Disease</td>
+                                <td>
+                                    {% for key, value in result.disease.items %}
+                                        {% if key.1 %}
+                                            <a href="https://www.ebi.ac.uk/ols/ontologies/doid/terms?iri=http://purl.obolibrary.org/obo/DOID_{{ key.1|floatformat }}">{{ key.0 }}</a>
+                                        {% else %}
+                                            {{ key.0 }}
+                                        {% endif %}
+                                        ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.ethnicity %}
+                            <tr>
+                                <td>Ethnicity</td>
+                                <td>
+                                    {% for key, value in result.ethnicity.items %}
+                                        {% if key %}
+                                            {% if key.1 != "nan" %}
+                                                <a href="https://en.wikipedia.org/wiki/{{ key.1 }}">{{ key.0 }}</a>
+                                            {% else %}
+                                                {{ key.0 }}
+                                            {% endif %}
+                                            ({{ value }})
+                                            {% if not forloop.last %},{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.assay %}
+                            <tr>
+                                <td>Assay</td>
+                                <td>
+                                    {% for key, value in result.assay.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.lib_layout %}
+                            <tr>
+                                <td>Library Layout</td>
+                                <td>
+                                    {% for key, value in result.lib_layout.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.amplicon %}
+                            <tr>
+                                <td>Amplicons</td>
+                                <td>
+                                    {% for key, value in result.amplicon.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.avspotlen  and result.avspotlen != 0 %}
+                            <tr>
+                                <td>Mean of Mean Spot Lengths</td>
+                                <td>
+                                    {% for key, value in result.avspotlen.items %}
+                                        {{ key|floatformat:0 }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.platform %}
+                            <tr>
+                                <td>Platform</td>
+                                <td>
+                                    {% for key, value in result.platform.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.technology %}
+                            <tr>
+                                <td>Technology</td>
+                                <td>
+                                    {% for key, value in result.technology.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.bodysite %}
+                            <tr>
+                                <td>Bodysite</td>
+                                <td>
+                                    {% for key, value in result.bodysite.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.sampletype %}
+                            <tr>
+                                <td>Sample Type</td>
+                                <td>
+                                    {% for key, value in result.sampletype.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.region %}
+                            <tr>
+                                <td>Region</td>
+                                <td>
+                                    {% for key, value in result.region.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.cityvillage %}
+                            <tr>
+                                <td>City-Village</td>
+                                <td>
+                                    {% for key, value in result.cityvillage.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.urbanization %}
+                            <tr>
+                                <td>Urbanization</td>
+                                <td>
+                                    {% for key, value in result.urbanization.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.diets %}
+                            <tr>
+                                <td>Diets</td>
+                                <td>
+                                    {% for key, value in result.diets.items %}
+                                        {{ key }} ({{ value }})
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if result.col_date %}
+                            <tr>
+                                <td>Collection Date</td>
+                                <td>{{ result.col_date }}</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endfor %}
-
