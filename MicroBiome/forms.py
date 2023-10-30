@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from .models import Tags
 
-
 # class Upload(forms.Form):
 # infile = forms.FileField()
 # separator = forms.ChoiceField(
@@ -42,15 +41,18 @@ class PostForm(forms.ModelForm):
         model = Tags
         #  fields = ("country",)
         #  fields = ("country", "platform", "disease", "study_design")
-        fields = ("tags",)
+        fields = ("tags", )
         widgets = {
-            "tags": forms.TextInput(
+            "tags":
+            forms.TextInput(
                 attrs={  # 'data-role': 'tagsinput',
                     #  'class':'form-control',
                     "type": "text",
-                    "placeholder": "(Malawi[country] & AMPLICON[assay]) | ~Eye[bodysite]",
-                }
-            )
+                    "placeholder":
+                    "(Malawi[country] & AMPLICON[assay]) | ~Eye[bodysite]",
+                    "value":
+                    "(Malawi[country] & AMPLICON[assay]) | ~Eye[bodysite]"
+                })
         }
         error_css_class = "error"
         required_css_class = "bold"
